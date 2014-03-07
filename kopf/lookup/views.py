@@ -21,4 +21,13 @@ def about(request):
     return HttpResponse("About <a href='/lookup/'>Index</a>" )
 
 
+def detail(request, sample_id):
+    return HttpResponse("You're looking at poll %s." % sample_id)
+
+def results(request, sample_id):
+            return HttpResponse("You're looking at the results of poll %s." % sample_id)
+
+            #def vote
+
+
 # Create your views here.
