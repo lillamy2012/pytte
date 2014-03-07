@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lookup</title>
+    </head>
+
+    <body>
+        <h1>Lookup says...hello group!</h1>
+
+        {% if annotations %}
+            <ul>
+                {% for annotation in annotations %}
+                <li>{{ annotation.sample }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <strong>There are no categories present.</strong>
+        {% endif %}
+
+        <a href="/lookup/about/">About</a>
+    </body>
+</html>
