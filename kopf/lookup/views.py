@@ -9,6 +9,9 @@ from django.template import RequestContext
 from django.shortcuts import render
 from django.http import HttpResponse
 from lookup.models import Annotation
+from django.core import serializers
+from django.forms.models import model_to_dict
+
 
 def index(request):
     context = RequestContext(request)
@@ -25,13 +28,17 @@ def detail(request, sample_id):
         ann = Annotation.objects.get(sample=sample_id)
     except Annotation.DoesNotExist:
         raise Http404
-    return render(request, 'lookup/detail.html', {'Annotation': ann})
-#return HttpResponse("You're looking at details of sample %s." % sample_id)
+#data = serializers.serialize('json', [ ann, ])
+    data =model_to_dict(Annotation.objects.filter(sample=sample_id)[0])
+    return render(request, 'lookup/detail.html', {'Annotation': ann, 'ListL': data})
+
 
 def results(request, sample_id):
-            return HttpResponse("You're looking at the results of sample %s." % sample_id)
+    return HttpResponse("You're looking at the results of sample %s." % sample_id)
 
             #def vote
 
+                #def detail(request,sample_id):
+#return render(request, 'lookup/detail.html', {'Annotation': Annotation.objects.get(sample_id)})
 
 # Create your views here.

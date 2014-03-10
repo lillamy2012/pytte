@@ -2,7 +2,7 @@ from django.db import models
 
 class Annotation(models.Model):
     scientist = models.CharField(max_length=200)
-    sample = models.CharField(max_length=10)
+    sample = models.IntegerField(primary_key=True)
     descr = models.CharField(max_length=200)
     genotype = models.CharField(max_length=10)
     comments = models.CharField(max_length=200)
@@ -12,7 +12,14 @@ class Annotation(models.Model):
     celltype = models.CharField(max_length=20)
     antibody = models.CharField(max_length=20)
     def __unicode__(self):
-        return self.sample
+        return self.scientist
 
+    def get_fields(self):
+        return self._meta.get_all_field_names()
 
+    def get_entry(self,field):
+       return self._meta.get_field(field).verbose_name#this will get the field
+        
+        
 
+#class Pick
