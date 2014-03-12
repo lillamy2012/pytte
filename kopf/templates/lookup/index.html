@@ -1,23 +1,56 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Lookup</title>
-    </head>
-
-    <body>
-        <h1>Lookup says...hello group!</h1>
-
-        {% if annotations %}
-            <ul>
-                {% for annotation in annotations %}
-                <li>{{ annotation.sample }}</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <strong>There are no categories present.</strong>
-        {% endif %}
+{% extends 'lookup/base.html' %}
 
 
-        <a href="/lookup/about/">About</a>
-    </body>
-</html>
+
+{% block body_block %}
+<div class="container">     
+  <h1>Overview</h1>
+  
+  <table class="table table-striped">
+
+    <thead>
+        <tr>
+          <th class="col-sm-8">Usage Category</th>
+          <th class="col-sm-2">Number</th>
+        </tr>
+    </thead>
+    <tbody>
+      <tr>
+	<td> Scientists </td>
+	<td> {{ scientist }} </td>
+      </tr>
+      <tr>
+	<td> Samples </td>
+	<td> {{ samples }} </td>
+	
+      </tr>
+      <tr>
+	<td> Projects </td>
+	<td> {{ projects }} </td>
+
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+
+<div class="container">     
+  <h1>Messages</h1>
+ 
+</div>
+
+<div class="container">     
+  <h3>Useful links</h3>
+  <ul class="div">
+    <li><a href="/" class="">Forskalle</a> For submission and administration of your sequencing requests </li>
+    <li><a href="/">Queue</a> check the progress of your requests and securely download finished sequencing data</li>
+    <li><a href="/">Galaxy</a> Interface for making your
+      own analyses</li>
+    
+  </ul>
+  
+</div>
+{% endblock %}
+
+
+

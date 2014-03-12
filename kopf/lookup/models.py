@@ -22,4 +22,10 @@ class Annotation(models.Model):
         
         
 
-#class Pick
+class Project(models.Model):
+    primary_scientist = models.CharField(max_length=200)
+    project_name = models.CharField(max_length=200,primary_key=True)
+    samples = models.ManyToManyField(Annotation)
+
+    def __unicode__(self):
+        return self.project_name
