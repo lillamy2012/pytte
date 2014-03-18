@@ -1,0 +1,82 @@
+{% extends 'lookup/base.html' %}
+
+
+{% block body_block %}
+<div class="container"> 
+
+{% load staticfiles %}
+<img src="{% static "myexample.jpg" %}" alt="My image" width="50"/>
+
+
+ <b><tt> Copf:  Collections of projects files </tt></b> 
+
+<h3><tt> Purpose </tt></h3>
+
+<p>Copf is a web based database app for <b><i>keeping track</i></b>, <b><i>keeping order</i></b> and getting
+<b><i>detailed information</i></b> about individual NGS samples and collections of
+  NGS samples (projects) as well as for maintaining a <b><i>general overview</i></b>
+  over all the NGS data
+created in the Berger group.
+
+<h3><tt> Structure </tt></h3>
+
+<h4><tt> Entites </h4></tt>
+
+<p>The copf contains three main entry levels:
+<b>Scientist</b>,
+<b>Sample</b> and
+<b>Analysis</b>.
+
+<p><img src="{% static "copp1.png" %}" alt="My image" width="600"/>
+
+<p>The scientist generates a sample. The analysis is performed on the
+sample. Any given scientist can have any given number of samples
+(including 0), whereas each sample must have exactly one scientist as
+owner. For each sample there may be zero analyses (non-processed data)
+or one or several (eg. different quality plots/assessments).
+
+<p> The three entries (scientist, sample and analysis) have a set of
+  attributes, such as email address for the scientist; annotations
+  (eg. genotype, tissue etc) for the sample; and analysis decription
+  for the analysis. The idea is that one should be able to seamlessly
+  access the different attributes within connected entries.   
+
+<h4><tt> Context levels </h4></tt>
+
+<p> Further the copf has three main context views:
+
+ <b> Individ</b>,
+<b> Project</b> and 
+<b>Group</b>.
+<p><img src="{% static "copp2.png" %}" alt="My image" width="600"/>
+<p>The indiviual level referes to a specific sample and/or analyses of
+one specific sample. As each sample is owned by precisely one
+scientist, this level involves one single scientist. (Each scientist
+  is of course seen as an individual ;-) ). 
+
+
+<p>Samples from one or more scientists can be joined into a <b>project</b>. Each
+individual sample can still be traced back and all annotation etc can
+be extracted. In addition, <b>each project has a dedicated blog</b>. Here we
+keep track of for example what has been done in the project analysis, which
+samples are used and how the were used (WT, input ...).The analysis
+level of the project contains analyses where several samples are
+analysed togheter (peak calling, enrichmnents...). 
+
+<p> The group level refers eg a 'meta project' where all samples
+  sequenced are included. This is mostly meant to be used for quality
+  assessment and detection of different type of trends.
+
+<p>
+
+</div>
+
+</div>
+
+{% endblock %}
+
+
+
+
+
+

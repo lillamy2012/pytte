@@ -1,0 +1,27 @@
+{% extends 'lookup/base.html' %}
+
+
+
+{% block body_block %}
+<div class="container"> 
+  <h1>Scientists</h1>
+  <table class="table table-striped">
+
+    <thead>
+        <tr>
+          <th class="col-sm-8">Scientist</th>
+          <th class="col-sm-2">#Samples</th>
+        </tr>
+    </thead>
+    <tbody>
+      <tr>
+	{% for key,number in Scientist.iteritems %}
+        <td> {{ key }} </td>
+	<td> {{ number }} </td>
+      </tr>
+      {% endfor %}
+     
+    </tbody>
+  </table>s
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'lookup/base.html' %}
+
+
+
+{% block body_block %}
+<div class="container"> 
+  <h1>Samples</h1>
+  <table class="table table-striped">
+
+    <thead>
+        <tr>
+          <th class="col-sm-8">Scientist</th>
+          <th class="col-sm-2">Project</th>
+	  <th class="col-sm-2">Antibody</th>
+	  <th class="col-sm-2">Genotype</th>
+        </tr>
+    </thead>
+    <tbody>
+      <tr>
+	{{  Annotation }}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

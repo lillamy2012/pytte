@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>User data for scientist: {{ Scientist.name }}</title>
+       </head>
+  <body>
+
+{% load staticfiles %}
+
+<link href="{% static 'bootstrap/css/bootstrap.min.css' %}"
+      rel="stylesheet" media="screen">
+
+<div class="container">     
+  <h1>User data for scientist: {{ Scientist.name }}</h1>
+  <table class="table table-striped">
+    {% for key, val in ListL.iteritems %}
+    <tr>
+      <td> {{ key }} </td>
+      <td> {{ val }} </td>
+    </tr>
+
+    {% endfor %}
+
+  </table>
+</div>
+    
+  </body>
+</html>
+
+
+
