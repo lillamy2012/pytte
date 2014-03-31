@@ -68,7 +68,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'lookup',
-    'bootstrap_toolkit'  
+    'bootstrap_toolkit',
+    'django_tables2'              
 )
 
 MIDDLEWARE_CLASSES = (

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 {% load bootstrap_toolkit %}
 {% load url from future %}
+<!--{% load render_table from django_tables2 %}-->
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -19,66 +20,85 @@
 	<![endif]-->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     {% bootstrap_javascript_tag %}
-  </head>
+      <link rel="stylesheet" href="{{ STATIC_URL }}django_tables2/themes/paleblue/css/screen.css" />
+</head>
   <body>
 
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
-            <a class="brand" href="#">collections of projects files</a>
-            <ul class="nav">
-              <li><a href="/lookup/" class="">Home</a></li>
-	      <li class="dropdown">
-		<a href="#" class="dropdown-toggle" data-toggle="dropdown">Statistics<b class="caret"></b></a>
-		<ul class="dropdown-menu">
-		  <li><a href="#">Cross correlation</a></li>
-		  <li><a href="#">Peak/read statistics</a></li>
-		  <li><a href="#">Coverage statistics</a></li>
-		  <li class="divider"></li>
-		  <li><a href="#">Peaks called</a></li>
-		</ul>   
-	      </li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Annotations<b class="caret"></b></a>
-		<ul class="dropdown-menu">
-		  <li><a href="/lookup/genotype/">Genotype</a></li>
-		  <li><a href="/lookup/Antibody/">Antibody</a></li>
-		  <li><a href="/lookup/Tissue/">Tissue</a></li>
-		</ul>  
-	      </li>
-              <li><a href="/lookup/about/">About</a></li>
-              <li><a href="/lookup/projects/">Projects</a></li>
-              <form class="navbar-search visible-desktop" name="idLookup" ng-submit="loadLookupId()">
-		<input name="id" type="text" class="search-query input-small" placeholder="sample" ng-pattern="idLookupRegex" ng-model="lookupId">
-		<button type="submit" class="btn btn-small">Search</button>
-		<span class="error" ng-show="idLookup.id.$error.pattern"></span>
-	      </form>
+          <a class="brand" href="#">collections of projects files</a>
+          <ul class="nav">
+            <li><a href="/lookup/" class="">Home</a></li>
+	    <li class="dropdown">
+	      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Statistics<b class="caret"></b></a>
+	      <ul class="dropdown-menu">
+		<li><a href="/lookup/croos_corr">Cross correlation</a></li>
+		<li><a href="#">Peak/read statistics</a></li>
+		<li><a href="#">Coverage statistics</a></li>
+		<li><a href="#">Complexity statistics</a><li>
+		<li class="divider"></li>
+		<li><a href="#">Peaks called</a></li>
+		<li><a href="#">Annotation enrichments</a><li>
+		<li class="divider"></li>
+		<li><a href="3">Consistency between replicates</a></li> 
+	      </ul>   
+	    </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Annotations<b class="caret"></b></a>
+	      <ul class="dropdown-menu">
+		<li><a href="/lookup/genotype/">Genotype</a></li>
+		<li><a href="/lookup/antibody/">Antibody</a></li>
+		<li><a href="/lookup/tissue/">Tissue</a></li>
+	      </ul>  
+	    </li>
+            <li><a href="/lookup/about/">About</a></li>
+	    <li><a href="/lookup/projects/">Projects</a></li>
+	    <li><a href="/lookup/allsamples/">Samples</a></li>
+            <form class="navbar-search visible-desktop"
+		  action="/lookup/details/",method="link">
+	      <input name="id" class="search-query input-small"
+		     placeholder="search sample">
+	      <!--	<button type="submit" class="btn --
+						     --	btn-small">Search</button> -->
 	      
-	    </ul>
-
-
+	    </form>
+	    
+	  </ul>
+	  
         </div>
       </div>
     </div>
+    <!--{% block header1 %} {% endblock %}
+    {% block table_black %} {% endblock %} -->
     {% block body_block %}This is body_block's default content.{% endblock %}
-  </body>
+    <!--{% block messages %} {% endblock %}
+    {% block links %} {% endblock %} -->
 
+</body>
+ 
+  
 
-    <p><hr></p>
+  <footer class="row">
 
-    <footer class="row">
-        <div class="span6">
-            <p>This is
-           <a href="https://github.com/lillamy2012/pytte/kopf">copf/kopf</a>
-            <p>The Berger group's official app for NGS data orgniasation </p>
-        </div>
-        <div class="span6" style="text-align:right">
-            <p>
-                &copy; <a href="">Elin Axelsson</a> 2014
-                |
-                <a href="https://raw.github.com/ICENSE">license</a>
-            </p>
-        </div>
-    </footer>
-
+    <div class='row'>
+      <hr> 
+      </div>
+      <p>
+	<div class="span8">
+          <a href="https://github.com/lillamy2012/pytte/kopf"> Copf</a>:
+          the Berger group's official app for NGS project organisation </p>
+      </div>
+      
+      <div class="span5" style="text-align:right">
+	<p>
+          elin.axelsson@gmi.oeaw.ac.at
+          
+	</p>
+      </div>
+     <div class='row'><div class='span12'>
+	<hr>
+	</div></div>
+ </footer>
+  
 </html>

@@ -1,11 +1,15 @@
 {% extends 'lookup/base.html' %}
 
+{% load render_table from django_tables2 %}
+
+{% render_table people %}
 
 
 {% block body_block %}
 <div class="container"> 
   <h1>Scientists</h1>
   <table class="table table-striped">
+    
 
     <thead>
         <tr>
@@ -22,6 +26,6 @@
       {% endfor %}
      
     </tbody>
-  </table>s
+  </table>
 </div>
 {% endblock %}
