@@ -3,6 +3,8 @@
 {% block body_block %}
 {{ user }}
 {% for project in posts %}
-<a href="/lookup/project_blog/?project={{ project.pk }}">{{ project.pk }}</a>
+<!--<a href="/lookup/project_blog/?project={{ project.pk }}">{{ --
+  --project.pk }}</a> -->
+<a href="/lookup/project_blog/{{ project.pk }}">{{project.pk }}</a>
 {% endfor %}
 {% endblock %}

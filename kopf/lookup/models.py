@@ -69,6 +69,6 @@ class BlogAdmin(admin.ModelAdmin):
 class CommentForm(ModelForm):
     class Meta:
         model = ProjectBlogg
-        exclude = ["owner"]
+        exclude = ["project","owner"]
         
 

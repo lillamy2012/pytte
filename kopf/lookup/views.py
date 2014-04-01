@@ -143,8 +143,8 @@ def blog(request):
 
 from django.core.context_processors import csrf
 
-def project(request):
-    pk = request.GET.get('project')
+def project(request,pk):
+    #pk = request.GET.get('project')
     post = Project.objects.get(pk=pk)
     comments = ProjectBlogg.objects.filter(project=post)
     d = dict(post=post, comments=comments, form=CommentForm(), user=request.user)
@@ -152,24 +152,16 @@ def project(request):
     return render_to_response("lookup/project_blog.html", d)
 
 
-def add_blog(request):
-    pk = request.GET.get('project')
+def add_blog(request,pk):
     post = Project.objects.get(pk=pk)
     p = request.POST
-    
     if p.has_key("body") and p["body"]:
         author = "Anonymous"
-        #if p["author"]: author = p["author"]
-
-        comment = ProjectBlogg(project=post)
+        comment = ProjectBlogg(project=Project.objects.get(pk=pk))
         cf = CommentForm(p, instance=comment)
-        #cf.fields["title"].required = False
-    
         comment = cf.save(commit=False)
-    #comment.author = author
         comment.save()
-        url = "%s?project=%s" % ( reverse('lookup.views.project'), post.project_name )
-    return(HttpResponseRedirect(url))
+    return(HttpResponseRedirect(reverse('lookup.views.project',args=(post.project_name,))))
 
 
 

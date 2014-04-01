@@ -2,30 +2,22 @@
 
 {% block body_block %}
 
+Project Blog for project {{ post }}
+
 {% if comments %}
     <p>Comments:</p>
 {% endif %}
 
 {% for comment in comments %}
     <div class="comment">
-        <div class="time">{{ comment.created }} | {{ comment.title }}</div>
+        <div class="time">{{ comment.created }} | <b>{{ comment.title }}</b></div>
         <div class="body">{{ comment.body|linebreaks }}</div>
     </div>
 {% endfor %}
-
-
-
-{{ post }}
-
-
-
-{{ user }}
-
-<form action="/lookup/add_blog/?project={{ post }}" method="POST"> {% csrf_token %}
+<form action="/lookup/add_blog/{{post}}" method="POST"> {% csrf_token %}
     <div id="cform">
       Title:{{ form.title }}
         <p> {{ form.body }}</p>
-	{{ form.project }}
     </div>
     <div id="submit"><input type="submit" value="Submit"></div>
 </form>
