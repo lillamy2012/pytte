@@ -1,0 +1,15 @@
+{% extends 'lookup/base.html' %}
+
+
+
+{% block body_block %}
+<div class="container"> 
+  <h1>Cross-correlation</h1>
+  {% load staticfiles %}
+
+<img src="{% static "cc.jpg" %}" alt="My image" width="400"/>
+<img src="{% static "class.jpg" %}" alt="My image" width="300"/>
+
+
+</div>
+{% endblock %}
