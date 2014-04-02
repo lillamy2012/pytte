@@ -9,17 +9,23 @@
         <tr>
           <th class="col-sm-8">Project Name</th>
           <th class="col-sm-2">Primary Scientist</th>
+	  <th class="col-sm-2">Samples Included </th>
         </tr>
     </thead>
     <tbody>
       <tr>
-	{% for val in Projects %}
-	{% for val2,val3 in val.iteritems %}
-        <td> {{ val3 }} </td>
+	{% for val in Projectnames %}
+	<td><a href="/lookup/project_blog/{{ val.pk }}">{{val.pk }}</a> </td>
+	<td>{{ val.primary_scientist }} </td>
+	<td> {%for sample in val.samples.all %}
+	  <a href="/lookup/details/?id={{ sample }}">{{ sample }}</a> 
+	{% endfor %} </td>
         {% endfor %}
       </tr>
-      {% endfor %}
+      
     </tbody>
   </table>
 </div>
 {% endblock %}
+
+lookup/details/?id=15351

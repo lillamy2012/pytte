@@ -1,24 +1,68 @@
 {% extends 'lookup/base.html' %}
 
 {% block body_block %}
+<div class="container"> 
+  <h3>Project Blog for project {{ post }}</h3>
+<h4>Summary</h4>
+  <table class="table table-striped">
 
-Project Blog for project {{ post }}
+    <thead>
+        <tr>
+          <th class="col-sm-8">Project Name</th>
+          <th class="col-sm-2">Primary Scientist</th>
+	  <th class="col-sm-2">Samples Included </th>
+        </tr>
+    </thead>
+    <tbody>
+      <tr>
+	<td> {{post.pk }} </td>
+	<td>{{ post.primary_scientist }} </td>
+	<td> {%for sample in post.samples.all %}
+	  <a href="/lookup/details/?id={{ sample }}">{{ sample }}</a> 
+	{% endfor %} </td>
+     
+      </tr>
+      
+    </tbody>
+  </table>
+<h4> Project analysis overview </h4>
+<h4>Annotation overview</h4>
+<table class="table table-striped">
 
-{% if comments %}
-    <p>Comments:</p>
-{% endif %}
-
-{% for comment in comments %}
+    <thead>
+        <tr>
+          <th class="col-sm-8">Sample ID</th>
+          <th class="col-sm-2">Genotype</th>
+	  <th class="col-sm-2">Antibody</th>
+          <th class="col-sm-2">Tissue</th>
+	</tr>
+    </thead>
+<tr>
+{%for sa in Anno%}
+<td>{{ sa.pk }} </td>
+<td>{{ sa.genotype }} </td>
+<td>{{ sa.antibody }} </td>
+<td>{{ sa.tissue_type }} </td> </tr>
+{%endfor %}
+</table>
+  {% if comments %}
+    <h4>Comments:</h4>
+    {% endif %}
+    {% for comment in comments %}
     <div class="comment">
-        <div class="time">{{ comment.created }} | <b>{{ comment.title }}</b></div>
-        <div class="body">{{ comment.body|linebreaks }}</div>
+      <div class="time">{{ comment.created }} | <b>{{ comment.title }}</b></div>
+      <div class="body">{{ comment.body|linebreaks }}</div>
     </div>
-{% endfor %}
+    {% endfor %}
+    <div id="addc"><i>Add a new comment</i></div>
+    <div><hr></div>
+
 <form action="/lookup/add_blog/{{post}}" method="POST"> {% csrf_token %}
-    <div id="cform">
-      Title:{{ form.title }}
+      <div id="cform">
+	Title:{{ form.title }}
         <p> {{ form.body }}</p>
+      </div>
+      <div id="submit"><input type="submit" value="Submit"></div>
+    </form>
     </div>
-    <div id="submit"><input type="submit" value="Submit"></div>
-</form>
 {% endblock %}
