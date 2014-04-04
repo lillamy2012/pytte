@@ -13,7 +13,7 @@ def populate():
     ss = range(15351, 15362)
     s,a=Scientist.objects.get_or_create(name="Danhua Jiang")
     add_project(scientist=s,project_name="HTB2_HTB3",sampleL=ss)
-
+    
 
 def read_json(jsonf):
     #print(json)

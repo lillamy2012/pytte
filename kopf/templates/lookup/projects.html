@@ -19,13 +19,13 @@
 	<td>{{ val.primary_scientist }} </td>
 	<td> {%for sample in val.samples.all %}
 	  <a href="/lookup/details/?id={{ sample }}">{{ sample }}</a> 
-	{% endfor %} </td>
+	{% endfor %} </td> </tr>
         {% endfor %}
-      </tr>
+     
       
     </tbody>
   </table>
 </div>
 {% endblock %}
 
-lookup/details/?id=15351
+

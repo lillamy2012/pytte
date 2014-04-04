@@ -147,12 +147,6 @@ def project(request,pk): ##
     comments = ProjectBlogg.objects.filter(project=post)
     p_samples = post.samples.values_list("sample")
     ann = Annotation.objects.filter(sample__in=p_samples)
-    
-
-    #p_samples = Project.objects.values(post.objects.values_(samples.all())  # optionally with .distinct()
-    #Kid.objects.filter(id__in=toy_owners)
-        #for i in post.samples.all():
-    #scientist = model_to_dict(Annotation.objects.all())
     d = dict(post=post, comments=comments, form=CommentForm(), user=request.user,Anno=ann)
     d.update(csrf(request))
     return render_to_response("lookup/project_blog.html", d)
@@ -172,16 +166,4 @@ def add_blog(request,pk):
     return(HttpResponseRedirect(reverse('lookup.views.project',args=(post.project_name,))))
 
 
-        #def getAnno(request,pk):
-        #post = Project.objects.get(pk=pk)
-
-    
-
-
-#person_specialties = person.specialties.values_list('pk', flat=True)
-
-#non_specialties = Specialties.objects.exclude(pk__in=person_specialties)
-
-#jobs = Job.objects.exclude(required_specialties__in=non_specialties)
-
-
+      
