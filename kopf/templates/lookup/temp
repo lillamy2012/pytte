@@ -1,0 +1,249 @@
+
+
+
+<!DOCTYPE html>
+<html>
+
+
+
+<!---->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>kopf</title>
+    <meta name="description" content="">
+    <meta name="author" content="Elin Axelsson">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.css">
+    <style type="text/css">
+      body {
+      padding-top: 60px;
+      }
+    </style>
+    <!--[if lt IE 9]>
+	<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+      <link rel="stylesheet" href="/static/django_tables2/themes/paleblue/css/screen.css" />
+      <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+
+<script>
+$(function () { 
+    $('#container').highcharts({
+        chart: {
+            type: 'bar'
+        },
+        title: {
+            text: 'Fruit Consumption'
+        },
+        xAxis: {
+            categories: ['Apples', 'Bananas', 'Oranges']
+        },
+        yAxis: {
+            title: {
+                text: 'Fruit eaten'
+            }
+        },
+        series: [{
+            name: 'Jane',
+            data: [1, 0, 4]
+        }, {
+            name: 'John',
+            data: [5, 7, 3]
+        }]
+    });
+});
+
+</script>
+</head>
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="#">collections of projects files</a>
+          <ul class="nav">
+            <li><a href="/lookup/" class="">Home</a></li>
+	    <li class="dropdown">
+	      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Statistics<b class="caret"></b></a>
+	      <ul class="dropdown-menu">
+		<li><a href="/lookup/croos_corr">Cross correlation</a></li>
+		<li><a href="#">Peak/read statistics</a></li>
+		<li><a href="#">Coverage statistics</a></li>
+		<li><a href="#">Complexity statistics</a><li>
+		<li class="divider"></li>
+		<li><a href="#">Peaks called</a></li>
+		<li><a href="#">Annotation enrichments</a><li>
+		<li class="divider"></li>
+		<li><a href="3">Consistency between replicates</a></li> 
+	      </ul>   
+	    </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Annotations<b class="caret"></b></a>
+	      <ul class="dropdown-menu">
+		<li><a href="/lookup/genotype/">Genotype</a></li>
+		<li><a href="/lookup/antibody/">Antibody</a></li>
+		<li><a href="/lookup/tissue/">Tissue</a></li>
+	      </ul>  
+	    </li>
+            <li><a href="/lookup/about/">About</a></li>
+	    <li><a href="/lookup/projects/">Projects</a></li>
+	    <li><a href="/lookup/allsamples/">Samples</a></li>
+            <form class="navbar-search visible-desktop"
+		  action="/lookup/details/",method="link">
+	      <input name="id" class="search-query input-small"
+		     placeholder="search sample">
+	      <!--	<button type="submit" class="btn --
+						     --	btn-small">Search</button> -->
+	      
+	    </form>
+	    
+	  </ul>
+	  
+        </div>
+      </div>
+    </div>
+    <!-- 
+      -->
+    
+
+
+<div class="container">  
+  <h1>Annotations for sample 16806</h1>
+  <table class="table table-striped">
+    
+    <tr>
+      <td> genotype </td>
+      <td> Col-0 </td>
+    </tr>
+
+    
+    <tr>
+      <td> descr </td>
+      <td> Day 0 </td>
+    </tr>
+
+    
+    <tr>
+      <td> antibody </td>
+      <td>  </td>
+    </tr>
+
+    
+    <tr>
+      <td> exptype </td>
+      <td> RNA-Seq </td>
+    </tr>
+
+    
+    <tr>
+      <td> comments </td>
+      <td> (no comment) </td>
+    </tr>
+
+    
+    <tr>
+      <td> sample </td>
+      <td> 16806 </td>
+    </tr>
+
+    
+    <tr>
+      <td> scientist </td>
+      <td> Xin Nie </td>
+    </tr>
+
+    
+    <tr>
+      <td> celltype </td>
+      <td>  </td>
+    </tr>
+
+    
+    <tr>
+      <td> preparation_type </td>
+      <td> none </td>
+    </tr>
+
+    
+    <tr>
+      <td> organism </td>
+      <td> Arabidopsis thaliana </td>
+    </tr>
+
+    
+    <tr>
+      <td> tissue_type </td>
+      <td>  </td>
+    </tr>
+
+    
+
+  </table>
+
+<h1>Stats for sample 16806 </h1>
+
+Reads etc
+
+<h1>Plots for sample 16806 </h1>
+
+
+<img src="/static/hist/16806.tabdist.pdf.jpg" alt=16806 width="400"/><img src="/static/stats/X16806.tabzero.jpg" alt=16806 width="400"/>
+<img src="/static/stats/X16806.tabtot.jpg" alt=16806 width="400"/>
+<img src="/static/stats/X16806.tabwith0_100.jpg" alt=16806 width="400"/>
+<p>Explanation to plots: The green histogram shows the distribution of reads per feature (gene) in the sample. The normal range is 0 to teens of thousands. Genes with 0 reads are either not expressed or not detectable at the current sequencing depth. The upper left (blue) violin plot shows the distribution of non-expressed/non-detected genes using all RNA-samples sequenced in the group. The highlighted cross below the violin represent the currently view sample. This cross is colour coded so that a green colour mean that it is within the 80 most common procent of the samples (‘ the sample behaves like most of the other samples'). Orange means that the sample is in the top or bottom 10% of all group samples (’the sample is slightly less like the average sample’). Finally,  the red coloured samples are within the top or bottom 1% (’the sample is extreme for the group’). Please note that it per se is not a problem if a sample falls into the more extreme quantile of a distribution! The pink and the brown violin plots use the same visualisation for the total number of reads per sample (pink) and max count per feature per sample (brown).
+
+
+<h1>CSF-NGS links</h1>
+<ul>
+<li><a href=http://ngs.csf.ac.at/sample/16806>Queue</a>
+<li><a href=http://ngs.csf.ac.at/forskalle/#/samples/16806>
+Forskalle</a>
+</ul>
+<h1>Downloads</h1>
+
+<ul>
+<li>RNA counts
+<li>FPKM cufflinks
+<li>TPKM sealfish
+</ul>
+
+
+
+
+<script src="/Users/elin.axelsson/pytte/kopf/lookup/static/js/highcharts.js"></script>
+<script src="/Users/elin.axelsson/pytte/kopf/lookup/static/js/modules/exporting.js"></script>
+
+
+ <div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+
+
+
+    <!-- 
+      -->
+
+</body>
+ 
+  
+
+  <footer class="row">
+
+    <div class='row'>
+      <hr> 
+      </div>
+      <p>
+	<div class="span8">
+          <a href="https://github.com/lillamy2012/pytte/tree/master/kopf"> Copf</a>:
+          the Berger group's official app for NGS project organisation </p>
+      </div>
+      
+      <div class="span5">
+	<p>
+          elin.axelsson@gmi.oeaw.ac.at
+          
+	</p>
+      </div>
+
+ </footer>
+  
+</html>

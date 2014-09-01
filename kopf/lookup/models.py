@@ -2,13 +2,12 @@ from django.db import models
 from django.contrib import admin
 from django.forms import ModelForm
 
+
 ###############
 ## Scientist
 ###############
 class Scientist(models.Model):
     name = models.CharField(max_length=200,primary_key=True)
-    
-
     def __unicode__(self):
         return self.name
 
@@ -17,7 +16,6 @@ class Scientist(models.Model):
 ################
 class Annotation(models.Model):
     scientist = models.ForeignKey(Scientist)
-    
     sample = models.IntegerField(primary_key=True)
     descr = models.CharField(max_length=200)
     genotype = models.CharField(max_length=10)
@@ -27,6 +25,7 @@ class Annotation(models.Model):
     organism = models.CharField(max_length=20)
     celltype = models.CharField(max_length=20)
     antibody = models.CharField(max_length=20)
+    exptype = models.CharField(max_length=20)
 
     def __unicode__(self):
         return self.sample
@@ -36,6 +35,16 @@ class Annotation(models.Model):
 
     def get_entry(self,field):
        return self._meta.get_field(field).verbose_name#this will get the field
+
+####################
+## Stats (sample)
+##################
+class Stats(models.Model):
+    sample = models.ForeignKey(Annotation)
+    zeroReads = models.IntegerField()
+    totReads = models.IntegerField()
+    maxReads = models.IntegerField()
+
 
 ################
 ## Project
@@ -61,8 +70,6 @@ class ProjectBlogg(models.Model):
     def __unicode__(self):
         return unicode("%s: %s" % (self.project, self.body[:60]))
 
-
-
 class BlogAdmin(admin.ModelAdmin):
     search_fields = ["title"]
 
@@ -70,5 +77,10 @@ class CommentForm(ModelForm):
     class Meta:
         model = ProjectBlogg
         exclude = ["project","owner"]
-        
+
+
+
+
+
+
 

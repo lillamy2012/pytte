@@ -6,8 +6,94 @@
 
 
 {% block body_block %}
+<script>
+$.get('/lookup/ajex', function(data) {
+
+var seriesData = [];
+var xCategories = [];
+var i, cat;
+for(i = 0; i < data.length; i++){
+     cat =  data[i].scientist;
+     if(xCategories.indexOf(cat) === -1){
+        xCategories[xCategories.length] = cat;
+     }
+}
+for(i = 0; i < data.length; i++){
+    if(seriesData){
+      var currSeries = seriesData.filter(function(seriesObject){ return seriesObject.name == data[i].status;});
+      if(currSeries.length === 0){
+          seriesData[seriesData.length] = currSeries = {name: data[i].status, data: []};
+      } else {
+          currSeries = currSeries[0];
+      }
+      var index = currSeries.data.length;
+      currSeries.data[index] = data[i].val;
+    } else {
+       seriesData[0] = {name: data[i].status, data: [data[i].val]}
+    }
+}
+
+    var chart;
+    $(document).ready(function() {
+        chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container',
+                type: 'column'
+            },
+            title: {
+                text: 'Samples per scientist'
+            },
+            xAxis: {
+                categories: xCategories
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '# sequenced samples'
+                },
+                stackLabels: {
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                    }
+                }
+            },
+            legend: {
+                align: 'right',
+                x: -100,
+                verticalAlign: 'top',
+                y: 20,
+                floating: true,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColorSolid) || 'white',
+                borderColor: '#CCC',
+                borderWidth: 1,
+                shadow: false
+            },
+            tooltip: {
+                formatter: function() {
+                    return '<b>'+ this.x +'</b><br/>'+
+                        this.series.name +': '+ this.y +'<br/>'+
+                        'Total: '+ this.point.stackTotal;
+                }
+            },
+	    plotOptions: {
+                column: {
+                    stacking: 'normal'
+                }
+            },
+           
+            series: seriesData
+        });
+    });
+    
+});
+</script> 
 <div class="container"> 
-  <h1>Scientists</h1>
+ <h1>Scientists</h1>
+
+
+  
   <table class="table table-striped">
     
 
@@ -27,5 +113,7 @@
      
     </tbody>
   </table>
+
+<div id="container" style="width:100%; height:400px;"></div>
 </div>
 {% endblock %}

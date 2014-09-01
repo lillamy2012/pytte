@@ -8,7 +8,7 @@ def populate():
     for d in data:
         if d['group']=="Berger":
             s=add_scientist(name=d['scientist'])
-            add_annotation(scientist=s,sample=d['id'],genotype=d['genotype'], descr=d['descr'],comments=d['comments'],tissue_type=d['tissue_type'],preparation_type=d['preparation_type'],organism=d['organism'],celltype=d['celltype'],antibody=d['antibody'])
+            add_annotation(scientist=s,sample=d['id'],genotype=d['genotype'], descr=d['descr'],comments=d['comments'],tissue_type=d['tissue_type'],preparation_type=d['preparation_type'],organism=d['organism'],celltype=d['celltype'],antibody=d['antibody'],exptype=d['exptype'])
 
     ss = range(15351, 15362)
     s,a=Scientist.objects.get_or_create(name="Danhua Jiang")
@@ -22,8 +22,8 @@ def read_json(jsonf):
     return data
 
 
-def add_annotation(scientist, sample, genotype, descr, comments, tissue_type, preparation_type, organism, celltype,antibody):
-    obj, created = Annotation.objects.get_or_create(scientist = scientist, sample = sample, genotype = genotype, descr = descr, comments = comments, tissue_type = tissue_type, preparation_type = preparation_type, organism = organism, celltype=celltype,antibody=antibody)
+def add_annotation(scientist, sample, genotype, descr, comments, tissue_type, preparation_type, organism, celltype,antibody,exptype):
+    obj, created = Annotation.objects.get_or_create(scientist = scientist, sample = sample, genotype = genotype, descr = descr, comments = comments, tissue_type = tissue_type, preparation_type = preparation_type, organism = organism, celltype=celltype,antibody=antibody,exptype=exptype)
     return(obj)
 
 def add_scientist(name):

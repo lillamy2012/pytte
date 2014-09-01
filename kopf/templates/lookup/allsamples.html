@@ -5,7 +5,27 @@
 {% block body_block %}
 <div class="container"> 
   <h1>Samples</h1>
-
+  <h3>RNA-Seq</h3>
+  <table class="table table-striped">
+    <thead>
+        <tr>
+	  <th class="col-sm-8">SampleID</th>
+          <th class="col-sm-8">Scientist</th>
+	  <th class="col-sm-2">Genotype</th>
+        </tr>
+    </thead>
+    <tbody>
+      {% for instance in RNAanno %}
+      <tr>
+	<td> <a href="/lookup/details/?id={{ instance.pk }}">{{ instance.pk }}</a> </td>
+	{% for field, value in instance.fields.items %}
+	<td> {{ value }} </td>
+	{% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <h3>ChIP-Seq</h3>
   <table class="table table-striped">
     <thead>
         <tr>
@@ -16,7 +36,7 @@
         </tr>
     </thead>
     <tbody>
-      {% for instance in Annotation %}
+      {% for instance in ChipAnno %}
       <tr>
 	<td> <a href="/lookup/details/?id={{ instance.pk }}">{{ instance.pk }}</a> </td>
 	{% for field, value in instance.fields.items %}

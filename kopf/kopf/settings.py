@@ -69,7 +69,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'lookup',
     'bootstrap_toolkit',
-    'django_tables2'              
+    'django_tables2',
+    'chartit'
+                  
 )
 
 MIDDLEWARE_CLASSES = (
@@ -113,3 +115,4 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = ''
