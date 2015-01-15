@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib import admin
 from django.forms import ModelForm
+from django import forms
 
 
 ###############
@@ -78,9 +79,94 @@ class CommentForm(ModelForm):
         model = ProjectBlogg
         exclude = ["project","owner"]
 
+######################################################
+######################################################
+
+#################
+# Antibody list
+################
+class Antibody(models.Model):
+    antibody = models.CharField(max_length=60)
+    comment = models.TextField()
+    source = models.CharField(max_length=60)
+    active = models.BooleanField(default=True)
+   
+def __unicode__(self):
+    return unicode("%s: %s" % (self.antibody, self.comment[:60]))
 
 
+class AntibodyForm(ModelForm):
+    class Meta:
+        model = Antibody
 
+
+class DeleteABForm(ModelForm):
+    class Meta:
+        model = Antibody
+        fields = []
+
+#####################
+## kits
+#####################
+class Kit(models.Model):
+    RNA = 'RNA'
+    DNA = 'DNA'
+    Protein ='Protein'
+    DeepSeq = 'DeepSeq'
+    type_choice = (
+    (RNA,'RNA'),
+    (DNA,'DNA'),
+    (Protein,'Protein'),
+    (DeepSeq,'DeepSeq'),
+    )
+    Polymerase = 'pol'
+    PCRpur='PCR'
+    Plasmid='Plasmid'
+    Gel='Gel'
+    qPCR ='qPCR'
+    RTPCR = 'RTPCR'
+    RNApur = 'Rpu'
+    RNAseq = 'Rsq'
+    ChIPseq = 'Csq'
+    BIseq = 'Bsq'
+    subtype_choice = (
+    (Polymerase,'Polymerase'),
+    (PCRpur,'PCR'),
+    (Plasmid,'Plasmid'),
+    (Gel,'Gel'),
+    (qPCR,'qPCA'),
+    (RTPCR,'RTPCR'),
+    (RNApur,'RNA purification'),
+    (RNAseq,'RNAseq'),
+    (ChIPseq,'ChIPseq'),
+    (BIseq,'BIseq'),
+    )
+    kittype = models.CharField(max_length=10,choices=type_choice)
+    subtype = models.CharField(max_length=10,choices=subtype_choice)
+    comment = models.TextField(blank=True)
+    name = models.CharField(max_length=60)
+    company = models.CharField(max_length=60)
+    location = models.CharField(max_length=60)
+    opened = models.DateTimeField()
+    protocol = models.CharField(max_length=60,blank=True)
+    stock = models.BooleanField()
+    active = models.BooleanField(default=True)
+
+
+class KitForm(ModelForm):
+    class Meta:
+        model = Kit
+
+class OutOfKitForm(ModelForm):
+    class Meta:
+        model = Kit
+        fields = ['active']
+
+class UpdateKitForm(ModelForm):
+    somefield = forms.CharField(
+    widget=forms.TextInput(attrs={'readonly':'readonly'}))
+    class Meta:
+        model = Kit
 
 
 

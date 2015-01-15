@@ -53,6 +53,10 @@ STATICFILES_DIRS = (
                     )
 
 
+EMAIL_HOST = 'smtp.webfaction.com'
+EMAIL_HOST_USER = 'maxmackie'
+EMAIL_HOST_PASSWORD = #my pass
+EMAIL_PORT = 587
 
 
 ALLOWED_HOSTS = []

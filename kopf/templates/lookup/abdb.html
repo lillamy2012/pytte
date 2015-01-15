@@ -1,0 +1,58 @@
+{% extends 'lookup/base.html' %}
+
+
+
+{% block body_block %}
+<div class="container"> 
+<h2>Antibody DataBase</h2>
+Please use the lab wide antibody database to keep track of availible antibodies. To add/remove or edit the records use your user name (firstname.secondname)
+
+<p>
+
+<table class="table table-striped">
+ <form class="form-search">
+  <input type="text" class="input-medium" placeholder="search antibody">
+</form>
+<p>
+
+<p>
+    <thead>
+        <tr>
+	  <th class="col-sm-8">Antibody</th>
+          <th class="col-sm-8">Source</th>
+	  <th class="col-sm-2">Comment</th>
+	  <th class="col-sm-2">Manage</th>
+	  
+        </tr>
+    </thead>
+    <tbody>
+      {% for instance in Antibody %}
+     <td> {{ instance.fields.antibody }} </td>
+      <td> {{ instance.fields.source }} </td>
+      <td> {{ instance.fields.comment }} </td>
+	<td> <a href='/lookup/deleteAB/{{ instance.pk }}'> Delete</a>/<a href='/lookup/deleteAB/{{ instance.pk }}'> Edit</a> <br />
+          </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+<h3>Add antibody to database</h3>
+
+<form action="/lookup/add_ab/" method="POST"> {% csrf_token %}
+    <div id="cform">
+        <p>Antibody:
+        <p>{{ form.antibody }}
+        <p> Source:
+        <p> {{ form.source }}
+        <p> Comment:
+        <p> {{ form.comment }}
+    </div>
+    <div id="submit"><input type="submit" value="Add anitbody"></div>
+</form>
+</div>
+</div>
+
+{% endblock %}
+
+
+        
+

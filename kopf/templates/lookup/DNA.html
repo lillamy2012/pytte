@@ -1,0 +1,57 @@
+{% extends 'lookup/base.html' %}
+
+
+
+{% block body_block %}
+<div class="container">
+    <h3>DNA kits</h3>
+    
+
+<table class="table table-striped">
+
+ {% for instance in Kits %}
+ <tr>
+ {% for field, value in instance.fields.items %}
+ 
+	<td> {{ value }} </td>
+    {% endfor %}
+
+ {% endfor %}
+ </table>
+<h3> Add kit </h3>
+
+<form action="/lookup/add_kit/" method="POST"> {% csrf_token %}
+    <div id="cform">
+        <p> Kittype:
+        <p> {{ form.kittype }}
+        <p> Subtype:
+        <p> {{ form.subtype }}
+        <p> Name:
+        <p> {{ form.name }}
+        <p> Company:
+        <p> {{ form.company }}
+        <p> Location:
+        <p> {{ form.location }}
+        <p> {{ form.stock }} In stock
+        <p> opened:
+        <p> {{ form.opened }}
+        <p> protocol:
+        <p> {{ form.protocol }}
+        <p> Comment:
+        <p> {{ form.comment }}
+        
+           </div>
+    <div id="submit"><input type="submit" value="Add kit"></div>
+</form>
+</div>
+</div>
+<p>
+
+
+</div>
+
+
+
+{% endblock %}
+
+

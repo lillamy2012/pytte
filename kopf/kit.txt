@@ -1,0 +1,3 @@
+Kittype	Subtype	Comment	Name Company	Location	Opened	Protocol	Stock 
+DNA	polymerase	NA	Test	Elin	Office	1014-11-01	NA	Yes
+DNA	pp	NN	yy	HH	ii	1014-11-01 	U	Yes

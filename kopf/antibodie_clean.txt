@@ -1,0 +1,5 @@
+Antibody	Source	Antigene used (peptide, whole protein or domain)	Ig type	Dilution/Western	Secondary/Western	Protein size	Place to find it (working)	Place to find it (stock)	Comment
+HTB1	mouse - monoclonal	KTAAERPVEENKAAEKA 	ND	3000 X	goat anti mouse IgG 10,000X	~ 16 kDa		-80 freezer	Specific antibody
+HTB2	rabbit - affinity purified	KPAEKTPAAEPAA   	ND	3000 X	goat anti rabbit IgG 10,000X	~ 16 kDa		-80 freezer	Specific antibody
+HTB3	rabbit - affinity purified	KPAEKAPAEEEKVAEKA	ND	3000 X	goat anti rabbit IgG 10,000X	~ 16 kDa		-80 freezer	Specific antibody
+"HTB4;9;11"	rabbit - affinity purified	KPASEKPVEEKSKAEKA	ND	3000 X	goat anti rabbit IgG 10,000X	~ 16 kDa		-80 freezer	recognizes HTB4, HTB9 and HTB11

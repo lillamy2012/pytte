@@ -6,12 +6,14 @@ from django.forms import ModelForm
 from django.forms.models import model_to_dict
 from django.template import RequestContext
 from django.http import Http404, HttpResponse, HttpResponseRedirect
-from django.shortcuts import render_to_response, render
-from lookup.models import Annotation, Project, Scientist, ProjectBlogg, CommentForm, Stats
+from django.shortcuts import render_to_response, render, redirect
+from lookup.models import Annotation, Project, Scientist, ProjectBlogg, CommentForm, Stats, Antibody, AntibodyForm, DeleteABForm, KitForm, Kit, OutOfKitForm, UpdateKitForm
 from itertools import chain
-from chartit import DataPool, Chart, PivotDataPool, PivotChart
+#from chartit import DataPool, Chart, PivotDataPool, PivotChart
 from django.db.models import Avg, Max, Count
 from django.utils import simplejson
+from django.core.mail import send_mail
+
 
 #####################
 ### index page
@@ -22,7 +24,11 @@ def index(request):
     nproj = len(Project.objects.values_list('project_name').distinct())
     nscient = len(Annotation.objects.values_list('scientist').distinct())
     nsamples= len(Annotation.objects.values_list('sample').distinct())
-    context_dict = {'scientist':nscient,'samples':nsamples,'projects':nproj}
+    
+    nkitt= len(Kit.objects.values_list('name').distinct().filter(active=True))
+    nkitf= len(Kit.objects.values_list('name').distinct().filter(active=False))
+    
+    context_dict = {'scientist':nscient,'samples':nsamples,'projects':nproj, 'nkitt': nkitt , 'nkitf': nkitf }
     return render_to_response('lookup/index.html', context_dict, context)
 
 ######################
@@ -108,11 +114,8 @@ def cross_corr(request):
 #######################
 
 def projects(request):
-    #nproj = Project.objects.values_list('project_name').distinct()
     posts = Project.objects.all() #.order_by("-project_name")
     a = Project.objects.values_list('samples').distinct()
-    #pr = Project.objects.all()
-    #scientist = model_to_dict(Annotation.objects.all())
     scientist = Project.objects.values()
     return render(request, 'lookup/projects.html', {'Projectnames': posts,'Projects': scientist})
 
@@ -188,12 +191,126 @@ def sample_zero_view(request):
     nproj2 = (list(Stats.objects.values_list('zeroReads')))
     
     return HttpResponse(simplejson.dumps(nproj2),mimetype='application/json')
-    
-   
+
+
+################################################
+################################################
+################################################
+## abdb
+
+def abdb(request):
+    abdb = serializers.serialize("python", Antibody.objects.all(),fields=('antibody','source','comment'))
+    form = AntibodyForm()
+    return render(request, 'lookup/abdb.html',{'Antibody' : abdb , 'form': form})
+
+
+def add_ab(request):
+    p = request.POST
+    cf = AntibodyForm(p)
+    comment = cf.save(commit=False)
+    comment.save()
+    return(HttpResponseRedirect(reverse('lookup.views.abdb')))
+
+#def edit_ab(request,pk):
+
+def deleteAB(request,pk):
+    ps = request.GET.get('antibody')
+    ab_to_remove = Antibody.objects.get(pk=pk)
+    form = DeleteABForm(request.POST, instance=ab_to_remove)
+    form.save()
+    template_vars = {'form': form}
+    return render(request, 'lookup/abdb.html', template_vars)
+
+##############################################################################################
+
+def custom_redirect(url_name, *args, **kwargs):
+    from django.core.urlresolvers import reverse
+    import urllib
+    url = reverse(url_name, args = args)
+    params = urllib.urlencode(kwargs)
+    return HttpResponseRedirect(url + "?%s" % params)
+
+def send_email(request):
+    subject = request.POST.get('subject', '')
+    message = request.POST.get('message', '')
+    from_email = request.POST.get('from_email', '')
+    if subject and message and from_email:
+        try:
+            send_mail(subject, message, from_email, ['admin@example.com'])
+        except BadHeaderError:
+            return HttpResponse('Invalid header found.')
+        return HttpResponseRedirect('/contact/thanks/')
+    else:
+        # In reality we'd use a form class
+        # to get proper validation errors.
+        return HttpResponse('Make sure all fields are entered and valid.')
 
 
 
+##############################################################################################
+
+#Show kits of some type or all
+
+def kit(request):
+    sample_type = request.GET.get('type')
+    if not sample_type or sample_type == 'None':
+        kits = serializers.serialize("python",Kit.objects.filter(active=True))
+    else:
+        if sample_type=="inact":
+            kits = serializers.serialize("python",Kit.objects.filter(active=False))
+        else:
+            kits = serializers.serialize("python",Kit.objects.filter(kittype=sample_type,active=True))
+    return render(request, 'lookup/kits.html',{'Kits' : kits , 'type' : sample_type})
+
+#Add new kit
+
+def add(request):
+    if request.method == "POST":
+        p = request.POST
+        cf = KitForm(p)
+        kit = cf.save(commit=False)
+        kit.save()
+        send_mail('Subject here ADD', 'Here is the message.', 'elin.axelsson@gmi.oeaw.ac.at',['elinaxel@gmail.com'], fail_silently=False)
+        return redirect('/lookup/add/')
+    else:
+        form = KitForm(initial={'active':True})
+        return render(request, 'lookup/add.html',{'form' : form})
+
+#Update information, existing kit
+
+def update(request):
+    pk = request.GET.get('pk')
+    type = request.GET.get('type')
+    instance = Kit.objects.get(pk=pk)
+    if request.method == "POST":
+        form = KitForm(request.POST, instance=instance)
+        kit = form.save(commit=False)
+        kit.save()
+        # email
+        return redirect('/lookup/kits/?type='+str(type))
+    else:
+        form = KitForm(instance=instance)
+        return render(request, 'lookup/update.html',{'form' : form , 'pk' :pk, 'type' : type })
+
+#Make kit inactive (eg, not currently availible)
+
+def removekit(request):
+    pk = request.GET.get('pk')
+    type = request.GET.get('type')
+    kit_to_inactivate = Kit.objects.get(pk=pk)
+    kit_to_inactivate.active = False
+    kit_to_inactivate.save()
+    return redirect('/lookup/kits/?type='+str(type))
+
+#Make kit active (eg, new order recieved)
+
+def reactkit(request,pk):
+    kit_to_activate = Kit.objects.get(pk=pk)
+    kit_to_activate.active = True
+    kit_to_activate.save()
+    return redirect('/lookup/kits/?type=inact')
 
 
+##############################################################################################
 
 

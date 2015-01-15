@@ -1,0 +1,51 @@
+{% extends 'lookup/base.html' %}
+
+
+
+{% block body_block %}
+<div class="container">
+    <h2>Kits</h2>
+    
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th class="col-sm-8">Kit type</th>
+            <th class="col-sm-8">Sub type</th>
+            <th class="col-sm-2">Name</th>
+            <th class="col-sm-2">Company</th>
+            <th class="col-sm-2">Location</th>
+            <th class="col-sm-2">In stock</th>
+             <th class="col-sm-2">Opened at</th>
+              <th class="col-sm-2">Protocol</th>
+               <th class="col-sm-2">Comment</th>
+               <th class="col-sm-2">Manage</th>
+        </tr>
+    </thead>
+    <tbody>
+
+ {% for instance in Kits %}
+
+ <tr>
+     <td> {{ instance.fields.kittype }}</td>
+     <td> {{ instance.fields.subtype }}</td>
+     <td> {{ instance.fields.name }}</td>
+     <td> {{ instance.fields.company }}</td>
+     <td> {{ instance.fields.location }}</td>
+     <td> {{ instance.fields.stock }}</td>
+     <td> {{ instance.fields.opened }}</td>
+     <td> {{ instance.fields.protocol }}</td>
+     <td> {{ instance.fields.comment }}</td>
+     <td> <a href='/lookup//{{ instance.pk }}'> Remove</a>/<a href='/lookup//{{ instance.pk }}'> Edit</a> <br />
+         </tr>
+
+ {% endfor %}
+<tbody>
+</table>
+</div>
+
+
+
+{% endblock %}
+
+
