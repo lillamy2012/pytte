@@ -268,10 +268,15 @@ def add(request):
     if request.method == "POST":
         p = request.POST
         cf = KitForm(p)
-        kit = cf.save(commit=False)
-        kit.save()
-        send_mail('Subject here ADD', 'Here is the message.', 'elin.axelsson@gmi.oeaw.ac.at',['elinaxel@gmail.com'], fail_silently=False)
-        return redirect('/lookup/add/')
+        val = cf.is_valid()
+        if val == False:
+            return HttpResponse("Some of the data (eg the date) is not valid, please go back (use the browser's back arrow) and correct it. ")
+        else:
+            kit = cf.save(commit=False)
+            kit.save()
+        #send_mail('Subject here ADD', 'Here is the message.', 'elin.axelsson@gmi.oeaw.ac.at',['elinaxel@gmail.com'], fail_silently=False)
+            return redirect('/lookup/add/')
+       
     else:
         form = KitForm(initial={'active':True})
         return render(request, 'lookup/add.html',{'form' : form})
@@ -284,8 +289,12 @@ def update(request):
     instance = Kit.objects.get(pk=pk)
     if request.method == "POST":
         form = KitForm(request.POST, instance=instance)
-        kit = form.save(commit=False)
-        kit.save()
+        val = form.is_valid()
+        if val == False:
+            return HttpResponse("Some of the data (eg the date) is not valid, please go back (use the browser's back arrow) and correct it. ")
+        else:
+            kit = form.save(commit=False)
+            kit.save()
         # email
         return redirect('/lookup/kits/?type='+str(type))
     else:
@@ -300,6 +309,7 @@ def removekit(request):
     kit_to_inactivate = Kit.objects.get(pk=pk)
     kit_to_inactivate.active = False
     kit_to_inactivate.save()
+    # email
     return redirect('/lookup/kits/?type='+str(type))
 
 #Make kit active (eg, new order recieved)
@@ -308,6 +318,7 @@ def reactkit(request,pk):
     kit_to_activate = Kit.objects.get(pk=pk)
     kit_to_activate.active = True
     kit_to_activate.save()
+    # email
     return redirect('/lookup/kits/?type=inact')
 
 
