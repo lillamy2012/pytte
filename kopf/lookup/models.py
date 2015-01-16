@@ -148,7 +148,7 @@ class Kit(models.Model):
     company = models.CharField(max_length=60)
     location = models.CharField(max_length=60)
     opened = models.DateTimeField()
-    protocol = models.CharField(max_length=60,blank=True)
+    #protocol = models.CharField(max_length=60,blank=True)
     stock = models.BooleanField()
     active = models.BooleanField(default=True)
 
@@ -168,5 +168,10 @@ class UpdateKitForm(ModelForm):
     class Meta:
         model = Kit
 
+class Protocol(models.Model):
+    kit = models.ForeignKey(Kit)
+    link = model.CharField(max_length=200)
 
-
+class ProtocolForm(ModelForm):
+    class Meta:
+        model = Protocol
