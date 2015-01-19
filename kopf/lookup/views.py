@@ -7,13 +7,14 @@ from django.forms.models import model_to_dict
 from django.template import RequestContext
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, render, redirect
-from lookup.models import Annotation, Project, Scientist, ProjectBlogg, CommentForm, Stats, Antibody, AntibodyForm, DeleteABForm, KitForm, Kit, OutOfKitForm, UpdateKitForm
+from lookup.models import Annotation, Project, Scientist, ProjectBlogg, CommentForm, Stats, Antibody, AntibodyForm, DeleteABForm, KitForm, Kit, OutOfKitForm, UpdateKitForm, ProtocolDocForm, Protocol
 from itertools import chain
 #from chartit import DataPool, Chart, PivotDataPool, PivotChart
 from django.db.models import Avg, Max, Count
 from django.utils import simplejson
 from django.core.mail import send_mail
-
+from django.db import models
+import os, re, string
 
 #####################
 ### index page
@@ -253,6 +254,7 @@ def send_email(request):
 
 def kit(request):
     sample_type = request.GET.get('type')
+    proto = serializers.serialize("python",Protocol.objects.all())
     if not sample_type or sample_type == 'None':
         kits = serializers.serialize("python",Kit.objects.filter(active=True))
     else:
@@ -260,26 +262,40 @@ def kit(request):
             kits = serializers.serialize("python",Kit.objects.filter(active=False))
         else:
             kits = serializers.serialize("python",Kit.objects.filter(kittype=sample_type,active=True))
-    return render(request, 'lookup/kits.html',{'Kits' : kits , 'type' : sample_type})
+    return render(request, 'lookup/kits.html',{'Kits' : kits , 'type' : sample_type, 'proto' : proto})
 
 #Add new kit
 
 def add(request):
+    form = KitForm(initial={'kit-active':True },prefix="kit")
+    #form2 = ProtocolForm(prefix="proto")
     if request.method == "POST":
-        p = request.POST
-        cf = KitForm(p)
+        cf = KitForm(request.POST,prefix="kit")
+        #pr = ProtocolForm(request.POST)
+        #p = request.POST.get('proto-link')
         val = cf.is_valid()
         if val == False:
-            return HttpResponse("Some of the data (eg the date) is not valid, please go back (use the browser's back arrow) and correct it. ")
+           return HttpResponse("Some of the data (eg the date) is not valid, please go back (use the browser's back arrow) and correct it. ")
         else:
             kit = cf.save(commit=False)
             kit.save()
+            #link=p
+            #prolink, created = Protocol.objects.get_or_create(kit=kit,link=link)
+            #pro
+                    #return HttpResponse(p)
+                #else:
+            #pr.key_field = kit
+            #proto = pr.save(commit=False)
+            #proto.save()
         #send_mail('Subject here ADD', 'Here is the message.', 'elin.axelsson@gmi.oeaw.ac.at',['elinaxel@gmail.com'], fail_silently=False)
             return redirect('/lookup/add/')
-       
     else:
-        form = KitForm(initial={'active':True})
-        return render(request, 'lookup/add.html',{'form' : form})
+        ##
+        return render(request, 'lookup/add.html',{'form' : form } )
+##
+
+##def
+
 
 #Update information, existing kit
 
@@ -295,7 +311,6 @@ def update(request):
         else:
             kit = form.save(commit=False)
             kit.save()
-        # email
         return redirect('/lookup/kits/?type='+str(type))
     else:
         form = KitForm(instance=instance)
@@ -323,5 +338,24 @@ def reactkit(request,pk):
 
 
 ##############################################################################################
+
+
+def upload_file(request):
+    pk = request.GET.get('pk')
+    kit_to_use = Kit.objects.get(pk=pk)
+    proto = Protocol.objects.filter(kit=kit_to_use )
+    if request.method == "POST":
+        form = ProtocolDocForm(request.POST, request.FILES)
+        if form.is_valid():
+            newlink = form.save(commit=False)
+            newlink.kit = kit_to_use
+            newlink.save()
+            return HttpResponse(newlink.doc)
+        else:
+            return  HttpResponse(pk)
+    else:
+        form = ProtocolDocForm(instance=kit_to_use)
+        return render_to_response('lookup/upload.html', {'form': form, 'pk' : pk }, context_instance=RequestContext(request))
+
 
 

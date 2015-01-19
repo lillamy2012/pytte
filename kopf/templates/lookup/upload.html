@@ -1,0 +1,12 @@
+{% extends 'lookup/base.html' %}
+
+
+{% block body_block %}
+<form  action="/lookup/upload_file/?pk={{ pk }}" method="post" enctype="multipart/form-data">  {% csrf_token %}
+
+{{ form.as_p }}
+<div id="submit"><input type="submit" value="Submit kit">
+</div>
+</form>
+{% endblock %}
+

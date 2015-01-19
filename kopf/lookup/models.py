@@ -170,8 +170,16 @@ class UpdateKitForm(ModelForm):
 
 class Protocol(models.Model):
     kit = models.ForeignKey(Kit)
-    link = model.CharField(max_length=200)
+    doc = models.FileField(upload_to='profile/%Y/%m/%d')
 
-class ProtocolForm(ModelForm):
+class ProtocolDocForm(forms.ModelForm):
     class Meta:
-        model = Protocol
+        model=Protocol
+        fields=('doc',)
+#doc = forms.FileField(label='Select a profile Image')
+
+
+#class ProtocolForm(ModelForm):
+#  class Meta:
+#       model = Protocol
+#exclude = ("key_field",)

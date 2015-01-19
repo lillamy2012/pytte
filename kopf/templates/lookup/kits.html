@@ -35,7 +35,6 @@
                 <th>Location</th>
                 <th>In stock</th>
                 <th>Opened at</th>
-                <th>Protocol</th>
                 <th>Comment</th>
 		{% if type == "inact" %}
 		<th> Reactivate</th>
@@ -43,6 +42,7 @@
 		<th> Inactivate</th>
                 <th>Edit kit</th>
 		{% endif %}
+		<th> Protocol </th>
             </tr>
         </thead>
         <tbody>
@@ -58,7 +58,6 @@
                 <td> {{ instance.fields.location }}</td>
                 <td> {{ instance.fields.stock }}</td>
                 <td> {{ instance.fields.opened }}</td>
-                <td> {{ instance.fields.protocol }}</td>
                 <td> {{ instance.fields.comment }}</td>
 		{% if type == "inact" %}
 		<td><a href='/lookup/reactkit/{{ instance.pk }}'> <i class="icon-plus"></i></a></td>
@@ -66,14 +65,11 @@
 		<td><a href='/lookup/removekit/?pk={{ instance.pk }}&type={{ type }}'><i class="icon-minus"></i></a></td>
 		<td><a href='/lookup/update/?pk={{ instance.pk }}&type={{ type }}'><i class="icon-pencil"></i></a></td> 
 		{% endif %}
+		<td><a href='/lookup/showproto/?pk={{instance.pk}}'>link to protocol</a></td>
 	
-                    
-                    </tr>
-            
-            {% endfor %}
+ {% endfor %}
             <tbody>
     </table>
-
 
 
     

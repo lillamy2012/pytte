@@ -12,7 +12,7 @@
 <p>
     <form action="/lookup/add/" method="POST"> {% csrf_token %}
         <div class="form-group">
-            <div id="cform">
+            <div id="form">
         <p> {{ form.kittype }}  Kit type
         <p> {{ form.subtype }}  Sub type
         <p> {{ form.name }}   Name
@@ -20,11 +20,13 @@
         <p> {{ form.location }} Location
         <p> {{ form.opened }} Opened
         <p> {{ form.stock }} In stock
-        <p> {{ form.protocol }}  Protocol
         <p> Additional comments:
         <p> {{ form.comment }}
         <p> {{ form.active }} Active in record
     </div>
+	 <div id="form">
+ <p> {{ form.protocol }}  Protocol
+</div>
     <div id="submit"><input type="submit" value="Submit kit">
         </div>
     </form>
