@@ -9,7 +9,7 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, render, redirect
 from lookup.models import Annotation, Project, Scientist, ProjectBlogg, CommentForm, Stats, Antibody, AntibodyForm, DeleteABForm, KitForm, Kit, OutOfKitForm, UpdateKitForm, ProtocolDocForm, Protocol
 from itertools import chain
-#from chartit import DataPool, Chart, PivotDataPool, PivotChart
+from chartit import DataPool, Chart, PivotDataPool, PivotChart
 from django.db.models import Avg, Max, Count
 from django.utils import simplejson
 from django.core.mail import send_mail
@@ -224,29 +224,6 @@ def deleteAB(request,pk):
 
 ##############################################################################################
 
-def custom_redirect(url_name, *args, **kwargs):
-    from django.core.urlresolvers import reverse
-    import urllib
-    url = reverse(url_name, args = args)
-    params = urllib.urlencode(kwargs)
-    return HttpResponseRedirect(url + "?%s" % params)
-
-def send_email(request):
-    subject = request.POST.get('subject', '')
-    message = request.POST.get('message', '')
-    from_email = request.POST.get('from_email', '')
-    if subject and message and from_email:
-        try:
-            send_mail(subject, message, from_email, ['admin@example.com'])
-        except BadHeaderError:
-            return HttpResponse('Invalid header found.')
-        return HttpResponseRedirect('/contact/thanks/')
-    else:
-        # In reality we'd use a form class
-        # to get proper validation errors.
-        return HttpResponse('Make sure all fields are entered and valid.')
-
-
 
 ##############################################################################################
 
@@ -273,7 +250,7 @@ def add(request):
         cf = KitForm(request.POST,prefix="kit")
         val = cf.is_valid()
         if val == False:
-           return HttpResponse("Some of the data (eg the date) is not valid, please go back (use the browser's back arrow) and correct it. ")
+           return HttpResponse("Some of the data is not valid. Maybe the date is not in the correct format (YYYY-MM-DD) or you have used the same name as an existing kit. The date can be corrected by using the browser's back arrow. If you want to edit an existing kit please do this using the 'edit kit' link in the kit overview list ")
         else:
             kit = cf.save(commit=False)
             kit.save()
@@ -334,13 +311,13 @@ def reactkit(request,pk):
 def upload_file(request):
     pk = request.GET.get('pk')
     kit_to_use = Kit.objects.get(pk=pk)
-    #proto = Protocol.objects.filter(kit=kit_to_use )
     if request.method == "POST":
         form = ProtocolDocForm(request.POST, request.FILES)
         if form.is_valid():
+            os.remove(os.path.join('lookup/static/uploads/protocol',"%s.%s" % (kit_to_use.pk,"pdf")))
             newlink = form.save(commit=False)
             newlink.kit = kit_to_use
-            newlink.name = kit_to_use.name
+            newlink.name = kit_to_use.pk
             newlink.save()
             return redirect('/lookup/kits/')
         else:

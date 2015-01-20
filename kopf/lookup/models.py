@@ -4,6 +4,7 @@ from django.forms import ModelForm
 from django import forms
 import uuid
 import os
+from django.core.exceptions import ValidationError
 
 ###############
 ## Scientist
@@ -145,7 +146,7 @@ class Kit(models.Model):
     kittype = models.CharField(max_length=10,choices=type_choice)
     subtype = models.CharField(max_length=10,choices=subtype_choice)
     comment = models.TextField(blank=True)
-    name = models.CharField(max_length=60,)
+    name = models.CharField(max_length=60,primary_key=True)
     company = models.CharField(max_length=60)
     location = models.CharField(max_length=60)
     opened = models.DateTimeField()
@@ -187,10 +188,15 @@ class Protocol(models.Model):
     # delete old file when replacing by updating the file
         try:
             this = Protocol.objects.get(id=self.id)
-            if this.doc != self.doc:
-                this.doc.delete(save=False)
+                #if this.doc != self.doc:
+            this.doc.delete(save=False)
         except: pass # when new photo then we do nothing, normal case
         super(Protocol, self).save(*args, **kwargs)
+
+    def get_available_name(self, name):
+        if self.exists(name):
+            os.remove(os.path.join(lookup/static/uploads/protocol, name))
+        return name
 
 
 class ProtocolDocForm(forms.ModelForm):

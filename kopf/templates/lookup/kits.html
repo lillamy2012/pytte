@@ -27,7 +27,6 @@
 <table id="tablesorter-demo"  class="tablesorter" border="0" cellpadding="0" cellspacing="1">
         <thead>
             <tr>
-	      	<th> Id nr</th>
                 <th>Kit type</th>
                 <th>Sub type</th>
                 <th>Name</th>
@@ -51,10 +50,9 @@
             {% for instance in Kits %}
             
             <tr>
-	      	<td> {{ instance.pk }}</td>
                 <td> {{ instance.fields.kittype }}</td>
                 <td> {{ instance.fields.subtype }}</td>
-                <td> {{ instance.fields.name }}</td>
+                <td> {{ instance.pk }}</td>
                 <td> {{ instance.fields.company }}</td>
                 <td> {{ instance.fields.location }}</td>
                 <td> {{ instance.fields.stock }}</td>
