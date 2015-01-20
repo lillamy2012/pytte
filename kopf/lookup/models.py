@@ -2,7 +2,8 @@ from django.db import models
 from django.contrib import admin
 from django.forms import ModelForm
 from django import forms
-
+import uuid
+import os
 
 ###############
 ## Scientist
@@ -91,8 +92,8 @@ class Antibody(models.Model):
     source = models.CharField(max_length=60)
     active = models.BooleanField(default=True)
    
-def __unicode__(self):
-    return unicode("%s: %s" % (self.antibody, self.comment[:60]))
+    def __unicode__(self):
+        return unicode("%s: %s" % (self.antibody, self.comment[:60]))
 
 
 class AntibodyForm(ModelForm):
@@ -144,11 +145,10 @@ class Kit(models.Model):
     kittype = models.CharField(max_length=10,choices=type_choice)
     subtype = models.CharField(max_length=10,choices=subtype_choice)
     comment = models.TextField(blank=True)
-    name = models.CharField(max_length=60)
+    name = models.CharField(max_length=60,)
     company = models.CharField(max_length=60)
     location = models.CharField(max_length=60)
     opened = models.DateTimeField()
-    #protocol = models.CharField(max_length=60,blank=True)
     stock = models.BooleanField()
     active = models.BooleanField(default=True)
 
@@ -162,24 +162,39 @@ class OutOfKitForm(ModelForm):
         model = Kit
         fields = ['active']
 
+def get_path_and_name(instance,filename):
+    ext = filename.split('.')[-1]
+    filename = "%s.%s" % (instance.name, ext)
+    return os.path.join('lookup/static/uploads/protocol', filename)
+
 class UpdateKitForm(ModelForm):
     somefield = forms.CharField(
     widget=forms.TextInput(attrs={'readonly':'readonly'}))
     class Meta:
         model = Kit
 
+def validate_file_extension(value):
+    if not value.name.endswith('.pdf'):
+        raise ValidationError(u'Error message')
+
+
 class Protocol(models.Model):
     kit = models.ForeignKey(Kit)
-    doc = models.FileField(upload_to='profile/%Y/%m/%d')
+    name = models.CharField(max_length=60)
+    doc = models.FileField(upload_to=get_path_and_name,validators=[validate_file_extension])
+
+    def save(self, *args, **kwargs):
+    # delete old file when replacing by updating the file
+        try:
+            this = Protocol.objects.get(id=self.id)
+            if this.doc != self.doc:
+                this.doc.delete(save=False)
+        except: pass # when new photo then we do nothing, normal case
+        super(Protocol, self).save(*args, **kwargs)
+
 
 class ProtocolDocForm(forms.ModelForm):
     class Meta:
         model=Protocol
         fields=('doc',)
-#doc = forms.FileField(label='Select a profile Image')
 
-
-#class ProtocolForm(ModelForm):
-#  class Meta:
-#       model = Protocol
-#exclude = ("key_field",)

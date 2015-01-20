@@ -10,7 +10,7 @@
 <a class="btn btn-default" href="/lookup/kits" role="button">Back to kit collection</a>
 
 <p>
-    <form action="/lookup/add/" method="POST"> {% csrf_token %}
+    <form action="/lookup/add/" method="POST" enctype="multipart/form-data"> {% csrf_token %}
         <div class="form-group">
             <div id="form">
         <p> {{ form.kittype }}  Kit type
@@ -23,10 +23,10 @@
         <p> Additional comments:
         <p> {{ form.comment }}
         <p> {{ form.active }} Active in record
-    </div>
+	<p> Protocol (pdf file)  
+	<p> {{ prform.doc }}
+	    </div>
 	 <div id="form">
- <p> {{ form.protocol }}  Protocol
-</div>
     <div id="submit"><input type="submit" value="Submit kit">
         </div>
     </form>
@@ -34,6 +34,8 @@
     <p>
     <span class="glyphicon icon-arrow-left"></span>
 <a class="btn btn-default" href="/lookup/kits" role="button">Back to kit collection</a>
+
+
 
 </div>
 </div>

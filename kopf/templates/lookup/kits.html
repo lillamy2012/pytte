@@ -46,6 +46,7 @@
             </tr>
         </thead>
         <tbody>
+	  {% load staticfiles %}
             
             {% for instance in Kits %}
             
@@ -65,9 +66,8 @@
 		<td><a href='/lookup/removekit/?pk={{ instance.pk }}&type={{ type }}'><i class="icon-minus"></i></a></td>
 		<td><a href='/lookup/update/?pk={{ instance.pk }}&type={{ type }}'><i class="icon-pencil"></i></a></td> 
 		{% endif %}
-		<td><a href='/lookup/showproto/?pk={{instance.pk}}'>link to protocol</a></td>
-	
- {% endfor %}
+		<td><a href="{% static "" %}uploads/protocol/{{ instance.pk }}.pdf"><i class="icon-eye-open"></i>&nbsp;<a href='/lookup/upload_file/?pk={{ instance.pk }}'><i class="icon-edit"></i></td>
+		{% endfor %}
             <tbody>
     </table>
 

@@ -268,33 +268,24 @@ def kit(request):
 
 def add(request):
     form = KitForm(initial={'kit-active':True },prefix="kit")
-    #form2 = ProtocolForm(prefix="proto")
+    prform = ProtocolDocForm(prefix="proto")
     if request.method == "POST":
         cf = KitForm(request.POST,prefix="kit")
-        #pr = ProtocolForm(request.POST)
-        #p = request.POST.get('proto-link')
         val = cf.is_valid()
         if val == False:
            return HttpResponse("Some of the data (eg the date) is not valid, please go back (use the browser's back arrow) and correct it. ")
         else:
             kit = cf.save(commit=False)
             kit.save()
-            #link=p
-            #prolink, created = Protocol.objects.get_or_create(kit=kit,link=link)
-            #pro
-                    #return HttpResponse(p)
-                #else:
-            #pr.key_field = kit
-            #proto = pr.save(commit=False)
-            #proto.save()
-        #send_mail('Subject here ADD', 'Here is the message.', 'elin.axelsson@gmi.oeaw.ac.at',['elinaxel@gmail.com'], fail_silently=False)
-            return redirect('/lookup/add/')
+            prform = ProtocolDocForm(request.POST, request.FILES,prefix="proto")
+            if prform.is_valid():
+                newlink = Protocol(kit=kit,doc = request.FILES['proto-doc'],name=kit.pk)
+                newlink.save()
+#send_mail('Subject here ADD', 'Here is the message.', 'elin.axelsson@gmi.oeaw.ac.at',['elinaxel@gmail.com'], fail_silently=False)
+        return redirect('/lookup/add/')
     else:
-        ##
-        return render(request, 'lookup/add.html',{'form' : form } )
-##
+        return render(request, 'lookup/add.html',{'form' : form , 'prform' : prform } )
 
-##def
 
 
 #Update information, existing kit
@@ -343,19 +334,28 @@ def reactkit(request,pk):
 def upload_file(request):
     pk = request.GET.get('pk')
     kit_to_use = Kit.objects.get(pk=pk)
-    proto = Protocol.objects.filter(kit=kit_to_use )
+    #proto = Protocol.objects.filter(kit=kit_to_use )
     if request.method == "POST":
         form = ProtocolDocForm(request.POST, request.FILES)
         if form.is_valid():
             newlink = form.save(commit=False)
             newlink.kit = kit_to_use
+            newlink.name = kit_to_use.name
             newlink.save()
-            return HttpResponse(newlink.doc)
+            return redirect('/lookup/kits/')
         else:
-            return  HttpResponse(pk)
+            return  HttpResponse("the file was not valid")
     else:
         form = ProtocolDocForm(instance=kit_to_use)
         return render_to_response('lookup/upload.html', {'form': form, 'pk' : pk }, context_instance=RequestContext(request))
+
+def showproto(request):
+    pk = request.GET.get('pk')
+    kit_to_use = Kit.objects.get(pk=pk)
+    proto = Protocol.objects.filter(kit=kit_to_use)
+    ln = len( Protocol.objects.filter(kit=kit_to_use))
+    return render(request, 'lookup/showproto.html',{'link' :link, 'pk':pk, 'ln':ln})
+
 
 
 

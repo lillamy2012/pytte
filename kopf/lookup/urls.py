@@ -32,5 +32,6 @@ urlpatterns = patterns('',
         url(r'^reactkit/(?P<pk>.*)$',views.reactkit, name='reactkit'),
                        #url(r'^update_kit/$',views.update_kit, name='update_kit'),
         url(r'^update/$',views.update, name='update'),
-        url(r'^upload_file/$',views.upload_file, name='upload_file')
-    )
+        url(r'^upload_file/$',views.upload_file, name='upload_file'),
+        url(r'^showproto/$',views.showproto, name='showproto')
+        )
