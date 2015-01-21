@@ -184,20 +184,6 @@ class Protocol(models.Model):
     name = models.CharField(max_length=60)
     doc = models.FileField(upload_to=get_path_and_name,validators=[validate_file_extension])
 
-    def save(self, *args, **kwargs):
-    # delete old file when replacing by updating the file
-        try:
-            this = Protocol.objects.get(id=self.id)
-                #if this.doc != self.doc:
-            this.doc.delete(save=False)
-        except: pass # when new photo then we do nothing, normal case
-        super(Protocol, self).save(*args, **kwargs)
-
-    def get_available_name(self, name):
-        if self.exists(name):
-            os.remove(os.path.join(lookup/static/uploads/protocol, name))
-        return name
-
 
 class ProtocolDocForm(forms.ModelForm):
     class Meta:
