@@ -52,6 +52,8 @@ STATICFILES_DIRS = (
                                  ),
                     )
 
+MEDIA_ROOT = '/Users/elin.axelsson/pytte/kopf/lookup/'
+MEDIA_URL = '/media/'
 
 #EMAIL_HOST = 'smtp.webfaction.com'
 #EMAIL_HOST_USER = 'maxmackie'
