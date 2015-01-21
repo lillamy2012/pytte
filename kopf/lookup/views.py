@@ -314,7 +314,7 @@ def upload_file(request):
     if request.method == "POST":
         form = ProtocolDocForm(request.POST, request.FILES)
         if form.is_valid():
-            os.remove(os.path.join('lookup/static/uploads/protocol',"%s.%s" % (kit_to_use.pk,"pdf")))
+            os.remove(os.path.join('static/protocol',"%s.%s" % (kit_to_use.pk,"pdf")))
             newlink = form.save(commit=False)
             newlink.kit = kit_to_use
             newlink.name = kit_to_use.pk
