@@ -166,7 +166,7 @@ class OutOfKitForm(ModelForm):
 def get_path_and_name(instance,filename):
     ext = filename.split('.')[-1]
     filename = "%s.%s" % (instance.name, ext)
-    return os.path.join('protocol', filename)
+    return os.path.join('static/protocol', filename)
 
 class UpdateKitForm(ModelForm):
     somefield = forms.CharField(
