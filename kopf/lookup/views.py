@@ -314,14 +314,17 @@ def upload_file(request):
     if request.method == "POST":
         form = ProtocolDocForm(request.POST, request.FILES)
         if form.is_valid():
-            os.remove(os.path.join('static/protocol',"%s.%s" % (kit_to_use.pk,"pdf")))
-            newlink = form.save(commit=False)
+	    try:
+            	os.remove(os.path.join('/var/www/django/sequencing/lookup/static/protocol',"%s.%s" % (kit_to_use.pk,"pdf")))
+            except:
+		pass
+	    newlink = form.save(commit=False)
             newlink.kit = kit_to_use
             newlink.name = kit_to_use.pk
             newlink.save()
             return redirect('/lookup/kits/')
         else:
-            return  HttpResponse("the file was not valid")
+            return  HttpResponse("file was not valid")
     else:
         form = ProtocolDocForm(instance=kit_to_use)
         return render_to_response('lookup/upload.html', {'form': form, 'pk' : pk }, context_instance=RequestContext(request))
