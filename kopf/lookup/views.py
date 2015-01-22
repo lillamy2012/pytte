@@ -312,8 +312,9 @@ def upload_file(request):
     if request.method == "POST":
         form = ProtocolDocForm(request.POST, request.FILES)
         if form.is_valid():
-	    try:
-            	os.remove(os.path.join('/Users/elin.axelsson/pytte/kopf/lookup/static/protocol',"%s.%s" % (kit_to_use.pk,"pdf")))
+            try:
+        #os.remove(os.path.join('/Users/elin.axelsson/pytte/kopf/lookup/static/protocol',"%s.%s" % (kit_to_use.pk,"pdf")))
+                os.remove(os.path.join('lookup/static/protocol',"%s.%s" % (kit_to_use.pk,"pdf")))
             except:
 		pass
 	    newlink = form.save(commit=False)
@@ -321,6 +322,7 @@ def upload_file(request):
             newlink.name = kit_to_use.pk
             newlink.save()
             return redirect('/lookup/kits/')
+    #return HttpResponse(os.getcwd())
         else:
             return  HttpResponse("file was not valid")
     else:
