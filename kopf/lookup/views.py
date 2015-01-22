@@ -252,11 +252,11 @@ def add(request):
         else:
             kit = cf.save(commit=False)
             kit.save()
+            send_mail('kit added to lab db', 'hello, this just to inform you that a kit has been added to the kit db', 'elinaxel@gmail.com', ['elin.axelsson@gmi.oeaw.ac.at'])
             prform = ProtocolDocForm(request.POST, request.FILES,prefix="proto")
             if prform.is_valid():
                 newlink = Protocol(kit=kit,doc = request.FILES['proto-doc'],name=kit.pk)
                 newlink.save()
-#send_mail('Subject here ADD', 'Here is the message.', 'elin.axelsson@gmi.oeaw.ac.at',['elinaxel@gmail.com'], fail_silently=False)
         return redirect('/lookup/add/')
     else:
         return render(request, 'lookup/add.html',{'form' : form , 'prform' : prform } )
@@ -277,6 +277,7 @@ def update(request):
         else:
             kit = form.save(commit=False)
             kit.save()
+            send_mail('kit in lab db updated', 'hello, this just to inform you that a kit has been updated to the kit db ', 'elinaxel@gmail.com', ['elin.axelsson@gmi.oeaw.ac.at'])
         return redirect('/lookup/kits/?type='+str(type))
     else:
         form = KitForm(instance=instance)
@@ -321,6 +322,7 @@ def upload_file(request):
             newlink.kit = kit_to_use
             newlink.name = kit_to_use.pk
             newlink.save()
+            send_mail('new protocol in lab db', 'hi, this just to inform you that a new protocol has been updated on the db', 'elinaxel@gmail.com', ['elin.axelsson@gmi.oeaw.ac.at'])
             return redirect('/lookup/kits/')
     #return HttpResponse(os.getcwd())
         else:
