@@ -5,7 +5,9 @@ from django import forms
 import uuid
 import os
 from django.core.exceptions import ValidationError
-
+from django.forms import widgets
+from django.forms import TextInput
+from django.forms import DateInput
 ###############
 ## Scientist
 ###############
@@ -157,22 +159,20 @@ class Kit(models.Model):
 class KitForm(ModelForm):
     class Meta:
         model = Kit
+        widgets = {
+            'location': TextInput(attrs={'placeholder' :'where is it kept?'}),
+            'name': TextInput(attrs={'placeholder' :'please choose an unique name'}),
+            'company': TextInput(attrs={'placeholder' :'selling company'}),
+            'comment': TextInput(attrs={'placeholder' :'add any additional info about kit'}),
+            'opened': DateInput(format=('%Y-%m-%d'),attrs={'placeholder' :'YYYY-MM-DD'}),
+}
 
-class OutOfKitForm(ModelForm):
-    class Meta:
-        model = Kit
-        fields = ['active']
 
 def get_path_and_name(instance,filename):
     ext = filename.split('.')[-1]
     filename = "%s.%s" % (instance.name, ext)
     return os.path.join('static/protocol', filename)
 
-class UpdateKitForm(ModelForm):
-    somefield = forms.CharField(
-    widget=forms.TextInput(attrs={'readonly':'readonly'}))
-    class Meta:
-        model = Kit
 
 def validate_file_extension(value):
     if not value.name.endswith('.pdf'):
@@ -189,4 +189,5 @@ class ProtocolDocForm(forms.ModelForm):
     class Meta:
         model=Protocol
         fields=('doc',)
+
 

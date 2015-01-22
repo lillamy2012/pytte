@@ -7,7 +7,7 @@ from django.forms.models import model_to_dict
 from django.template import RequestContext
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, render, redirect
-from lookup.models import Annotation, Project, Scientist, ProjectBlogg, CommentForm, Stats, Antibody, AntibodyForm, DeleteABForm, KitForm, Kit, OutOfKitForm, UpdateKitForm, ProtocolDocForm, Protocol
+from lookup.models import Annotation, Project, Scientist, ProjectBlogg, CommentForm, Stats, Antibody, AntibodyForm, DeleteABForm, KitForm, Kit, ProtocolDocForm, Protocol
 from itertools import chain
 from chartit import DataPool, Chart, PivotDataPool, PivotChart
 from django.db.models import Avg, Max, Count
@@ -125,18 +125,18 @@ def projects(request):
 ## Blog
 ########################
 ### will become projects and removed
-def blog(request):
-    pk = request.GET.get('project')
-    posts = Project.objects.all().order_by("-project_name")
-    paginator = Paginator(posts, 2)
-    try:
-        page = int(request.GET.get("page", '1'))
-    except ValueError: page = 1
-    try:
-        posts = paginator.page(page)
-    except (InvalidPage, EmptyPage):
-        posts = paginator.page(paginator.num_pages)
-    return render_to_response("lookup/blog.html", dict(posts=posts, user=request.user))
+#def blog(request):
+#   pk = request.GET.get('project')
+#   posts = Project.objects.all().order_by("-project_name")
+#   paginator = Paginator(posts, 2)
+#   try:
+#       page = int(request.GET.get("page", '1'))
+#   except ValueError: page = 1
+#   try:
+#       posts = paginator.page(page)
+#   except (InvalidPage, EmptyPage):
+#       posts = paginator.page(paginator.num_pages)
+#   return render_to_response("lookup/blog.html", dict(posts=posts, user=request.user))
 
 ###########################
 ## Project blog page
@@ -211,8 +211,6 @@ def add_ab(request):
     comment = cf.save(commit=False)
     comment.save()
     return(HttpResponseRedirect(reverse('lookup.views.abdb')))
-
-#def edit_ab(request,pk):
 
 def deleteAB(request,pk):
     ps = request.GET.get('antibody')
@@ -328,13 +326,6 @@ def upload_file(request):
     else:
         form = ProtocolDocForm(instance=kit_to_use)
         return render_to_response('lookup/upload.html', {'form': form, 'pk' : pk }, context_instance=RequestContext(request))
-
-def showproto(request):
-    pk = request.GET.get('pk')
-    kit_to_use = Kit.objects.get(pk=pk)
-    proto = Protocol.objects.filter(kit=kit_to_use)
-    ln = len( Protocol.objects.filter(kit=kit_to_use))
-    return render(request, 'lookup/showproto.html',{'link' :link, 'pk':pk, 'ln':ln})
 
 
 
