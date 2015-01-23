@@ -97,9 +97,7 @@ def scientists(request):
 
 def allsamples(request):
     RNA = serializers.serialize("python", Annotation.objects.filter(exptype="RNA-Seq"),fields=('sample','scientist','genotype'))
-    CHIP = serializers.serialize("python", Annotation.objects.filter(exptype="ChIP-Seq"),fields=('sample','scientist','antibody','genotype'))
-        #pr =  serializers.serialize("python",Project.objects.all(),fields=('samples'))
-
+    CHIP = serializers.serialize("python", Annotation.objects.filter(exptype="ChIP-Seq"),fields=('sample','scientist','antibody','genotype')
     pr = Project.objects.values_list('project_name').distinct()
     return render(request, 'lookup/allsamples.html',{'RNAanno': RNA,'ChipAnno': CHIP, 'Project': pr})
 
@@ -252,7 +250,7 @@ def add(request):
         else:
             kit = cf.save(commit=False)
             kit.save()
-            send_mail('kit added to lab db', 'hello, this just to inform you that a kit has been added to the kit db', 'elinaxel@gmail.com', ['elin.axelsson@gmi.oeaw.ac.at'])
+            send_mail('kit added to lab db', 'hello, this just to inform you that a kit named "%s" been added to the kit db' % (pk), 'elinaxel@gmail.com', ['elin.axelsson@gmi.oeaw.ac.at'])
             prform = ProtocolDocForm(request.POST, request.FILES,prefix="proto")
             if prform.is_valid():
                 newlink = Protocol(kit=kit,doc = request.FILES['proto-doc'],name=kit.pk)
@@ -277,7 +275,7 @@ def update(request):
         else:
             kit = form.save(commit=False)
             kit.save()
-            send_mail('kit in lab db updated', 'hello, this just to inform you that a kit has been updated to the kit db ', 'elinaxel@gmail.com', ['elin.axelsson@gmi.oeaw.ac.at'])
+            send_mail('kit in lab db updated', 'hello, this just to inform you that the kit "%s" has been updated to the kit db' % (pk), 'elinaxel@gmail.com', ['elin.axelsson@gmi.oeaw.ac.at'])
         return redirect('/lookup/kits/?type='+str(type))
     else:
         form = KitForm(instance=instance)
@@ -314,7 +312,6 @@ def upload_file(request):
         form = ProtocolDocForm(request.POST, request.FILES)
         if form.is_valid():
             try:
-        #os.remove(os.path.join('/Users/elin.axelsson/pytte/kopf/lookup/static/protocol',"%s.%s" % (kit_to_use.pk,"pdf")))
                 os.remove(os.path.join('lookup/static/protocol',"%s.%s" % (kit_to_use.pk,"pdf")))
             except:
 		pass
@@ -322,9 +319,9 @@ def upload_file(request):
             newlink.kit = kit_to_use
             newlink.name = kit_to_use.pk
             newlink.save()
-            send_mail('new protocol in lab db', 'hi, this just to inform you that a new protocol has been updated on the db', 'elinaxel@gmail.com', ['elin.axelsson@gmi.oeaw.ac.at'])
+            #a = "%s" %
+            send_mail('new protocol uploaded', 'hi, this just to inform you that kit "%s" has been assigned a new protocol in the lab db' % (pk), 'elinaxel@gmail.com', ['elin.axelsson@gmi.oeaw.ac.at'])
             return redirect('/lookup/kits/')
-    #return HttpResponse(os.getcwd())
         else:
             return  HttpResponse("file was not valid")
     else:
