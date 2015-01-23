@@ -97,7 +97,7 @@ def scientists(request):
 
 def allsamples(request):
     RNA = serializers.serialize("python", Annotation.objects.filter(exptype="RNA-Seq"),fields=('sample','scientist','genotype'))
-    CHIP = serializers.serialize("python", Annotation.objects.filter(exptype="ChIP-Seq"),fields=('sample','scientist','antibody','genotype')
+    CHIP = serializers.serialize("python", Annotation.objects.filter(exptype="ChIP-Seq"),fields=('sample','scientist','antibody','genotype'))
     pr = Project.objects.values_list('project_name').distinct()
     return render(request, 'lookup/allsamples.html',{'RNAanno': RNA,'ChipAnno': CHIP, 'Project': pr})
 
