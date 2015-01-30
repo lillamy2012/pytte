@@ -250,7 +250,7 @@ def add(request):
         else:
             kit = cf.save(commit=False)
             kit.save()
-            send_mail('kit added to lab db', 'hello, this just to inform you that a kit named "%s" been added to the kit db' % (pk), 'elinaxel@gmail.com', ['elin.axelsson@gmi.oeaw.ac.at'])
+            send_mail('kit added to lab db', 'hello, this just to inform you that a kit named "%s" been added to the kit db' % (kit.pk), 'elinaxel@gmail.com', ['elin.axelsson@gmi.oeaw.ac.at'])
             prform = ProtocolDocForm(request.POST, request.FILES,prefix="proto")
             if prform.is_valid():
                 newlink = Protocol(kit=kit,doc = request.FILES['proto-doc'],name=kit.pk)
