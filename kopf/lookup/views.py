@@ -219,6 +219,7 @@ def deleteAB(request,pk):
     return render(request, 'lookup/abdb.html', template_vars)
 
 ##############################################################################################
+#def send_update_mail(request):
 
 
 ##############################################################################################
@@ -275,7 +276,7 @@ def update(request):
         else:
             kit = form.save(commit=False)
             kit.save()
-            send_mail('kit in lab db updated', 'hello, this just to inform you that the kit "%s" has been updated to the kit db' % (pk), 'elinaxel@gmail.com', ['elin.axelsson@gmi.oeaw.ac.at'])
+            send_mail('kit in lab db updated', 'hello, this just to inform you that the kit "%s" has been updated in the kit db' % (pk), 'elinaxel@gmail.com', ['elin.axelsson@gmi.oeaw.ac.at'])
         return redirect('/lookup/kits/?type='+str(type))
     else:
         form = KitForm(instance=instance)

@@ -123,30 +123,30 @@ class Kit(models.Model):
     (Protein,'Protein'),
     (DeepSeq,'DeepSeq'),
     )
-    Polymerase = 'pol'
-    PCRpur='PCR'
+    Polymerase = 'Polymerase'
+    PCR_purification='PCR_purification'
     Plasmid='Plasmid'
     Gel='Gel'
     qPCR ='qPCR'
-    Pur = 'Pur'
-    RNAseq = 'Rsq'
-    ChIPseq = 'Csq'
+    Purification = 'Purification'
+    RNAseq = 'RNAseq'
+    ChIPseq = 'ChIpsq'
     Race = 'Race'
-    BIseq = 'Bsq'
+    BIseq = 'BIseq'
     subtype_choice = (
     (Polymerase,'Polymerase'),
-    (PCRpur,'PCR'),
+    (PCR_purification,'PCR_purification'),
     (Plasmid,'Plasmid'),
     (Gel,'Gel'),
     (qPCR,'qPCR'),
-    (Pur,'Rurification'),
+    (Purification,'Purification'),
     (RNAseq,'RNAseq'),
     (ChIPseq,'ChIPseq'),
     (BIseq,'BIseq'),
     (Race,'Race'),
     )
     kittype = models.CharField(max_length=10,choices=type_choice)
-    subtype = models.CharField(max_length=10,choices=subtype_choice)
+    subtype = models.CharField(max_length=20,choices=subtype_choice)
     comment = models.TextField(blank=True)
     name = models.CharField(max_length=60,primary_key=True)
     company = models.CharField(max_length=60)
