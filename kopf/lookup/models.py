@@ -128,22 +128,22 @@ class Kit(models.Model):
     Plasmid='Plasmid'
     Gel='Gel'
     qPCR ='qPCR'
-    RTPCR = 'RTPCR'
-    RNApur = 'Rpu'
+    Pur = 'Pur'
     RNAseq = 'Rsq'
     ChIPseq = 'Csq'
+    Race = 'Race'
     BIseq = 'Bsq'
     subtype_choice = (
     (Polymerase,'Polymerase'),
     (PCRpur,'PCR'),
     (Plasmid,'Plasmid'),
     (Gel,'Gel'),
-    (qPCR,'qPCA'),
-    (RTPCR,'RTPCR'),
-    (RNApur,'RNA purification'),
+    (qPCR,'qPCR'),
+    (Pur,'Rurification'),
     (RNAseq,'RNAseq'),
     (ChIPseq,'ChIPseq'),
     (BIseq,'BIseq'),
+    (Race,'Race'),
     )
     kittype = models.CharField(max_length=10,choices=type_choice)
     subtype = models.CharField(max_length=10,choices=subtype_choice)
