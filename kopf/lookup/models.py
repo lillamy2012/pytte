@@ -124,7 +124,6 @@ class Kit(models.Model):
     (DeepSeq,'DeepSeq'),
     )
     Polymerase = 'Polymerase'
-    PCR_purification='PCR_purification'
     Plasmid='Plasmid'
     Gel='Gel'
     qPCR ='qPCR'
@@ -133,9 +132,9 @@ class Kit(models.Model):
     ChIPseq = 'ChIpsq'
     Race = 'Race'
     BIseq = 'BIseq'
+    Restriction_enzyme = 'Restriction_enzyme'
     subtype_choice = (
     (Polymerase,'Polymerase'),
-    (PCR_purification,'PCR_purification'),
     (Plasmid,'Plasmid'),
     (Gel,'Gel'),
     (qPCR,'qPCR'),
@@ -144,6 +143,7 @@ class Kit(models.Model):
     (ChIPseq,'ChIPseq'),
     (BIseq,'BIseq'),
     (Race,'Race'),
+    (Restriction_enzyme,'Restriction_enzyme'),                      
     )
     kittype = models.CharField(max_length=10,choices=type_choice)
     subtype = models.CharField(max_length=20,choices=subtype_choice)
