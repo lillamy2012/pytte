@@ -251,7 +251,7 @@ def add(request):
         else:
             kit = cf.save(commit=False)
             kit.save()
-            send_mail('kit added to lab db', 'hello, this just to inform you that a kit named "%s" been added to the kit db' % (kit.pk), 'elinaxel@gmail.com', ['elin.axelsson@gmi.oeaw.ac.at'])
+           # send_mail('kit added to lab db', 'hello, this just to inform you that a kit named "%s" been added to the kit db' % (kit.pk), 'elinaxel@gmail.com', ['elin.axelsson@gmi.oeaw.ac.at'])
             prform = ProtocolDocForm(request.POST, request.FILES,prefix="proto")
             if prform.is_valid():
                 newlink = Protocol(kit=kit,doc = request.FILES['proto-doc'],name=kit.pk)
@@ -276,7 +276,7 @@ def update(request):
         else:
             kit = form.save(commit=False)
             kit.save()
-            send_mail('kit in lab db updated', 'hello, this just to inform you that the kit "%s" has been updated in the kit db' % (pk), 'elinaxel@gmail.com', ['elin.axelsson@gmi.oeaw.ac.at'])
+            #send_mail('kit in lab db updated', 'hello, this just to inform you that the kit "%s" has been updated in the kit db' % (pk), 'elinaxel@gmail.com', ['elin.axelsson@gmi.oeaw.ac.at'])
         return redirect('/lookup/kits/?type='+str(type))
     else:
         form = KitForm(instance=instance)
@@ -313,7 +313,7 @@ def upload_file(request):
         form = ProtocolDocForm(request.POST, request.FILES)
         if form.is_valid():
             try:
-                os.remove(os.path.join('/var/www/django/sequencing/pytte/lookup/static/protocol',"%s.%s" % (kit_to_use.pk,"pdf")))
+                os.remove(os.path.join('/var/www/django/sequencing/pytte/kopf/lookup/static/protocol',"%s.%s" % (kit_to_use.pk,"pdf")))
             except:
 		pass
 	    newlink = form.save(commit=False)
@@ -321,7 +321,7 @@ def upload_file(request):
             newlink.name = kit_to_use.pk
             newlink.save()
             #a = "%s" %
-            send_mail('new protocol uploaded', 'hi, this just to inform you that kit "%s" has been assigned a new protocol in the lab db' % (pk), 'elinaxel@gmail.com', ['elin.axelsson@gmi.oeaw.ac.at'])
+            #send_mail('new protocol uploaded', 'hi, this just to inform you that kit "%s" has been assigned a new protocol in the lab db' % (pk), 'elinaxel@gmail.com', ['elin.axelsson@gmi.oeaw.ac.at'])
             return redirect('/lookup/kits/')
         else:
             return  HttpResponse("file was not valid")
