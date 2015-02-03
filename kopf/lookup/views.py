@@ -313,7 +313,7 @@ def upload_file(request):
         form = ProtocolDocForm(request.POST, request.FILES)
         if form.is_valid():
             try:
-                os.remove(os.path.join('lookup/static/protocol',"%s.%s" % (kit_to_use.pk,"pdf")))
+                os.remove(os.path.join('/var/www/django/sequencing/pytte/lookup/static/protocol',"%s.%s" % (kit_to_use.pk,"pdf")))
             except:
 		pass
 	    newlink = form.save(commit=False)

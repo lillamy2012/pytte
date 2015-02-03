@@ -28,7 +28,7 @@ TEMPLATE_DIRS = (
                  # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
                  # Always use forward slashes, even on Windows.
                  # Don't forget to use absolute paths, not relative paths.
-                 '/Users/elin.axelsson/pytte/kopf/templates/',
+                 '/var/www/django/sequencing/templates/'
                  )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -45,22 +45,16 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 STATICFILES_DIRS = (
                     # Put strings here, like "/home/html/static" or "C:/www/django/static".
                     # Always use forward slashes, even on Windows.
-                    # Don't forget to use absolute paths, not relative paths.\
-                    os.path.join(
-                                 os.path.dirname(__file__),
-                                 'static',
-                                 ),
-                    )
+                    # Don't forget to use absolute paths, not relative paths.
+                    
 
-MEDIA_ROOT = '/Users/elin.axelsson/pytte/kopf/lookup/'
+                                
+
+                    "/var/www/django/sequencing/pytte/kopf/lookup/static",)
+
+
+MEDIA_ROOT = '/var/www/django/sequencing/pytte/kopf/lookup/'
 MEDIA_URL = '/media/'
-
-
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = "elinaxel@gmail.com"
-EMAIL_HOST_PASSWORD = "ein99stein"
-EMAIL_PORT = 587
 
 ALLOWED_HOSTS = []
 
@@ -90,9 +84,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'kopf.urls'
+ROOT_URLCONF = 'sequencing.urls'
 
-WSGI_APPLICATION = 'kopf.wsgi.application'
+WSGI_APPLICATION = 'sequencing.wsgi.application'
 
 
 # Database
