@@ -108,7 +108,7 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
-DEFAULT_CHARSET = 'UTF-8'
+#DEFAULT_CHARSET = 'UTF-8'
 
 LANGUAGE_CODE = 'en-us'
 

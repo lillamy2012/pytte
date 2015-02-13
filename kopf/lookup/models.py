@@ -90,18 +90,40 @@ class CommentForm(ModelForm):
 # Antibody list
 ################
 class Antibody(models.Model):
-    antibody = models.CharField(max_length=60)
-    comment = models.TextField()
-    source = models.CharField(max_length=60)
+    antigen_used = models.CharField(max_length=60,blank=True)
+    antibody = models.CharField(max_length=20)
+    source = models.CharField(max_length=20)
+    concentration = models.FloatField(blank=True,null=True)
+    ig_type = models.CharField(max_length=10,blank=True)
+    dilution_western = models.FloatField(blank=True,null=True)
+    secondary_western = models.CharField(max_length=40)
+    protein_size = models.CharField(blank=True,max_length=30)
+    company = models.CharField(blank=True,max_length=60)
+    location_work = models.CharField(max_length=40)
+    location_storage = models.CharField(max_length=40)
+    comment = models.TextField(blank=True)
     active = models.BooleanField(default=True)
-   
-    def __unicode__(self):
-        return unicode("%s: %s" % (self.antibody, self.comment[:60]))
 
 
 class AntibodyForm(ModelForm):
     class Meta:
         model = Antibody
+        widgets = {
+            'location_work': TextInput(attrs={'placeholder' :'where is the open tube kept?'}),
+            'location_storage': TextInput(attrs={'placeholder' :'where is the stock stored?'}),
+            'name': TextInput(attrs={'placeholder' :'please choose an unique name'}),
+            'company': TextInput(attrs={'placeholder' :'selling company'}),
+            'comment': TextInput(attrs={'placeholder' :'add any additional info about antibody'}),
+            'antibody': TextInput(attrs={'placeholder' :'Antibody against?'}),
+            'source': TextInput(attrs={'placeholder' :'e.g. "mouse mAb"'}),
+            'antigen_used':TextInput(attrs={'placeholder' :'peptide, whole protein or domain'}),
+            'protein_size': TextInput(attrs={'placeholder' :'e.g. "25 kDa"'}),
+            'secondary_western': TextInput(attrs={'placeholder' :'e.g. "goat anti rabbit IgG 1000X" '}),
+            'dilution_western': TextInput(attrs={'placeholder' :'e.g. "250" '}),
+            'concentration': TextInput(attrs={'placeholder' :'e.g. "1 mg/ml" '}),
+            'ig_type': TextInput(attrs={'placeholder' :'e.g. "ND"'}),
+}
+
 
 
 class DeleteABForm(ModelForm):

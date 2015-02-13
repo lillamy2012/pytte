@@ -197,26 +197,44 @@ def sample_zero_view(request):
 ################################################
 ## abdb
 
-def abdb(request):
-    abdb = serializers.serialize("python", Antibody.objects.all(),fields=('antibody','source','comment'))
-    form = AntibodyForm()
-    return render(request, 'lookup/abdb.html',{'Antibody' : abdb , 'form': form})
+
+def antibody(request):
+    #sample_type = request.GET.get('type')
+    #proto = serializers.serialize("python",Protocol.objects.all())
+    #if not sample_type or sample_type == 'None':
+    antibody = serializers.serialize("python",Antibody.objects.filter(active=True))
+        #else:
+        #if sample_type=="inact":
+        #   kits = serializers.serialize("python",Kit.objects.filter(active=False))
+        #else:
+        #kits = serializers.serialize("python",Kit.objects.filter(kittype=sample_type,active=True))
+    return render(request, 'lookup/antibody.html',{'Antibody' : antibody }) #, 'type' : sample_type, 'proto' : proto})
 
 
-def add_ab(request):
-    p = request.POST
-    cf = AntibodyForm(p)
-    comment = cf.save(commit=False)
-    comment.save()
-    return(HttpResponseRedirect(reverse('lookup.views.abdb')))
+def addab(request):
+    form = AntibodyForm(initial={'antibody-active':True },prefix="antibody")
+    #prform = ProtocolDocForm(prefix="proto")
+    if request.method == "POST":
+        cf = AntibodyForm(request.POST,prefix="antibody")
+        val = cf.is_valid()
+        if val == False:
+            return HttpResponse("Some of the data is not valid. Maybe the date is not in the correct format (YYYY-MM-DD) or you have used the same name as an existing kit. The date can be corrected by using the browser's back arrow. If you want to edit an existing kit please do this using the 'edit kit' link in the kit overview list ")
+        else:
+            anti = cf.save(commit=False)
+            antisave()
+            #send_mail('kit added to lab db', 'hello, this just to inform you that a kit named "%s" been added to the kit db' % (kit.pk), 'elinaxel@gmail.com', ['elin.axelsson@gmi.oeaw.ac.at'])
+            #prform = ProtocolDocForm(request.POST, request.FILES,prefix="proto")
+            #if prform.is_valid():
+            #   newlink = Protocol(kit=kit,doc = request.FILES['proto-doc'],name=kit.pk)
+            #   newlink.save()
+        return redirect('/lookup/addab/')
+    else:
+        return render(request, 'lookup/addab.html',{'form' : form } )
 
-def deleteAB(request,pk):
-    ps = request.GET.get('antibody')
-    ab_to_remove = Antibody.objects.get(pk=pk)
-    form = DeleteABForm(request.POST, instance=ab_to_remove)
-    form.save()
-    template_vars = {'form': form}
-    return render(request, 'lookup/abdb.html', template_vars)
+
+
+
+
 
 ##############################################################################################
 #def send_update_mail(request):
