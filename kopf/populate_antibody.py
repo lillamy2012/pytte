@@ -11,7 +11,7 @@ def read():
         if not match:
            
             data = line.split('\t')
-            print data
+            #print data
             ab = data[0]
             sr = data[1]
             con = data[2]
@@ -42,7 +42,7 @@ def read():
             else:
                 dil=None
                 print dil
-            print com
+            #print com
             add_antibody(antibody=ab,source=sr,ig_type=ig,dilution_western=dil,secondary_western=sec,location_work=loc,location_storage="",comment="",active=True,antigen_used="",company=com,protein_size=siz)
             
         if match:
@@ -79,7 +79,7 @@ def read2():
             loc2 = data[8]
             com =  data[9]
             #print lo
-            print dil
+            #print dil
 
             add_antibody(antibody=ab,source=sr,ig_type=ig,dilution_western=dil,secondary_western=sec,location_work=loc1,location_storage=loc2,comment=com,active=True,antigen_used=ag,company="",protein_size=siz)
         

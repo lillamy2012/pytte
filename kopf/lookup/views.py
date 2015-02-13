@@ -29,7 +29,10 @@ def index(request):
     nkitt= len(Kit.objects.values_list('name').distinct().filter(active=True))
     nkitf= len(Kit.objects.values_list('name').distinct().filter(active=False))
     
-    context_dict = {'scientist':nscient,'samples':nsamples,'projects':nproj, 'nkitt': nkitt , 'nkitf': nkitf }
+    nantit = len(Antibody.objects.filter(active=True))
+    nantif = len(Antibody.objects.filter(active=False))
+                 
+    context_dict = {'scientist':nscient,'samples':nsamples,'projects':nproj, 'nkitt': nkitt , 'nkitf': nkitf ,'nantit': nantit, 'nantif' : nantif}
     return render_to_response('lookup/index.html', context_dict, context)
 
 ######################
@@ -199,16 +202,18 @@ def sample_zero_view(request):
 
 
 def antibody(request):
-    #sample_type = request.GET.get('type')
+    sample_type = request.GET.get('type')
     #proto = serializers.serialize("python",Protocol.objects.all())
-    #if not sample_type or sample_type == 'None':
-    antibody = serializers.serialize("python",Antibody.objects.filter(active=True))
-        #else:
-        #if sample_type=="inact":
-        #   kits = serializers.serialize("python",Kit.objects.filter(active=False))
-        #else:
-        #kits = serializers.serialize("python",Kit.objects.filter(kittype=sample_type,active=True))
-    return render(request, 'lookup/antibody.html',{'Antibody' : antibody }) #, 'type' : sample_type, 'proto' : proto})
+    if not sample_type or sample_type == 'None':
+        antibody = serializers.serialize("python",Antibody.objects.filter(active=True))
+    else:
+        if sample_type=="inact":
+           antibody = serializers.serialize("python",Antibody.objects.filter(active=False))
+        if sample_type=="com":
+            antibody = serializers.serialize("python",Antibody.objects.exclude(company__isnull=True).exclude(company__exact=''))
+        if sample_type=="home":
+            antibody = serializers.serialize("python",Antibody.objects.filter(company__exact=''))
+    return render(request, 'lookup/antibody.html',{'Antibody' : antibody, 'type' : sample_type}) #, 'proto' : proto})
 
 
 def addab(request):
@@ -218,7 +223,7 @@ def addab(request):
         cf = AntibodyForm(request.POST,prefix="antibody")
         val = cf.is_valid()
         if val == False:
-            return HttpResponse("Some of the data is not valid. Maybe the date is not in the correct format (YYYY-MM-DD) or you have used the same name as an existing kit. The date can be corrected by using the browser's back arrow. If you want to edit an existing kit please do this using the 'edit kit' link in the kit overview list ")
+            return HttpResponse("Some of the data is not valid. The data can be corrected by using the browser's back arrow. If you want to edit an existing antibody please do this using the 'edit antibody' link in the kit overview list ")
         else:
             anti = cf.save(commit=False)
             antisave()

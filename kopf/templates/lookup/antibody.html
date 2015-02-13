@@ -10,10 +10,10 @@
 </head>
 <div class="container">
     <h2>Antibody collection</h2>
-    <a class="btn btn-primary" href="/lookup/kits/?type=RNA" role="button">Commercial</a>
-    <a class="btn btn-primary" href="/lookup/kits/?type=DNA" role="button">Home made</a>
-    <a class="btn btn-warning" href="/lookup/kits/" role="button">All active</a>
-    <a class="btn btn-danger" href="/lookup/kits/?type=inact" role="button">Removed</a>
+    <a class="btn btn-primary" href="/lookup/antibody/?type=com" role="button">Commercial</a>
+    <a class="btn btn-primary" href="/lookup/antibody/?type=home" role="button">Home made</a>
+    <a class="btn btn-warning" href="/lookup/antibody" role="button">All active</a>
+    <a class="btn btn-danger" href="/lookup/antibody/?type=inact" role="button">Removed</a>
     {% if type == "None" or not type %}
     <h4>Showing all active samples</h4>
     {% elif type == "inact" %}
