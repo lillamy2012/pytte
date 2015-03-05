@@ -1,1 +1,21 @@
-Antibody	Source	Antigene used (peptide, whole protein or domain)	Ig type	Dilution/Western	Secondary/Western	Protein size	Place to find it (working)	Place to find it (stock)	CommentHTB1	mouse - monoclonal	KTAAERPVEENKAAEKA 	ND	3000 X	goat anti mouse IgG 10,000X	~ 16 kDa		-80 freezer	Specific antibodyHTB2	rabbit - affinity purified	KPAEKTPAAEPAA   	ND	3000 X	goat anti rabbit IgG 10,000X	~ 16 kDa		-80 freezer	Specific antibodyHTB3	rabbit - affinity purified	KPAEKAPAEEEKVAEKA	ND	3000 X	goat anti rabbit IgG 10,000X	~ 16 kDa		-80 freezer	Specific antibody"HTB4;9;11"	rabbit - affinity purified	KPASEKPVEEKSKAEKA	ND	3000 X	goat anti rabbit IgG 10,000X	~ 16 kDa		-80 freezer	recognizes HTB4, HTB9 and HTB11									
+Antibody	Source	Concentration	Ig type	Dilution/Western		Secondary/Western			Protein size		Ordering	Place to find it
+RNA pol II, 8WG16	mouse mAb		IgG2a	1000 X	goat anti mouse IgG 10000	200-220 kDa	Covance MMS-126R	Freezer #1, drower 5
+CTD Pol II Ser2, H5	mouse mAb		IgM	1000 X	goat anti mouse IgM 10000	200-220 kDa	Covance MMS-129R	Freezer #1, drower 5
+CTD Pol II Ser5, H14	mouse mAb		IgM	1000 X	goat anti mouse IgM 10000	200-220 kDa	Covance MMS-134R	Freezer #1, drower 5
+CTD RNA pol II, 4H8 	mouse mAb		IgG1	2000 X	goat anti mouse IgG 10000	200-220 kDa	Millipore 05-623	Freezer #1, drower 5
+PSTAIR Cdc2	mouse mAb		IgG1	1000 X	goat anti mouse IgG 10000	~34 kDa	Sigma P7962	Freezer #1, drower 5
+Cdc2 Tyr15-PO4	mouse mAb		IgG	1000 X	goat anti mouse IgG 10000	~34 kDa	NEB 9111	Freezer #1, drower 5
+Tubulin	mouse mAb		IgG1	1000 X	goat anti mouse IgG 10000	~50 kDa	Sigma T6199	Freezer #1, drower 5
+FLAG M2	mouse mAb	1 mg/ml	IgG1	5000 X	goat anti mouse IgG 10000		Sigma F3165	Freezer #1, drower 5
+HA high affinity (3F10)	rat mAb	0.1 mg/ml	IgG1	2000 X	goat anti rat IgG 10000		Roche 11867423001	Freezer #1, drower 5
+GFP/YFP/CFP (7.1&13.1)	mouse mAb	0.4 mg/ml	IgG1_	1000 X	goat anti mouse IgG 10000	~27 kDa	Roche 11814460001	Freezer #1, drower 5
+Myc	mouse mAb		IgG1_	500 X	goat anti mouse IgG 10000		Roche 11667149001	Freezer #1, drower 5
+H3	rabbit pAb	1 mg/ml	IgG	2000 X	goat anti rabbit IgG 10000	15-17 kDa	Abcam ab1791	"Freezer #1, drower 5; 10 microl aliquotes"
+H3K4me3	rabbit pAb	1.3 mg/ml	IgG2b	1000 X	goat anti rabbit IgG 10000	15-17 kDa	Abcam ab8580	"Freezer #1, drower 5; 10 microl aliquotes"
+H3K9me2	mouse mAb	1 mg/ml	IgG	1000 X	goat anti mouse IgG 10000	15-17 kDa	Abcam ab1220	"Freezer #1, drower 5; 10 microl aliquotes"
+H3K9me1	rabbit pAb	1 mg/ml		2000 X	goat anti rabbit IgG 10000	15-17 kDa	Abcam ab9045	"Freezer #1, drower 5; 10 microl aliquotes"
+H3K36me3	rabbit pAb	1 mg/ml		1000 X	goat anti rabbit IgG 10000	15-17 kDa	Abcam ab9050	"Freezer #1, drower 5; 10 microl aliquotes"
+H3K27me1	rabbit pAb	1 mg/ml		1000 X	goat anti rabbit IgG 10000	15-17 kDa	Millipore 17-643	"Freezer #1, drower 5; 10 microl aliquotes"
+H3K9K14Ac	rabbit pAb	1 mg/ml		1000 X	goat anti rabbit IgG 10000	~17 kDa	Millipore 17-615	"Freezer #1, drower 5; 10 microl aliquotes"
+H3K27me3	rabbit pAb	1 mg/ml		1000 X	goat anti rabbit IgG 10000	~17 kDa		"Freezer #1, drower 5; 10 microl aliquotes"
+H4K20me	rabbit pAb	1 mg/ml			goat anti rabbit IgG 10000	~11 kDa	Abcam ab9051	"Freezer #1, drower 5; 10 microl aliquotes"
