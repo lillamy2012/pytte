@@ -28,6 +28,9 @@ urlpatterns = patterns('',
         url(r'^removekit/$',views.removekit, name='removekit'),
         url(r'^reactkit/(?P<pk>.*)$',views.reactkit, name='reactkit'),
         url(r'^update/$',views.update, name='update'),
-        url(r'^upload_file/$',views.upload_file, name='upload_file')
+        url(r'^upload_file/$',views.upload_file, name='upload_file'),
+        url(r'^updateab/$',views.updateab, name='updateab'),
+        url(r'^reactanti/(?P<pk>.*)$',views.reactanti, name='reactanti'),
+        url(r'^inactanti/$',views.inactanti, name='inactanti')
 
         )

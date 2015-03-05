@@ -100,7 +100,7 @@ class Antibody(models.Model):
     protein_size = models.CharField(blank=True,max_length=30)
     company = models.CharField(blank=True,max_length=60)
     location_work = models.CharField(max_length=40)
-    location_storage = models.CharField(max_length=40)
+    location_storage = models.CharField(max_length=40,blank=True)
     comment = models.TextField(blank=True)
     active = models.BooleanField(default=True)
 

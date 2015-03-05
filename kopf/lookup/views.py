@@ -237,6 +237,44 @@ def addab(request):
         return render(request, 'lookup/addab.html',{'form' : form } )
 
 
+#Make antibody inactive (eg, not currently availible)
+
+def inactanti(request):
+    pk = request.GET.get('pk')
+    type = request.GET.get('type')
+    anti_to_inactivate = Antibody.objects.get(pk=pk)
+    anti_to_inactivate.active = False
+    anti_to_inactivate.save()
+    # email
+    return redirect('/lookup/antibody/?type='+str(type))
+
+#Make kit active (eg, new order recieved)
+
+def reactanti(request,pk):
+    anti_to_activate = Antibody.objects.get(pk=pk)
+    anti_to_activate.active = True
+    anti_to_activate.save()
+    # email
+    return redirect('/lookup/antibody/?type=inact')
+
+
+def updateab(request):
+    pk = request.GET.get('pk')
+    type = request.GET.get('type')
+    instance = Antibody.objects.get(pk=pk)
+    if request.method == "POST":
+        form = AntibodyForm(request.POST, instance=instance)
+        val = form.is_valid()
+        if val == False:
+            return HttpResponse("Some of the data is not valid, please go back (use the browser's back arrow) and correct it. ")
+        else:
+            anti = form.save(commit=False)
+            anti.save()
+            send_mail('kit in lab db updated', 'hello, this just to inform you that the kit "%s" has been updated in the kit db' % (pk), 'elinaxel@gmail.com', ['elin.axelsson@gmi.oeaw.ac.at'])
+        return redirect('/lookup/antibody/?type='+str(type))
+    else:
+        form = AntibodyForm(instance=instance)
+        return render(request, 'lookup/updateab.html',{'form' : form , 'pk' :pk, 'type' : type })
 
 
 
@@ -327,6 +365,8 @@ def reactkit(request,pk):
 
 
 ##############################################################################################
+
+
 
 
 def upload_file(request):

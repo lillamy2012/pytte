@@ -34,7 +34,12 @@
                 <th>Company</th>
                 <th>Location working</th>
                 <th>Location storage</th>
+		{% if type == "inact" %}
+		<th> Reactivate</th>
+		{% else %}
+		<th> Inactivate</th>
                 <th>Edit antibody</th>
+		{% endif %}               
                         </tr>
         </thead>
         <tbody>
@@ -53,19 +58,20 @@
                 <td> {{ instance.fields.company }}</td>
                 <td> {{ instance.fields.location_work }}</td>
                 <td> {{ instance.fields.location_storage }}</td>
-                
                 {% if type == "inact" %}
-                <td><a href='/lookup/reactkitab/{{ instance.pk }}'> <i class="icon-plus"></i></a></td>
-                {% else %}
-                <td><a href='/lookup/updateab/?pk={{ instance.pk }}&type={{ type }}'><i class="icon-pencil"></i></a></td>
-                {% endif %}
+		<td><a href='/lookup/reactanti/{{ instance.pk }}'> <i class="icon-plus"></i></a></td>
+		{% else %}
+		<td><a href='/lookup/inactanti/?pk={{ instance.pk }}&type={{ type }}'><i class="icon-minus"></i></a></td>
+		<td><a href='/lookup/updateab/?pk={{ instance.pk }}&type={{ type }}'><i class="icon-pencil"></i></a></td>
+		{% endif %}
+  
                 {% endfor %}
                 <tbody>
                     </table>
     
     
     
-    <h3>Manage kit database</h3>
+    <h3>Manage antibody database</h3>
     <a class="btn btn-success" href="/lookup/addab" role="button">Add new antibody</a>
     
     
