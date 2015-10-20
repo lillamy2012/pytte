@@ -24,7 +24,7 @@ urlpatterns = patterns('',
                        #url(r'^add_ab/$',views.add_ab, name='add_ab'),
                        #url(r'^deleteAB/(?P<pk>.*)$',views.deleteAB, name='remove_ab'),
         url(r'^kits/$', views.kit, name='kit'),
-        url(r'^add/$',views.add, name='add'),
+                       #url(r'^add/$',views.add, name='add'),
         url(r'^removekit/$',views.removekit, name='removekit'),
         url(r'^reactkit/(?P<pk>.*)$',views.reactkit, name='reactkit'),
         url(r'^update/$',views.update, name='update'),
@@ -32,5 +32,6 @@ urlpatterns = patterns('',
         url(r'^updateab/$',views.updateab, name='updateab'),
         url(r'^reactanti/(?P<pk>.*)$',views.reactanti, name='reactanti'),
         url(r'^inactanti/$',views.inactanti, name='inactanti')
-
+        
+                       
         )

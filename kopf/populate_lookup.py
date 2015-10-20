@@ -36,11 +36,16 @@ def add_project(scientist, project_name,sampleL):
     obj.samples=sampleL
     return(obj)
 
+def populate_path():
 
+    data= open('bam_anno.tab', 'r')
+    for line in data:
+        obj, created = Path.objects.get_or_create(sample = line.split()[2],raw =  line.split()[0])
 
 if __name__ == '__main__':
     print "Starting Lookup population script..."
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'kopf.settings')
     from lookup.models import Annotation, Scientist, Project
     import json
-    populate()
+    #populate()
+    populate_path()

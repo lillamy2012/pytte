@@ -1,0 +1,25 @@
+{% extends 'lookup/base.html' %}
+
+
+
+{% block body_block %}
+<div class="container">
+<h3> Add new antibody </h3>
+
+
+<form action="" method="post" name="form">{% csrf_token %}
+ {{ form.name }}
+  {{ form.title }}
+  {{ form.errors }}
+  {{ form.non_field_errors }}
+  
+  </form>
+
+    <p>
+    <p>
+ 
+
+</div>
+</div>
+
+{% endblock %}
