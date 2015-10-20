@@ -50,6 +50,12 @@ class Stats(models.Model):
     totReads = models.IntegerField()
     maxReads = models.IntegerField()
 
+###################
+## Paths (sample)
+#class Path(models.Model):
+#   sample = models.ForeignKey(Annotation)
+#   raw = models.CharField()
+#   align = models.CharField()
 
 ################
 ## Project
@@ -93,10 +99,10 @@ class Antibody(models.Model):
     antigen_used = models.CharField(max_length=60,blank=True)
     antibody = models.CharField(max_length=20)
     source = models.CharField(max_length=20)
-    concentration = models.FloatField(blank=True,null=True)
+    concentration = models.CharField(blank=True,null=True,max_length=20)
     ig_type = models.CharField(max_length=10,blank=True)
     dilution_western = models.FloatField(blank=True,null=True)
-    secondary_western = models.CharField(max_length=40)
+    secondary_western = models.CharField(max_length=40,blank=True)
     protein_size = models.CharField(blank=True,max_length=30)
     company = models.CharField(blank=True,max_length=60)
     location_work = models.CharField(max_length=40)
@@ -111,7 +117,7 @@ class AntibodyForm(ModelForm):
         widgets = {
             'location_work': TextInput(attrs={'placeholder' :'where is the open tube kept?'}),
             'location_storage': TextInput(attrs={'placeholder' :'where is the stock stored?'}),
-            'name': TextInput(attrs={'placeholder' :'please choose an unique name'}),
+            #'name': TextInput(attrs={'placeholder' :'please choose an unique name'}),
             'company': TextInput(attrs={'placeholder' :'selling company'}),
             'comment': TextInput(attrs={'placeholder' :'add any additional info about antibody'}),
             'antibody': TextInput(attrs={'placeholder' :'Antibody against?'}),
@@ -119,7 +125,7 @@ class AntibodyForm(ModelForm):
             'antigen_used':TextInput(attrs={'placeholder' :'peptide, whole protein or domain'}),
             'protein_size': TextInput(attrs={'placeholder' :'e.g. "25 kDa"'}),
             'secondary_western': TextInput(attrs={'placeholder' :'e.g. "goat anti rabbit IgG 1000X" '}),
-            'dilution_western': TextInput(attrs={'placeholder' :'e.g. "250" '}),
+            'dilution_western': TextInput(attrs={'placeholder' :'numeric value e.g. 250 '}),
             'concentration': TextInput(attrs={'placeholder' :'e.g. "1 mg/ml" '}),
             'ig_type': TextInput(attrs={'placeholder' :'e.g. "ND"'}),
 }

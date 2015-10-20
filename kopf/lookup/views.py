@@ -223,10 +223,13 @@ def addab(request):
         cf = AntibodyForm(request.POST,prefix="antibody")
         val = cf.is_valid()
         if val == False:
-            return HttpResponse("Some of the data is not valid. The data can be corrected by using the browser's back arrow. If you want to edit an existing antibody please do this using the 'edit antibody' link in the kit overview list ")
+            #return HttpResponse({)
+            #return redirect('/lookup/addab/')
+            return render(request, 'lookup/valab.html',{'form' : cf } )
+        #return render(request, 'lookup/valab.html',{'form' : form })
         else:
             anti = cf.save(commit=False)
-            antisave()
+            anti.save()
             #send_mail('kit added to lab db', 'hello, this just to inform you that a kit named "%s" been added to the kit db' % (kit.pk), 'elinaxel@gmail.com', ['elin.axelsson@gmi.oeaw.ac.at'])
             #prform = ProtocolDocForm(request.POST, request.FILES,prefix="proto")
             #if prform.is_valid():
@@ -267,10 +270,11 @@ def updateab(request):
         val = form.is_valid()
         if val == False:
             return HttpResponse("Some of the data is not valid, please go back (use the browser's back arrow) and correct it. ")
+
         else:
             anti = form.save(commit=False)
             anti.save()
-            send_mail('kit in lab db updated', 'hello, this just to inform you that the kit "%s" has been updated in the kit db' % (pk), 'elinaxel@gmail.com', ['elin.axelsson@gmi.oeaw.ac.at'])
+        #send_mail('kit in lab db updated', 'hello, this just to inform you that the kit "%s" has been updated in the kit db' % (pk), 'elinaxel@gmail.com', ['elin.axelsson@gmi.oeaw.ac.at'])
         return redirect('/lookup/antibody/?type='+str(type))
     else:
         form = AntibodyForm(instance=instance)
@@ -376,7 +380,7 @@ def upload_file(request):
         form = ProtocolDocForm(request.POST, request.FILES)
         if form.is_valid():
             try:
-                os.remove(os.path.join('/var/www/django/sequencing/pytte/kopf/lookup/static/protocol/',"%s.%s" % (kit_to_use.pk,"pdf")))
+                os.remove(os.path.join('lookup/static/protocol',"%s.%s" % (kit_to_use.pk,"pdf")))
             except:
 		pass
 	    newlink = form.save(commit=False)
