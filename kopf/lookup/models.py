@@ -31,6 +31,8 @@ class Annotation(models.Model):
     celltype = models.CharField(max_length=20)
     antibody = models.CharField(max_length=20)
     exptype = models.CharField(max_length=20)
+    raw = models.CharField(max_length=200,blank=True)
+    align = models.CharField(max_length=200,null=True)
 
     def __unicode__(self):
         return self.sample
