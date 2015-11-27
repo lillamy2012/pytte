@@ -198,7 +198,7 @@ def sample_zero_view(request):
 ################################################
 ################################################
 def seed(request):
-    seedentry = len(Seed.objects.all())
+    seedentry = serializers.serialize("python",Seed.objects.all())
     return render(request, 'lookup/seed.html',{'Seeds' : seedentry})
 
 

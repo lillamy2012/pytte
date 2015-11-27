@@ -11,12 +11,15 @@
 </head>
 <div class="container">
     <h2>Seed collection</h2>
-    <a class="btn btn-primary" href="/lookup/kits/?type=RNA" role="button">RNA</a>
-    <a class="btn btn-primary" href="/lookup/kits/?type=DNA" role="button">DNA</a>
-    <a class="btn btn-primary" href="/lookup/kits/?type=Protein" role="button">Protein</a>
-    <a class="btn btn-primary" href="/lookup/kits/?type=DeepSeq" role="button">DeepSeq</a>
-    <a class="btn btn-warning" href="/lookup/kits/" role="button">All active</a>
-    <a class="btn btn-danger" href="/lookup/kits/?type=inact" role="button">Removed</a>
+    <a class="btn btn-danger" href="/lookup/kits/?type=DeepSeq" role="button">All</a>
+    <a class="btn btn-warning" href="/lookup/kits/?type=RNA" role="button">WT</a>
+    <a class="btn btn-warning" href="/lookup/kits/" role="button">1st mutant</a>
+    <a class="btn btn-warning" href="/lookup/kits/" role="button">1st transform</a>
+    <a class="btn btn-primary" href="/lookup/kits/?type=DNA" role="button">1st generation</a>
+    <a class="btn btn-primary" href="/lookup/kits/?type=Protein" role="button">2nd generation</a>  
+    <a class="btn btn-primary" href="/lookup/kits/?type=Protein" role="button">Later generations</a>  
+    
+  
     {% if type == "None" or not type %}
     <h4>Showing all active samples</h4>
     {% elif type == "inact" %}
@@ -27,22 +30,17 @@
 <table id="tablesorter-demo"  class="tablesorter" border="0" cellpadding="0" cellspacing="1">
         <thead>
             <tr>
-                <th>Kit type</th>
-                <th>Sub type</th>
-                <th>Name</th>
-                <th>Company</th>
+                <th>Type</th>
+                <th>Line</th>
                 <th>Location</th>
-                <th>In stock</th>
-                <th>Opened at</th>
-                <th>Comment</th>
-		{% if type == "inact" %}
-		<th> Reactivate</th>
-		{% else %}
-		<th> Inactivate</th>
-                <th>Edit kit</th>
-		{% endif %}
-		<th> Protocol </th>
+                <th>Source</th>
+		<th>Ecotype</th>
+		<th>Selection marker</th>
+		<th>Genotype primer</th>
+		<th>Contact</th>
+		<th>Date</th>
             </tr>
+
         </thead>
         <tbody>
 	  {% load staticfiles %}
@@ -52,20 +50,22 @@
             <tr>
                 <td> {{ instance.fields.type }}</td>
                 <td> {{ instance.fields.linename }}</td>
-                <td> {{ instance.pk }}</td>
-
                 <td> {{ instance.fields.location }}</td>
-                <td> {{ instance.fields.stock }}</td>
-                <td> {{ instance.fields.opened }}</td>
-                <td> {{ instance.fields.comment }}</td>
+		<td> {{ instance.fields.source }}</td>
+		<td> {{ instance.fields.ecotype }}</td>
+		<td> {{ instance.fields.selectionmarker }}</td>
+		<td> {{ instance.fields.genotypeprimer }}</td>
+		<td> {{ instance.fields.contact }}</td>
+		<td> {{ instance.fields.date }}</td>
+
 		{% endfor %}
             <tbody>
     </table>
 
 
     
-<h3>Manage kit database</h3>
-<a class="btn btn-success" href="/lookup/add" role="button">Add new kit</a>
+<h3>Manage seed database</h3>
+<a class="btn btn-success" href="/lookup/addseed" role="button">Add new seed</a>
 
 
 
