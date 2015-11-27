@@ -7,7 +7,7 @@ from django.forms.models import model_to_dict
 from django.template import RequestContext
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, render, redirect
-from lookup.models import Annotation, Project, Scientist, ProjectBlogg, CommentForm, Stats, Antibody, AntibodyForm, DeleteABForm, KitForm, Kit, ProtocolDocForm, Protocol
+from lookup.models import Annotation, Project, Scientist, ProjectBlogg, CommentForm, Stats, Antibody, AntibodyForm, DeleteABForm, KitForm, Kit, ProtocolDocForm, Protocol, Seed
 from itertools import chain
 from chartit import DataPool, Chart, PivotDataPool, PivotChart
 from django.db.models import Avg, Max, Count
@@ -197,6 +197,12 @@ def sample_zero_view(request):
 
 ################################################
 ################################################
+def seed(request):
+    seedentry = len(Seed.objects.all())
+    return render(request, 'lookup/seed.html',{'Seeds' : seedentry})
+
+
+
 ################################################
 ## abdb
 

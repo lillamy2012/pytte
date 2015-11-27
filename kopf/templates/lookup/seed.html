@@ -1,0 +1,77 @@
+{% extends 'lookup/base.html' %}
+
+
+
+{% block body_block %}
+<script type="text/javascript">
+    $(function() {
+      $("#tablesorter-demo").tablesorter()
+      });
+    </script>
+</head>
+<div class="container">
+    <h2>Seed collection</h2>
+    <a class="btn btn-primary" href="/lookup/kits/?type=RNA" role="button">RNA</a>
+    <a class="btn btn-primary" href="/lookup/kits/?type=DNA" role="button">DNA</a>
+    <a class="btn btn-primary" href="/lookup/kits/?type=Protein" role="button">Protein</a>
+    <a class="btn btn-primary" href="/lookup/kits/?type=DeepSeq" role="button">DeepSeq</a>
+    <a class="btn btn-warning" href="/lookup/kits/" role="button">All active</a>
+    <a class="btn btn-danger" href="/lookup/kits/?type=inact" role="button">Removed</a>
+    {% if type == "None" or not type %}
+    <h4>Showing all active samples</h4>
+    {% elif type == "inact" %}
+    <h4>Showing inactive(removed) samples only</h4>
+    {% else %}
+    <h4>Showing {{ type }} samples only</h4>
+    {% endif %}
+<table id="tablesorter-demo"  class="tablesorter" border="0" cellpadding="0" cellspacing="1">
+        <thead>
+            <tr>
+                <th>Kit type</th>
+                <th>Sub type</th>
+                <th>Name</th>
+                <th>Company</th>
+                <th>Location</th>
+                <th>In stock</th>
+                <th>Opened at</th>
+                <th>Comment</th>
+		{% if type == "inact" %}
+		<th> Reactivate</th>
+		{% else %}
+		<th> Inactivate</th>
+                <th>Edit kit</th>
+		{% endif %}
+		<th> Protocol </th>
+            </tr>
+        </thead>
+        <tbody>
+	  {% load staticfiles %}
+            
+            {% for instance in Seeds %}
+            
+            <tr>
+                <td> {{ instance.fields.type }}</td>
+                <td> {{ instance.fields.linename }}</td>
+                <td> {{ instance.pk }}</td>
+
+                <td> {{ instance.fields.location }}</td>
+                <td> {{ instance.fields.stock }}</td>
+                <td> {{ instance.fields.opened }}</td>
+                <td> {{ instance.fields.comment }}</td>
+		{% endfor %}
+            <tbody>
+    </table>
+
+
+    
+<h3>Manage kit database</h3>
+<a class="btn btn-success" href="/lookup/add" role="button">Add new kit</a>
+
+
+
+
+</div>
+
+{% endblock %}
+
+

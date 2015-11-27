@@ -219,5 +219,43 @@ class ProtocolDocForm(forms.ModelForm):
     class Meta:
         model=Protocol
         fields=('doc',)
+###### seed
 
+class Seed(models.Model):
+    WT = 'WT'
+    mutant = 'mutant'
+    transgene= 'transgene'
+    ofs = 'OFS'
+    h2awsix = 'h2a.w.6'
+    H2AWsix_HA ='H2A.W.6::HA'
+    nap1one = 'nap1.1'
+    nap1twoone ='nap1.2-1'
+    type_ch = (
+    (WT,'WT'),
+    (mutant,'mutant'),
+    (transgene,'transgene'),
+    (ofs,'OFS'),
+    )
+    linename_ch = (
+    (h2awsix,'h2a.w.6'),
+    (H2AWsix_HA,'H2A.W.6::HA'),
+    (nap1one,'nap1.1'),
+    (nap1twoone,'nap1.2-1'),
+    (ofs,'OFS'),
+    )
+    type=models.CharField(max_length=10,choices=type_ch)
+    linename=models.CharField(max_length=50)
+    ecotype=models.CharField(max_length=50)
+    source=models.CharField(max_length=50)
+    selectionmark=models.CharField(max_length=50)
+    genotypeprimer=models.CharField(max_length=50)
+    location=models.CharField(max_length=50)
+    contact=models.CharField(max_length=50)
+    date=models.DateTimeField()
+
+
+class SeedRelation(models.Model):
+    offspring = models.ForeignKey(Seed,related_name='child')
+    parent1 =  models.ForeignKey(Seed,related_name='p1')
+    parent2 =  models.ForeignKey(Seed,related_name='p2')
 
