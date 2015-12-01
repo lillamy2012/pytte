@@ -3,11 +3,12 @@ from django.core.context_processors import csrf
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core.urlresolvers import reverse
 from django.forms import ModelForm
+from django.forms.models import inlineformset_factory
 from django.forms.models import model_to_dict
 from django.template import RequestContext
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, render, redirect
-from lookup.models import Annotation, Project, Scientist, ProjectBlogg, CommentForm, Stats, Antibody, AntibodyForm, DeleteABForm, KitForm, Kit, ProtocolDocForm, Protocol, Seed
+from lookup.models import Annotation, Project, Scientist, ProjectBlogg, CommentForm, Stats, Antibody, AntibodyForm, DeleteABForm, KitForm, Kit, ProtocolDocForm, Protocol, Seed, SeedRelation, SeedForm
 from itertools import chain
 from chartit import DataPool, Chart, PivotDataPool, PivotChart
 from django.db.models import Avg, Max, Count
@@ -200,6 +201,77 @@ def sample_zero_view(request):
 def seed(request):
     seedentry = serializers.serialize("python",Seed.objects.all())
     return render(request, 'lookup/seed.html',{'Seeds' : seedentry})
+
+
+def addseed(request):
+    p1 = request.GET.get('p1')
+    p2 = request.GET.get('p2')
+    parent1 = Seed.objects.get(pk=p1)
+    parent2 = Seed.objects.get(pk=p2)
+    new=Seed()
+    if parent1.type == parent2.type :
+        new.type = parent1.type
+    else:
+        new.type = parent2.type + " " + parent1.type
+    if parent1.linename == parent2.linename :
+        new.linename = parent1.linename
+    else:
+        new.linename = parent2.linename + " " + parent1.linename
+    if parent1.ecotype == parent2.ecotype :
+        new.ecotype = parent1.ecotype
+    else:
+        new.ecotype = parent2.ecotype + " " + parent1.ecotype
+
+    new.save()
+    rel = SeedRelation(offspring=new,parent=parent1)
+    rel.save()
+    rel = SeedRelation(offspring=new,parent=parent2)
+    rel.save()
+    ## function to merge two parents to offspring
+    #newset =
+    #form with news
+    #new = parent1
+    #new.pk = None
+
+    #tmp=Seed.objects.order_by('-id')[:1][0]
+    #SeedRelInlineFormSet = inlineformset_factory(Seed, SeedRelation,fk_name='parent')
+    #form = SeedRelInlineFormSet(instance=tmp)
+        #if request.method == "POST":
+        #formset = SeedRelInlineFormSet(request.POST, instance=newseed)
+        #if formset.is_valid():
+        #   formset.save()
+        #   return redirect('/lookup/addseed/')
+        #else:
+        #   return render(request, 'lookup/seed.html')
+        #else:
+    return render(request, 'lookup/seed.html')
+#return render('/lookup/addseed.html',{'form' :  form } )
+
+
+    
+#form = SeedRelationForm()
+#   if request.method == "POST":
+#       ob = Seed()
+#       ob.save()
+        #par =  Seed.objects.get(pk=1)
+        #cf = SeedRelation(offspring=ob,parent=par)
+        
+#       cf =  SeedRelationForm(request.POST)
+#
+#       val = cf.is_valid()
+
+#       if val == False:
+#           return render(request, 'lookup/valab.html',{'form' : cf } )
+#       else:
+#           anti = cf.save(commit=False)
+#           anti.offspring = ob
+#           anti.save()
+#       return redirect('/lookup/addseed/')
+#   else:
+
+
+
+
 
 
 

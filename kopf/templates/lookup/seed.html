@@ -30,6 +30,7 @@
 <table id="tablesorter-demo"  class="tablesorter" border="0" cellpadding="0" cellspacing="1">
         <thead>
             <tr>
+	      <th> Key</th>
                 <th>Type</th>
                 <th>Line</th>
                 <th>Location</th>
@@ -48,6 +49,7 @@
             {% for instance in Seeds %}
             
             <tr>
+	      <td> {{ instance.pk }}</td>
                 <td> {{ instance.fields.type }}</td>
                 <td> {{ instance.fields.linename }}</td>
                 <td> {{ instance.fields.location }}</td>

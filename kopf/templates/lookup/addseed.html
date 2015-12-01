@@ -1,0 +1,33 @@
+{% extends 'lookup/base.html' %}
+
+
+
+{% block body_block %}
+<div class="container">
+<h3> Add new antibody </h3>
+
+<span class="glyphicon icon-arrow-left"></span>
+<a class="btn btn-default" href="/lookup/seed" role="button">Back to seed collection</a>
+
+<p>
+    <form action="/lookup/addseed/" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+        <div class="form-group">
+            <div id="form">
+        <p> {{ form.parent }}  Parent
+	  <p> {{ form.parent }}  Parent
+	    </div>
+	 <div id="form">
+    <div id="submit"><input type="submit" value="Submit seed">
+        </div>
+    </form>
+    <p>
+    <p>
+    <span class="glyphicon icon-arrow-left"></span>
+<a class="btn btn-default" href="/lookup/seed" role="button">Back to seed collection</a>
+
+
+
+</div>
+</div>
+
+{% endblock %}

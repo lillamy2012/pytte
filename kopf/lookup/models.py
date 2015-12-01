@@ -5,6 +5,7 @@ from django import forms
 import uuid
 import os
 from django.core.exceptions import ValidationError
+from django.forms.models import inlineformset_factory
 from django.forms import widgets
 from django.forms import TextInput
 from django.forms import DateInput
@@ -222,28 +223,7 @@ class ProtocolDocForm(forms.ModelForm):
 ###### seed
 
 class Seed(models.Model):
-    WT = 'WT'
-    mutant = 'mutant'
-    transgene= 'transgene'
-    ofs = 'OFS'
-    h2awsix = 'h2a.w.6'
-    H2AWsix_HA ='H2A.W.6::HA'
-    nap1one = 'nap1.1'
-    nap1twoone ='nap1.2-1'
-    type_ch = (
-    (WT,'WT'),
-    (mutant,'mutant'),
-    (transgene,'transgene'),
-    (ofs,'OFS'),
-    )
-    linename_ch = (
-    (h2awsix,'h2a.w.6'),
-    (H2AWsix_HA,'H2A.W.6::HA'),
-    (nap1one,'nap1.1'),
-    (nap1twoone,'nap1.2-1'),
-    (ofs,'OFS'),
-    )
-    type=models.CharField(max_length=10,choices=type_ch)
+    type=models.CharField(max_length=10)
     linename=models.CharField(max_length=50)
     ecotype=models.CharField(max_length=50)
     source=models.CharField(max_length=50)
@@ -251,11 +231,50 @@ class Seed(models.Model):
     genotypeprimer=models.CharField(max_length=50)
     location=models.CharField(max_length=50)
     contact=models.CharField(max_length=50)
-    date=models.DateTimeField()
+#date=models.DateTimeField()
 
+
+# def __init__(self):
+#       rel=SeedRelation.objects.filter(offspring=self)
+#        parent = Seed.objects.filter(pk=rel)
+#       types = parent.samples.value_list("type")
+#       self.type = types
+
+
+class SeedForm(ModelForm):
+    class Meta:
+        model = Seed
 
 class SeedRelation(models.Model):
     offspring = models.ForeignKey(Seed,related_name='child')
-    parent1 =  models.ForeignKey(Seed,related_name='p1')
-    parent2 =  models.ForeignKey(Seed,related_name='p2')
+    parent =  models.ForeignKey(Seed,related_name='parent')
+
+
+#forms.ModelChoiceField(queryset=Seed.objects.filter(pk=offspring))
+#self.fields['unique_code']=forms.CharField(max_length=15)
+
+
+
+#class SeedRelationForm(BaseInlineFormSet):
+#   class Meta:
+#       model = SeedRelation
+#       exclude = ('offspring',)
+
+#   def __init__(self, *args, **kwargs):
+#       offspring = kwargs.pop('offspring','')
+#       super(SeedRelationForm, self).__init__(*args, **kwargs)
+#self.fields['offspring']= forms.ModelChoiceField(queryset=Seed.objects.filter(pk=int(offspring)))
+#self.fields['offspring'] = Seed.objects.filter(pk=1)
+
+
+
+
+
+
+
+
+
+
+
+
 
