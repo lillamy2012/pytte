@@ -223,12 +223,12 @@ class ProtocolDocForm(forms.ModelForm):
 ###### seed
 
 class Seed(models.Model):
-    type=models.CharField(max_length=10)
+    type=models.CharField(max_length=100)
     linename=models.CharField(max_length=50)
     ecotype=models.CharField(max_length=50)
     source=models.CharField(max_length=50)
-    selectionmark=models.CharField(max_length=50)
-    genotypeprimer=models.CharField(max_length=50)
+    selectionmark=models.CharField(max_length=50,null=True, blank=True)
+    genotypeprimer=models.CharField(max_length=50,null=True, blank=True)
     location=models.CharField(max_length=50)
     contact=models.CharField(max_length=50)
 #date=models.DateTimeField()
@@ -244,6 +244,30 @@ class Seed(models.Model):
 class SeedForm(ModelForm):
     class Meta:
         model = Seed
+
+
+class Seed1stForm(ModelForm):
+    class Meta:
+        model = Seed
+        TYPE_CHOICES = (('wt', 'WT'),('mutant', 'Mutant'),('transgene', 'Transgene'),)
+        widgets = {
+        'type' : forms.Select(choices = TYPE_CHOICES,attrs={'size': '3'}),
+        'linename' :  forms.TextInput(attrs={'size': 7})
+}
+
+#def __init__(self, custom_choices=None, *args, **kwargs):
+#       super(Seed1stForm, self).__init__(*args, **kwargs)
+#       if custom_choices:
+#           self.fields['type'].choices = custom_choices
+
+#forms.ChoiceField
+
+#'company': TextInput(attrs={'placeholder' :'selling company'}),
+#           'comment': TextInput(attrs={'placeholder' :'add any additional info about kit'}),
+#           'opened': DateInput(format=('%Y-%m-%d'),attrs={'placeholder' :'YYYY-MM-DD'}),
+
+
+
 
 class SeedRelation(models.Model):
     offspring = models.ForeignKey(Seed,related_name='child')

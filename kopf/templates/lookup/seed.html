@@ -7,7 +7,8 @@
     $(function() {
       $("#tablesorter-demo").tablesorter()
       });
-    </script>
+</script>
+
 </head>
 <div class="container">
     <h2>Seed collection</h2>
@@ -27,10 +28,13 @@
     {% else %}
     <h4>Showing {{ type }} samples only</h4>
     {% endif %}
+<form action="/lookup/addseed/" method="GET">
 <table id="tablesorter-demo"  class="tablesorter" border="0" cellpadding="0" cellspacing="1">
         <thead>
             <tr>
-	      <th> Key</th>
+	      	{% if type == "new" %}
+		<th>Selected</th>
+		{% endif %}
                 <th>Type</th>
                 <th>Line</th>
                 <th>Location</th>
@@ -39,7 +43,7 @@
 		<th>Selection marker</th>
 		<th>Genotype primer</th>
 		<th>Contact</th>
-		<th>Date</th>
+		
             </tr>
 
         </thead>
@@ -49,7 +53,9 @@
             {% for instance in Seeds %}
             
             <tr>
-	      <td> {{ instance.pk }}</td>
+	      	{% if type == "new" %}
+	      	<td> <input name="parents" value= {{ instance.pk }} type="checkbox"> </td>
+		{% endif %}
                 <td> {{ instance.fields.type }}</td>
                 <td> {{ instance.fields.linename }}</td>
                 <td> {{ instance.fields.location }}</td>
@@ -58,19 +64,27 @@
 		<td> {{ instance.fields.selectionmarker }}</td>
 		<td> {{ instance.fields.genotypeprimer }}</td>
 		<td> {{ instance.fields.contact }}</td>
-		<td> {{ instance.fields.date }}</td>
-
+	
+		
 		{% endfor %}
             <tbody>
     </table>
+{% if type == "new" %}
+ <input type="submit" class="btn btn-default">Make Cross</input>
+{% endif %}
+</form>
 
 
-    
+{% if type != "new" %}    
 <h3>Manage seed database</h3>
-<a class="btn btn-success" href="/lookup/addseed" role="button">Add new seed</a>
+<a class="btn btn-success" href="/lookup/addnewseed" role="button">Add new seed</a>
+<a class="btn btn-success" href="/lookup/seed/?type=new" role="button">Cross seeds</a>
+	{% endif %}
 
 
 
+
+ 
 
 </div>
 
