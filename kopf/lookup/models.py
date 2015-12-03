@@ -231,14 +231,11 @@ class Seed(models.Model):
     genotypeprimer=models.CharField(max_length=50,null=True, blank=True)
     location=models.CharField(max_length=50)
     contact=models.CharField(max_length=50)
-#date=models.DateTimeField()
+#date=models.DateField()
 
-
-# def __init__(self):
-#       rel=SeedRelation.objects.filter(offspring=self)
-#        parent = Seed.objects.filter(pk=rel)
-#       types = parent.samples.value_list("type")
-#       self.type = types
+class seedContact(models.Model):
+    seed = models.ForeignKey(Seed)
+    contact = models.CharField(max_length=50)
 
 
 class SeedForm(ModelForm):
@@ -250,45 +247,18 @@ class Seed1stForm(ModelForm):
     class Meta:
         model = Seed
         TYPE_CHOICES = (('wt', 'WT'),('mutant', 'Mutant'),('transgene', 'Transgene'),)
+        SELECT_CHOICES = (('CAN', 'CAN'),('HYG', 'HYG'),('BAS', 'BAS'),('BILLI','BILLI'),)
+        ECO_CHOICES = (('Col','Col'),('Ler','Ler'),)
         widgets = {
-        'type' : forms.Select(choices = TYPE_CHOICES,attrs={'size': '3'}),
-        'linename' :  forms.TextInput(attrs={'size': 7})
+        'type' : forms.Select(choices = TYPE_CHOICES,attrs={'size': len(TYPE_CHOICES)}),
+        'ecotype' : forms.Select(choices = ECO_CHOICES,attrs={'size': len(ECO_CHOICES)}),
+        'selectionmark' :  forms.Select(choices = SELECT_CHOICES, attrs={'size': len(SELECT_CHOICES)})
 }
-
-#def __init__(self, custom_choices=None, *args, **kwargs):
-#       super(Seed1stForm, self).__init__(*args, **kwargs)
-#       if custom_choices:
-#           self.fields['type'].choices = custom_choices
-
-#forms.ChoiceField
-
-#'company': TextInput(attrs={'placeholder' :'selling company'}),
-#           'comment': TextInput(attrs={'placeholder' :'add any additional info about kit'}),
-#           'opened': DateInput(format=('%Y-%m-%d'),attrs={'placeholder' :'YYYY-MM-DD'}),
-
-
 
 
 class SeedRelation(models.Model):
     offspring = models.ForeignKey(Seed,related_name='child')
     parent =  models.ForeignKey(Seed,related_name='parent')
-
-
-#forms.ModelChoiceField(queryset=Seed.objects.filter(pk=offspring))
-#self.fields['unique_code']=forms.CharField(max_length=15)
-
-
-
-#class SeedRelationForm(BaseInlineFormSet):
-#   class Meta:
-#       model = SeedRelation
-#       exclude = ('offspring',)
-
-#   def __init__(self, *args, **kwargs):
-#       offspring = kwargs.pop('offspring','')
-#       super(SeedRelationForm, self).__init__(*args, **kwargs)
-#self.fields['offspring']= forms.ModelChoiceField(queryset=Seed.objects.filter(pk=int(offspring)))
-#self.fields['offspring'] = Seed.objects.filter(pk=1)
 
 
 

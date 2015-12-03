@@ -219,14 +219,16 @@ def addnewseed(request):
 
 
 def addseed(request):
-    ps = request.GET.get('parents')
+    ps = request.GET.getlist('parents')
     ll = len(ps)
-    p1 = ps[0]
-    p2 = ps[1]
-    if ll == 2:
-        return render(request, 'lookup/tmp.html',{'ps' : ll } )
-    parent1 = Seed.objects.get(pk=p1)
-    parent2 = Seed.objects.get(pk=p2)
+    if ll > 2:
+        return HttpResponse("You have selected more than two plants, please go back (use the browser's back arrow) and correct it. ")
+    if ll == 1:
+        return HttpResponse("You have selected only one plant, please go back (use the browser's back arrow) and correct it. ")
+    if ll == 0:
+        return HttpResponse("You need to selected two plants to cross, please go back (use the browser's back arrow) and correct it. ")
+    parent1 = Seed.objects.get(pk=ps[0])
+    parent2 = Seed.objects.get(pk=ps[1])
     new=Seed()
     if parent1.type == parent2.type :
         new.type = parent1.type
@@ -240,9 +242,9 @@ def addseed(request):
         new.ecotype = parent1.ecotype
     else:
         new.ecotype = parent2.ecotype + " " + parent1.ecotype
-    form = SeedForm(instance=new)
+    form = SeedForm(instance=new,prefix='main')
     if request.method == "POST":
-        form = SeedForm(request.POST,instance=new)
+        form = SeedForm(request.POST,instance=new,prefix='main')
         if form.is_valid():
             form.save()
             rel = SeedRelation(offspring=new,parent=parent1)
@@ -253,12 +255,15 @@ def addseed(request):
         else:
             return render(request, 'lookup/valab.html',{'form' : form } )
     else:
-        return render(request,'lookup/addseed.html', { 'form' :  form , 'p1' : p1 , 'p2' : p2 } )
+        return render(request,'lookup/addseed.html', { 'form' :  form , 'p1' : ps[0] , 'p2' : ps[1] } )
 
 
-
-
-
+def seeparents(request,pk):
+    p = SeedRelation.objects.filter(offspring=pk)
+    my_list = p.values_list('parent', flat=True)
+    pss = Seed.objects.filter(pk__in=my_list)
+    ps= serializers.serialize("python",pss)
+    return render(request, 'lookup/seeparents.html',{'ps' : ps , 'my_list' : my_list} )
 
 ################################################
 ## abdb

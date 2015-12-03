@@ -10,7 +10,7 @@
 <a class="btn btn-default" href="/lookup/seed" role="button">Back to seed collection</a>
 
 <p>
-    <form action="/lookup/addseed/?p1={{ p1 }}&p2={{ p2 }}"" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+    <form action="/lookup/addseed/?parents={{ p1 }}&parents={{ p2 }}"" method="POST" enctype="multipart/form-data"> {% csrf_token %}
         <div class="form-group">
 	       {{ form.type }} 
                 {{ form.linename }}

@@ -1,0 +1,44 @@
+{% extends 'lookup/base.html' %}
+
+ {% block body_block %} 
+
+</head>
+<div class="container">
+<table id="tablesorter-demo"  class="tablesorter" border="0" cellpadding="0" cellspacing="1">
+<thead>
+            <tr>
+	      
+                <th>Type</th>
+                <th>Line</th>
+                <th>Location</th>
+                <th>Source</th>
+		<th>Ecotype</th>
+		<th>Selection marker</th>
+		<th>Genotype primer</th>
+		<th>Contact</th>
+		
+            </tr>
+
+        </thead>
+        <tbody> 
+
+{% for instance in ps %}
+
+ <tr>
+
+                <td><a href='/lookup/seeparents/{{ instance.pk }}'> {{ instance.fields.type }} </td>
+		<td> {{ instance.fields.linename }} </td>
+                <td> {{ instance.fields.location }}</td>
+		<td> {{ instance.fields.source }}</td>
+		<td> {{ instance.fields.ecotype }}</td>
+		<td> {{ instance.fields.selectionmarker }}</td>
+		<td> {{ instance.fields.genotypeprimer }}</td>
+		<td> {{ instance.fields.contact }}</td>
+   
+{% endfor %}
+
+ <tbody>
+    </table>
+{% endblock %}</p>
+</body>
+</html>
