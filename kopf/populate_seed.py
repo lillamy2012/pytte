@@ -1,8 +1,8 @@
 import os
 
 
-def add_seed(type,line,ecotype,source,selection,genotype,location,contact):
-    obj,created = Seed.objects.get_or_create(type=type,linename=line,ecotype=ecotype,source=source,selectionmark=selection,genotypeprimer=genotype,location=location,contact=contact)
+def add_seed(type,line,ecotype,source,selection,genotype,location):
+    obj,created = Seed.objects.get_or_create(type=type,linename=line,ecotype=ecotype,source=source,selectionmark=selection,genotypeprimer=genotype,location=location)
     obj.save()
     return(obj)
 
@@ -23,7 +23,7 @@ def populate():
     cp = "Zdravko"
     location ="Seed box #1 ZL"
     date = "2015-11-26"
-    add_seed(ty,li,ec,source,sel,ge,location,cp)
+    add_seed(ty,li,ec,source,sel,ge,location)
     li = "H2A.W.6::HA"
     ty = "transgene"
     ec = "Col"
@@ -33,7 +33,7 @@ def populate():
     cp = "Zdravko"
     location ="Seed box #1 ZL"
     date = "2015-11-26"
-    add_seed(ty,li,ec,source,sel,ge,location,cp)
+    add_seed(ty,li,ec,source,sel,ge,location)
     li = ""
     ty = ""
     ec = "Col"
@@ -43,7 +43,7 @@ def populate():
     cp = "Zdravko"
     location ="Seed box #1 ZL"
     date = "2015-11-26"
-    add_seed(ty,li,ec,source,sel,ge,location,cp)
+    add_seed(ty,li,ec,source,sel,ge,location)
 
     #p1 = Seed.objects.get(linename="h2a.w.6")
     #p2 = Seed.objects.get(linename="H2A.W.6::HA")

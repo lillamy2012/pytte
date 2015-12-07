@@ -230,18 +230,25 @@ class Seed(models.Model):
     selectionmark=models.CharField(max_length=50,null=True, blank=True)
     genotypeprimer=models.CharField(max_length=50,null=True, blank=True)
     location=models.CharField(max_length=50)
-    contact=models.CharField(max_length=50)
+#contact=models.CharField(max_length=50)
 #date=models.DateField()
 
-class seedContact(models.Model):
-    seed = models.ForeignKey(Seed)
-    contact = models.CharField(max_length=50)
+class SeedContact(models.Model):
+    seed = models.ForeignKey(Seed,null=True)
+    contact = models.CharField(max_length=50,null=True, blank=True)
 
 
 class SeedForm(ModelForm):
     class Meta:
         model = Seed
 
+
+class ContactForm(ModelForm):
+    class Meta:
+        model = SeedContact
+        exclude = ['seed']
+        widgets = {'contact':TextInput(attrs={'placeholder' :'where is the open tube kept?'})
+            }
 
 class Seed1stForm(ModelForm):
     class Meta:

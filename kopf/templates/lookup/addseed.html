@@ -10,16 +10,18 @@
 <a class="btn btn-default" href="/lookup/seed" role="button">Back to seed collection</a>
 
 <p>
-    <form action="/lookup/addseed/?parents={{ p1 }}&parents={{ p2 }}"" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+    <form action="/lookup/addseed/?parents={{ p1 }}&parents={{ p2 }}" method="POST" enctype="multipart/form-data"> {% csrf_token %}
         <div class="form-group">
-	       {{ form.type }} 
-                {{ form.linename }}
-                {{ form.location }}
-		{{ form.source }}
-		{{ form.ecotype }}
-		{{ form.selectionmarker }}
-		{{ form.genotypeprimer }}
-		{{ form.contact }}
+	  <p>{{ form.type }} Seed type
+          <p>{{ form.linename }}  Line name
+          <p>{{ form.location }}  Location 
+	  <p>{{ form.source }} Source
+	  <p>{{ form.ecotype }} Ecotype
+	  <p>{{ form.selectionmark }} Selection Marker
+	  <p>{{ form.genotypeprimer }} Genotype Primer
+	  <p>{{ form.contact }}
+	  <p>{{ cform.contact }} Contact
+	    <p> {{ cform.seed }}
 	    </div>
 	 <div id="form">
     <div id="submit"><input type="submit" value="Submit seed">

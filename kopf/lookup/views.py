@@ -8,7 +8,7 @@ from django.forms.models import model_to_dict
 from django.template import RequestContext
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, render, redirect
-from lookup.models import Annotation, Project, Scientist, ProjectBlogg, CommentForm, Stats, Antibody, AntibodyForm, DeleteABForm, KitForm, Kit, ProtocolDocForm, Protocol, Seed, SeedRelation, SeedForm,  Seed1stForm
+from lookup.models import Annotation, Project, Scientist, ProjectBlogg, CommentForm, Stats, Antibody, AntibodyForm, DeleteABForm, KitForm, Kit, ProtocolDocForm, Protocol, Seed, SeedRelation, SeedForm,  Seed1stForm, ContactForm, SeedContact
 from itertools import chain
 from chartit import DataPool, Chart, PivotDataPool, PivotChart
 from django.db.models import Avg, Max, Count
@@ -200,6 +200,7 @@ def sample_zero_view(request):
 ################################################
 def seed(request):
     type = request.GET.get('type')
+    con = serializers.serialize("python",SeedContact.objects.all())
     seedentry = serializers.serialize("python",Seed.objects.all())
     return render(request, 'lookup/seed.html',{'Seeds' : seedentry, 'type':type})
 
@@ -230,6 +231,10 @@ def addseed(request):
     parent1 = Seed.objects.get(pk=ps[0])
     parent2 = Seed.objects.get(pk=ps[1])
     new=Seed()
+    #new.save()
+    tmpCont = SeedContact()#seed=new)
+    tmpCont.seed = new
+#tmpCont.seed.add(new)
     if parent1.type == parent2.type :
         new.type = parent1.type
     else:
@@ -243,19 +248,29 @@ def addseed(request):
     else:
         new.ecotype = parent2.ecotype + " " + parent1.ecotype
     form = SeedForm(instance=new,prefix='main')
+    cform = ContactForm(instance=tmpCont,prefix='cont')
     if request.method == "POST":
         form = SeedForm(request.POST,instance=new,prefix='main')
+        cform = ContactForm(request.POST,instance=tmpCont,prefix='cont')
         if form.is_valid():
             form.save()
+            if cform.is_valid():
+                cform.save()
+            else:
+                Seed.objects.filter(type="").delete()
+                SeedContact.objects.filter(contact="hey").delete()
+                return render(request, 'lookup/valab.html',{'form' : cform } )
             rel = SeedRelation(offspring=new,parent=parent1)
             rel.save()
             rel = SeedRelation(offspring=new,parent=parent2)
             rel.save()
             return redirect('/lookup/seed/')
         else:
+            Seed.objects.filter(type="").delete()
+            SeedContact.objects.filter(contact="hey").delete()
             return render(request, 'lookup/valab.html',{'form' : form } )
     else:
-        return render(request,'lookup/addseed.html', { 'form' :  form , 'p1' : ps[0] , 'p2' : ps[1] } )
+        return render(request,'lookup/addseed.html', { 'form' :  form , 'cform' : cform , 'p1' : ps[0] , 'p2' : ps[1] } )
 
 
 def seeparents(request,pk):
