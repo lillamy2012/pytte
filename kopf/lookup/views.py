@@ -15,7 +15,10 @@ from django.db.models import Avg, Max, Count
 from django.utils import simplejson
 from django.core.mail import send_mail
 from django.db import models
+from lookup.tables import SeedTable
 import os, re, string
+
+
 
 #####################
 ### index page
@@ -200,9 +203,23 @@ def sample_zero_view(request):
 ################################################
 def seed(request):
     type = request.GET.get('type')
+    output_seed = {}
+    table = SeedTable(SeedContact.objects.all())
+    #table = SeedContact.objects.all()
+    seed_list = Seed.objects.all()
+    for obj in seed_list:
+        temp = list(obj.seedcontact_set.all()[:1])
+        if temp:
+            if len(list(obj.seedcontact_set.all())) > 1:
+                output_seed[(obj.pk)] = temp[0].contact + ",+"
+            if len(list(obj.seedcontact_set.all())) == 1:
+                output_seed[(obj.pk)] = temp[0].contact
+        else:
+            output_seed[(obj.pk)] = None
     con = serializers.serialize("python",SeedContact.objects.all())
     seedentry = serializers.serialize("python",Seed.objects.all())
-    return render(request, 'lookup/seed.html',{'Seeds' : seedentry, 'type':type})
+#return render(request,'lookup/seed.html',{'query;': Seed.objects.all() })
+    return render(request, 'lookup/seed.html',{'Seeds' : seedentry, 'type':type, 'Contact' :output_seed, 'query': table })
 
 
 def addnewseed(request):
@@ -231,10 +248,9 @@ def addseed(request):
     parent1 = Seed.objects.get(pk=ps[0])
     parent2 = Seed.objects.get(pk=ps[1])
     new=Seed()
-    #new.save()
-    tmpCont = SeedContact()#seed=new)
+    new.save()
+    tmpCont = SeedContact()
     tmpCont.seed = new
-#tmpCont.seed.add(new)
     if parent1.type == parent2.type :
         new.type = parent1.type
     else:
@@ -257,8 +273,7 @@ def addseed(request):
             if cform.is_valid():
                 cform.save()
             else:
-                Seed.objects.filter(type="").delete()
-                SeedContact.objects.filter(contact="hey").delete()
+                Seed.objects.filter(linename="").delete()
                 return render(request, 'lookup/valab.html',{'form' : cform } )
             rel = SeedRelation(offspring=new,parent=parent1)
             rel.save()
@@ -266,8 +281,8 @@ def addseed(request):
             rel.save()
             return redirect('/lookup/seed/')
         else:
-            Seed.objects.filter(type="").delete()
-            SeedContact.objects.filter(contact="hey").delete()
+
+            Seed.objects.filter(linename="").delete()
             return render(request, 'lookup/valab.html',{'form' : form } )
     else:
         return render(request,'lookup/addseed.html', { 'form' :  form , 'cform' : cform , 'p1' : ps[0] , 'p2' : ps[1] } )

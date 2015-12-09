@@ -246,7 +246,7 @@ class SeedForm(ModelForm):
 class ContactForm(ModelForm):
     class Meta:
         model = SeedContact
-        exclude = ['seed']
+        #exclude = ['seed']
         widgets = {'contact':TextInput(attrs={'placeholder' :'where is the open tube kept?'})
             }
 
@@ -266,7 +266,6 @@ class Seed1stForm(ModelForm):
 class SeedRelation(models.Model):
     offspring = models.ForeignKey(Seed,related_name='child')
     parent =  models.ForeignKey(Seed,related_name='parent')
-
 
 
 

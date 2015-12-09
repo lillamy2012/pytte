@@ -1,6 +1,6 @@
 {% extends 'lookup/base.html' %}
 
-
+{% load render_table from django_tables2 %}
 
 {% block body_block %}
 <script type="text/javascript">
@@ -35,6 +35,7 @@
 	      	{% if type == "new" %}
 		<th>Selected</th>
 		{% endif %}
+<th>PK</th>
                 <th>Type</th>
                 <th>Line</th>
                 <th>Location</th>
@@ -49,27 +50,35 @@
         </thead>
         <tbody>
 	  {% load staticfiles %}
-            
+
+         
             {% for instance in Seeds %}
             
             <tr>
 	      	{% if type == "new" %}
 	      	<td> <input name="parents" value= {{ instance.pk }} type="checkbox"> </td>
 		{% endif %}
-                <td> {{ instance.fields.type }}</td>
+		<td> {{ instance.pk }}</td>
+                <td> <a href='/lookup/seeparents/{{ instance.pk }}'> {{ instance.fields.type }}</td>
                 <td> {{ instance.fields.linename }}</td>
                 <td> {{ instance.fields.location }}</td>
 		<td> {{ instance.fields.source }}</td>
 		<td> {{ instance.fields.ecotype }}</td>
 		<td> {{ instance.fields.selectionmarker }}</td>
 		<td> {{ instance.fields.genotypeprimer }}</td>
-		<td> {{ instance.fields.contact }}</td>
-		<td> <a href='/lookup/seeparents/{{ instance.pk }}'> History </td>
-	
-		
+		{% for key, value in Contact.items %} 
+		{% if key == instance.pk %}
+		<td> 	{{ value }} </td>
+		{% endif %}
+		{% endfor %}
 		{% endfor %}
             <tbody>
     </table>
+
+ {% render_table query %} 
+
+
+
 {% if type == "new" %}
  <input type="submit" class="btn btn-default">Make Cross</input>
 {% endif %}

@@ -11,7 +11,10 @@ def add_relation(offspring,p1):
     obj.save()
     return(obj)
 
-
+def add_contact(seed,contact):
+    obj,created = SeedContact.objects.get_or_create(seed=seed,contact=contact)
+    obj.save()
+    return(obj)
 
 def populate():
     li = "h2a.w.6"
@@ -24,6 +27,9 @@ def populate():
     location ="Seed box #1 ZL"
     date = "2015-11-26"
     add_seed(ty,li,ec,source,sel,ge,location)
+    seed = Seed.objects.get(pk=1)
+    add_contact(seed,cp)
+    add_contact(seed,"extra")
     li = "H2A.W.6::HA"
     ty = "transgene"
     ec = "Col"
@@ -34,6 +40,8 @@ def populate():
     location ="Seed box #1 ZL"
     date = "2015-11-26"
     add_seed(ty,li,ec,source,sel,ge,location)
+    seed = Seed.objects.get(pk=2)
+    add_contact(seed,cp)
     li = ""
     ty = ""
     ec = "Col"
@@ -54,7 +62,7 @@ def populate():
 if __name__ == '__main__':
     print "Starting Seed population script..."
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'kopf.settings')
-    from lookup.models import Seed, SeedRelation
+    from lookup.models import Seed, SeedRelation, SeedContact
     populate()
 
 
