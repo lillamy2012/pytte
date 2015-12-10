@@ -1,0 +1,32 @@
+{% extends 'lookup/base.html' %}
+
+
+
+{% block body_block %}
+<div class="container">
+<h3> Add new contact </h3>
+
+<span class="glyphicon icon-arrow-left"></span>
+<a class="btn btn-default" href="/lookup/seed" role="button">Back to seed collection</a>
+
+<p>
+    <form action="/lookup/addcontact/?pk={{ pk }}" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+        <div class="form-group">
+	  
+	  <p>{{ form.contact }} Contact
+	    </div>
+	 <div id="form">
+    <div id="submit"><input type="submit" value="Add contact">
+        </div>
+    </form>
+    <p>
+    <p>
+    <span class="glyphicon icon-arrow-left"></span>
+<a class="btn btn-default" href="/lookup/seed" role="button">Back to seed collection</a>
+
+
+
+</div>
+</div>
+
+{% endblock %}

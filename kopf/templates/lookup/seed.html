@@ -44,6 +44,7 @@
 		<th>Selection marker</th>
 		<th>Genotype primer</th>
 		<th>Contact</th>
+		<th>See all contacts</th>
 		<th>Add contact</th>
             </tr>
 
@@ -71,6 +72,7 @@
 		<td> 	{{ value }} </td>
 		{% endif %}
 		{% endfor %}
+		<td> <a href='/lookup/seecontact/?pk={{ instance.pk }}'><i class="icon-eye-open"></i></a></td>
 		<td> <a href='/lookup/addcontact/?pk={{ instance.pk }}'><i class="icon-plus"></i></a></td>
 		{% endfor %}
             <tbody>

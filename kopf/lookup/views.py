@@ -260,18 +260,28 @@ def addseed(request):
     new=Seed()
     tmpCont = SeedContact()
     tmpCont.seed = new
+
+    parTy1 = parent1.type.split( )
+    parTy2 = parent2.type.split( )
+    na = list(set(parTy1) | set(parTy2))
     if parent1.type == parent2.type :
         new.type = parent1.type
     else:
-        new.type = parent2.type + " " + parent1.type
+        new.type = na[0] + " " + na[1] #parent2.type + " " + parent1.type
+    parTy1 = parent1.linename.split( )
+    parTy2 = parent2.linename.split( )
+    na = list(set(parTy1) | set(parTy2))
     if parent1.linename == parent2.linename :
         new.linename = parent1.linename
     else:
-        new.linename = parent2.linename + " " + parent1.linename
+        new.linename = na[0] + " " + na[1] # parent2.linename + " " + parent1.linename
+    parTy1 = parent1.ecotype.split( )
+    parTy2 = parent2.ecotype.split( )
+    na = list(set(parTy1) | set(parTy2))
     if parent1.ecotype == parent2.ecotype :
         new.ecotype = parent1.ecotype
     else:
-        new.ecotype = parent2.ecotype + " " + parent1.ecotype
+        new.ecotype = na[0] + " " + na[1] #parent2.ecotype + " " + parent1.ecotype
     form = SeedForm(instance=new,prefix='main')
     cform = ContactForm(instance=tmpCont,prefix='cont')
     if request.method == "POST":
@@ -335,6 +345,11 @@ def addcontact(request):
         return render(request, 'lookup/addcontact.html',{'form' : form , 'pk' :pk })
 
 
+def seecontact(request):
+    pk = request.GET.get('pk')
+    #cons = SeedContact.objects.filter(seed=pk)
+    table = SeedTable(SeedContact.objects.filter(seed=pk))
+    return render(request, 'lookup/seecontact.html',{'query': table })
 
 ################################################
 ## abdb
