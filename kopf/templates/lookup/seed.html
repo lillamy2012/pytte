@@ -12,22 +12,7 @@
 </head>
 <div class="container">
     <h2>Seed collection</h2>
-    <a class="btn btn-danger" href="/lookup/kits/?type=DeepSeq" role="button">All</a>
-    <a class="btn btn-warning" href="/lookup/kits/?type=RNA" role="button">WT</a>
-    <a class="btn btn-warning" href="/lookup/kits/" role="button">1st mutant</a>
-    <a class="btn btn-warning" href="/lookup/kits/" role="button">1st transform</a>
-    <a class="btn btn-primary" href="/lookup/kits/?type=DNA" role="button">1st generation</a>
-    <a class="btn btn-primary" href="/lookup/kits/?type=Protein" role="button">2nd generation</a>  
-    <a class="btn btn-primary" href="/lookup/kits/?type=Protein" role="button">Later generations</a>  
-    
-  
-    {% if type == "None" or not type %}
-    <h4>Showing all active samples</h4>
-    {% elif type == "inact" %}
-    <h4>Showing inactive(removed) samples only</h4>
-    {% else %}
-    <h4>Showing {{ type }} samples only</h4>
-    {% endif %}
+   
 <form action="/lookup/addseed/" method="GET">
 <table id="tablesorter-demo"  class="tablesorter" border="0" cellpadding="0" cellspacing="1">
         <thead>
@@ -78,7 +63,7 @@
             <tbody>
     </table>
 
- {% render_table query %} 
+
 
 
 
