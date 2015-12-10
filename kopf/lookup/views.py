@@ -223,17 +223,27 @@ def seed(request):
 
 
 def addnewseed(request):
-    form = Seed1stForm()
+    new=Seed()
+    tmpCont = SeedContact()
+    tmpCont.seed = new
+    form = Seed1stForm(instance=new,prefix='main')
+    cform =ContactForm(instance=tmpCont,prefix='cont')
     if request.method == "POST":
-        form = Seed1stForm(request.POST)
-        if form.is_valid():
+        form = Seed1stForm(request.POST,instance=new,prefix='main')
+        cform = ContactForm(request.POST,instance=tmpCont,prefix='cont')
+        if form.is_valid() and cform.is_valid():
             form.save()
+            nn  = cform.data.copy()
+            nc = SeedContact(seed=new,contact=nn['cont-contact'])
+            nc.save()
             return redirect('/lookup/addnewseed/')
         else:
-            return render(request, 'lookup/valab.html',{'form' : form } )
-
+            if form.is_valid()==False:
+                return render(request, 'lookup/valab.html',{'form' : form } )
+            else:
+                return render(request, 'lookup/valab.html',{'form' : cform } )
     else:
-        return render(request, 'lookup/addnewseed.html',{'form' : form } )
+        return render(request, 'lookup/addnewseed.html',{'form' : form , 'cform' : cform } )
 
 
 def addseed(request):
@@ -304,6 +314,27 @@ def seeparents(request,pk):
         else:
             output_seed[(obj.pk)] = None
     return render(request, 'lookup/seeparents.html',{'ps' : ps , 'my_list' : my_list , 'Contact' : output_seed} )
+
+
+
+def addcontact(request):
+    pk = request.GET.get('pk')
+    myseed = Seed.objects.get(pk=pk)
+    new = SeedContact(seed=myseed)
+    if request.method == "POST":
+        form = ContactForm(request.POST, instance=new)
+        val = form.is_valid()
+        if val == False:
+            return HttpResponse("Some of the data is not valid, please go back (use the browser's back arrow) and correct it. ")
+        else:
+            cont = form.save(commit=False)
+            cont.save()
+            return redirect('/lookup/seed/')
+    else:
+        form = ContactForm(instance=new)
+        return render(request, 'lookup/addcontact.html',{'form' : form , 'pk' :pk })
+
+
 
 ################################################
 ## abdb
