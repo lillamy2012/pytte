@@ -1,5 +1,5 @@
 import django_tables2 as tables
-from lookup.models import Seed, SeedContact
+from lookup.models import Seed, SeedContact, Annotation
 
 class SeedTable(tables.Table):
     #one = tables.Column(accessor='seedcontact.contact')
@@ -11,3 +11,7 @@ class SeedTable(tables.Table):
 #attrs = {"class": "paleblue"}
         fields = ('contact',)
         sequence = ('myid',)
+
+class ListAnnoTable(tables.Table):
+    class Meta:
+        model = Annotation

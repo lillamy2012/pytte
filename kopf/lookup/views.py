@@ -16,7 +16,7 @@ from django.db.models import Avg, Max, Count
 from django.utils import simplejson
 from django.core.mail import send_mail
 from django.db import models
-from lookup.tables import SeedTable
+from lookup.tables import SeedTable, ListAnnoTable
 import os, re, string
 
 
@@ -36,8 +36,10 @@ def index(request):
     
     nantit = len(Antibody.objects.filter(active=True))
     nantif = len(Antibody.objects.filter(active=False))
+    
+    nseed = len(Seed.objects.all())
                  
-    context_dict = {'scientist':nscient,'samples':nsamples,'projects':nproj, 'nkitt': nkitt , 'nkitf': nkitf ,'nantit': nantit, 'nantif' : nantif}
+    context_dict = {'scientist':nscient,'samples':nsamples,'projects':nproj, 'nkitt': nkitt , 'nkitf': nkitf ,'nantit': nantit, 'nantif' : nantif, 'nseed': nseed }
     return render_to_response('lookup/index.html', context_dict, context)
 
 ######################
@@ -77,8 +79,11 @@ def detail(request):
 ########################
 
 def genotype(request):
-    nproj = list(Annotation.objects.values_list('genotype').distinct())
-    return render(request, 'lookup/genotype.html',{'genotypes': nproj})
+    all = Annotation.objects.all()
+    nr = {}
+    for ty in all:
+        nr[ty.genotype]=len(Annotation.objects.filter(genotype=ty.genotype))
+    return render(request, 'lookup/genotype.html',{'nr' : nr})
 
 def antibody(request):
     nproj = list(Annotation.objects.values_list('antibody').distinct())
@@ -87,6 +92,11 @@ def antibody(request):
 def tissue(request):
     nproj = list(Annotation.objects.values_list('genotype').distinct())
     return render(request, 'lookup/tissue.html',{'genotypes': nproj})
+
+def listgenotype(request):
+    genotype = request.GET.get('genotype')
+    table = ListAnnoTable(Annotation.objects.filter(genotype=genotype))
+    return render(request, 'lookup/listgenotype.html',{'table': table })
 
 #########################
 ### Scientist

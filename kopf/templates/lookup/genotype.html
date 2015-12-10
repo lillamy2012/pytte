@@ -1,11 +1,40 @@
 {% extends 'lookup/base.html' %}
 
-
+{% load render_table from django_tables2 %}
 
 {% block body_block %}
+<script type="text/javascript">
+    $(function() {
+      $("#tablesorter-demo").tablesorter()
+      });
+</script>
 
-{% for geno in genotypes %}
-    <p>{{ geno.0 }}
-{% endfor %}
+</head>
+<div class="container">
+    <h2>Genotypes</h2>
+
+<table id="tablesorter-demo"  class="tablesorter" border="0" cellpadding="0" cellspacing="1">
+        <thead>
+	  <tr>
+            <th>Genotype</th>
+	    <th> Number of samples </th>
+	    <th> See samples </th>
+            </tr>
+
+        </thead>
+        <tbody>
+	  {% load staticfiles %}
+
+	  {% for key, value in nr.items %}
+	  <tr>
+	    <td> {{ key }} </td> 
+	    <td> {{ value }} </td>
+	    <td> <a href='/lookup/listgenotype/?genotype={{ key }}'><i class="icon-eye-open"></i></a></td>
+	    {% endfor %}
+	    <tbody>
+  </table>
+
+
+</div>
 
 {% endblock %}

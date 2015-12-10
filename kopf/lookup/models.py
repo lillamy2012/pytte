@@ -74,6 +74,7 @@ class Project(models.Model):
 ###############
 ##ProjectBlogg + Admin 
 ###############
+
 class ProjectBlogg(models.Model):
     title = models.CharField(max_length=60)
     body = models.TextField()
