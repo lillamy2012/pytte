@@ -33,12 +33,22 @@
 		<td> {{ instance.fields.ecotype }}</td>
 		<td> {{ instance.fields.selectionmarker }}</td>
 		<td> {{ instance.fields.genotypeprimer }}</td>
-		<td> {{ instance.fields.contact }}</td>
+	{% for key, value in Contact.items %} 
+		{% if key == instance.pk %}
+		<td> 	{{ value }} </td>
+		{% endif %}
+		{% endfor %}
+	
    
 {% endfor %}
+
+
 
  <tbody>
     </table>
 {% endblock %}</p>
 </body>
 </html>
+
+
+

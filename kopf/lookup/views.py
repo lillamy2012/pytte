@@ -4,6 +4,7 @@ from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core.urlresolvers import reverse
 from django.forms import ModelForm
 from django.forms.models import inlineformset_factory
+from django.forms.models import modelformset_factory
 from django.forms.models import model_to_dict
 from django.template import RequestContext
 from django.http import Http404, HttpResponse, HttpResponseRedirect
@@ -205,7 +206,6 @@ def seed(request):
     type = request.GET.get('type')
     output_seed = {}
     table = SeedTable(SeedContact.objects.all())
-    #table = SeedContact.objects.all()
     seed_list = Seed.objects.all()
     for obj in seed_list:
         temp = list(obj.seedcontact_set.all()[:1])
@@ -248,7 +248,6 @@ def addseed(request):
     parent1 = Seed.objects.get(pk=ps[0])
     parent2 = Seed.objects.get(pk=ps[1])
     new=Seed()
-    new.save()
     tmpCont = SeedContact()
     tmpCont.seed = new
     if parent1.type == parent2.type :
@@ -268,22 +267,21 @@ def addseed(request):
     if request.method == "POST":
         form = SeedForm(request.POST,instance=new,prefix='main')
         cform = ContactForm(request.POST,instance=tmpCont,prefix='cont')
-        if form.is_valid():
+        if form.is_valid() and cform.is_valid():
             form.save()
-            if cform.is_valid():
-                cform.save()
-            else:
-                Seed.objects.filter(linename="").delete()
-                return render(request, 'lookup/valab.html',{'form' : cform } )
+            nn  = cform.data.copy()
+            nc = SeedContact(seed=new,contact=nn['cont-contact'])
+            nc.save()
             rel = SeedRelation(offspring=new,parent=parent1)
             rel.save()
             rel = SeedRelation(offspring=new,parent=parent2)
             rel.save()
             return redirect('/lookup/seed/')
         else:
-
-            Seed.objects.filter(linename="").delete()
-            return render(request, 'lookup/valab.html',{'form' : form } )
+            if form.is_valid()==False:
+                return render(request, 'lookup/valab.html',{'form' : form } )
+            else:
+                return render(request, 'lookup/valab.html',{'form' : cform } )
     else:
         return render(request,'lookup/addseed.html', { 'form' :  form , 'cform' : cform , 'p1' : ps[0] , 'p2' : ps[1] } )
 
@@ -291,9 +289,21 @@ def addseed(request):
 def seeparents(request,pk):
     p = SeedRelation.objects.filter(offspring=pk)
     my_list = p.values_list('parent', flat=True)
+    if len(my_list)<1:
+        return HttpResponse("Item has no registered parents. ")
     pss = Seed.objects.filter(pk__in=my_list)
     ps= serializers.serialize("python",pss)
-    return render(request, 'lookup/seeparents.html',{'ps' : ps , 'my_list' : my_list} )
+    output_seed = {}
+    for obj in pss:
+        temp = list(obj.seedcontact_set.all()[:1])
+        if temp:
+            if len(list(obj.seedcontact_set.all())) > 1:
+                output_seed[(obj.pk)] = temp[0].contact + ",+"
+            if len(list(obj.seedcontact_set.all())) == 1:
+                output_seed[(obj.pk)] = temp[0].contact
+        else:
+            output_seed[(obj.pk)] = None
+    return render(request, 'lookup/seeparents.html',{'ps' : ps , 'my_list' : my_list , 'Contact' : output_seed} )
 
 ################################################
 ## abdb

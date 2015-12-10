@@ -241,12 +241,15 @@ class SeedContact(models.Model):
 class SeedForm(ModelForm):
     class Meta:
         model = Seed
+        widgets = {
+            'id' : forms.HiddenInput(),}
+
 
 
 class ContactForm(ModelForm):
     class Meta:
         model = SeedContact
-        #exclude = ['seed']
+        exclude = ['seed']
         widgets = {'contact':TextInput(attrs={'placeholder' :'where is the open tube kept?'})
             }
 

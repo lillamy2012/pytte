@@ -42,8 +42,8 @@ def populate():
     add_seed(ty,li,ec,source,sel,ge,location)
     seed = Seed.objects.get(pk=2)
     add_contact(seed,cp)
-    li = ""
-    ty = ""
+    li = "HHH"
+    ty = "transgene"
     ec = "Col"
     source = "Zdravko"
     sel = ""
@@ -52,7 +52,8 @@ def populate():
     location ="Seed box #1 ZL"
     date = "2015-11-26"
     add_seed(ty,li,ec,source,sel,ge,location)
-
+    seed = Seed.objects.get(pk=3)
+    add_contact(seed,cp)
     #p1 = Seed.objects.get(linename="h2a.w.6")
     #p2 = Seed.objects.get(linename="H2A.W.6::HA")
     #offspring = Seed.objects.get(cp="Zdravko")
