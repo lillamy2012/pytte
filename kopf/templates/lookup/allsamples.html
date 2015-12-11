@@ -5,6 +5,7 @@
 {% block body_block %}
 <div class="container"> 
   <h1>Samples</h1>
+{% if type != "Chip" %}
   <h3>RNA-Seq</h3>
   <table class="table table-striped">
     <thead>
@@ -25,6 +26,8 @@
       {% endfor %}
     </tbody>
   </table>
+{% endif %}
+{% if type != "RNA" %}
   <h3>ChIP-Seq</h3>
   <table class="table table-striped">
     <thead>
@@ -46,6 +49,7 @@
       {% endfor %}
     </tbody>
   </table>
+{% endif %}
 </div>
 {% endblock %}
 

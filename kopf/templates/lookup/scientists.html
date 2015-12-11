@@ -111,7 +111,7 @@ for(i = 0; i < data.length; i++){
     <tbody>
       <tr>
 	{% for key,number in Scientist.iteritems %}
-        <td> {{ key }} </td>
+        <td> <a href="/lookup/allsamples/?person={{ key }}"> {{ key }}</a> </td>
 	<td> {{ number }} </td>
       </tr>
       {% endfor %}
