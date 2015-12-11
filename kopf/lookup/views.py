@@ -78,25 +78,41 @@ def detail(request):
 ### Annotations
 ########################
 
-def genotype(request):
+def seqtype(request):
+    type = request.GET.get('type')
     all = Annotation.objects.all()
     nr = {}
-    for ty in all:
-        nr[ty.genotype]=len(Annotation.objects.filter(genotype=ty.genotype))
-    return render(request, 'lookup/genotype.html',{'nr' : nr})
+    if type == 'genotype':
+        for ty in all:
+            nr[ty.genotype]=len(Annotation.objects.filter(genotype=ty.genotype))
+    if type=='antibody':
+        for ty in all:
+            nr[ty.antibody]=len(Annotation.objects.filter(antibody=ty.antibody))
+    if type=='tissue':
+        for ty in all:
+            nr[ty.tissue_type]=len(Annotation.objects.filter(tissue_type=ty.tissue_type))
+    return render(request, 'lookup/seqtype.html',{'nr' : nr, 'type' : type })
 
-def antibody(request):
+def antibodySeq(request):
+
     nproj = list(Annotation.objects.values_list('antibody').distinct())
-    return render(request, 'lookup/antibody.html',{'genotypes': nproj})
+    return render(request, 'lookup/antibodySeq.html',{'genotypes': nproj})
 
 def tissue(request):
     nproj = list(Annotation.objects.values_list('genotype').distinct())
     return render(request, 'lookup/tissue.html',{'genotypes': nproj})
 
-def listgenotype(request):
-    genotype = request.GET.get('genotype')
-    table = ListAnnoTable(Annotation.objects.filter(genotype=genotype))
-    return render(request, 'lookup/listgenotype.html',{'table': table })
+def listseqtype(request):
+    type = request.GET.get('type')
+    key = request.GET.get('key')
+    if type == 'genotype':
+        table = ListAnnoTable(Annotation.objects.filter(genotype=key))
+    if type == 'antibody':
+        table = ListAnnoTable(Annotation.objects.filter(antibody=key))
+    if type == 'tissue':
+        table = ListAnnoTable(Annotation.objects.filter(tissue_type=key))
+    
+    return render(request, 'lookup/listseqtype.html',{'table': table })
 
 #########################
 ### Scientist

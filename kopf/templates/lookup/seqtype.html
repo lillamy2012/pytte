@@ -11,7 +11,17 @@
 
 </head>
 <div class="container">
+{% if type == 'genotype' %}
     <h2>Genotypes</h2>
+{% endif %}
+{% if type == 'antibody' %}
+    <h2>Antibodies</h2>
+{% endif %}
+{% if type == 'tissue' %}
+    <h2>Tissues</h2>
+{% endif %}
+
+
 
 <table id="tablesorter-demo"  class="tablesorter" border="0" cellpadding="0" cellspacing="1">
         <thead>
@@ -29,7 +39,7 @@
 	  <tr>
 	    <td> {{ key }} </td> 
 	    <td> {{ value }} </td>
-	    <td> <a href='/lookup/listgenotype/?genotype={{ key }}'><i class="icon-eye-open"></i></a></td>
+	    <td> <a href='/lookup/listseqtype/?type={{ type }}&key={{ key }}'><i class="icon-eye-open"></i></a></td>
 	    {% endfor %}
 	    <tbody>
   </table>

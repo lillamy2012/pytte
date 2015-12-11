@@ -8,7 +8,7 @@ def populate():
     for d in data:
         if d['group']=="Berger":
             s=add_scientist(name=d['scientist'])
-            add_annotation(scientist=s,sample=d['id'],genotype=d['genotype'], descr=d['descr'],comments=d['comments'],tissue_type=d['tissue_type'],preparation_type=d['preparation_type'],organism=d['organism'],celltype=d['celltype'],antibody=d['antibody'],exptype=d['exptype'])
+            add_annotation(scientist=s,sample=d['id'],genotype=d['genotype'].rstrip(), descr=d['descr'],comments=d['comments'],tissue_type=d['tissue_type'],preparation_type=d['preparation_type'],organism=d['organism'],celltype=d['celltype'],antibody=d['antibody'],exptype=d['exptype'])
 
     ss = range(15351, 15362)
     s,a=Scientist.objects.get_or_create(name="Danhua Jiang")
@@ -41,6 +41,7 @@ def populate_path():
     firstLine = data.pop(0)
     for line in data:
         obj=Annotation.objects.filter(pk=str(line.split()[2])).update(raw=str(line.split()[0]))
+        obj=Annotation.objects.filter(pk=str(line.split()[2])).update(align=str(line.split()[3]))
     return(obj)
 
 if __name__ == '__main__':

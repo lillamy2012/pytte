@@ -1,0 +1,14 @@
+{% extends 'lookup/base.html' %}
+
+
+{% load django_tables2 %} 
+
+{% block body_block %}
+<div class="container">
+
+{% render_table table %} 
+   	  
+
+</div>
+
+{% endblock %}
