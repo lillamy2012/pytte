@@ -11,13 +11,19 @@ $.get('/lookup/ajex', function(data) {
 
 var seriesData = [];
 var xCategories = [];
+var check = [];
+var test = ["Danhua Jiang","Danhua Jiang","Xin Nie","Minh Thiet Vu"];
 var i, cat;
+console.log(data);
 for(i = 0; i < data.length; i++){
-     cat =  data[i].scientist;
+     cat =  data[i].scientist[0];
+	       console.log(data[i].scientist[0]);
+	     console.log(xCategories);
      if(xCategories.indexOf(cat) === -1){
         xCategories[xCategories.length] = cat;
-     }
+     } 
 }
+console.log(xCategories);
 for(i = 0; i < data.length; i++){
     if(seriesData){
       var currSeries = seriesData.filter(function(seriesObject){ return seriesObject.name == data[i].status;});
@@ -44,7 +50,7 @@ for(i = 0; i < data.length; i++){
                 text: 'Samples per scientist'
             },
             xAxis: {
-                categories: xCategories
+                categories: check
             },
             yAxis: {
                 min: 0,
@@ -86,8 +92,7 @@ for(i = 0; i < data.length; i++){
             series: seriesData
         });
     });
-    
-});
+   });
 </script> 
 <div class="container"> 
  <h1>Scientists</h1>

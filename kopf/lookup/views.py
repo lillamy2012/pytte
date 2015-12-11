@@ -18,7 +18,7 @@ from django.core.mail import send_mail
 from django.db import models
 from lookup.tables import SeedTable, ListAnnoTable
 import os, re, string
-
+import json
 
 
 #####################
@@ -200,8 +200,8 @@ def add_blog(request,pk):
 ###
 ##########
 
-def sample_chart_view(request):
-   return render_to_response("lookup/test.html")
+#def sample_chart_view(request):
+#   return render_to_response("lookup/test.html")
 
 def my_ajax_view(request):
     nproj2 = list(Annotation.objects.values_list('scientist').distinct())
@@ -213,9 +213,9 @@ def my_ajax_view(request):
         l = len(Annotation.objects.filter(scientist=i, exptype="ChIP-Seq"))
         t = {'scientist':i ,  "status":"ChIP", "val":l}
         data_dict.append(t)
-        l = len(Annotation.objects.filter(scientist=i, exptype="Other"))
-        t = {'scientist':i ,  "status":"Other", "val":l}
-    return HttpResponse(simplejson.dumps(data_dict),mimetype='application/json')
+        #l = len(Annotation.objects.filter(scientist=i, exptype="Other"))
+        #t = {'scientist':i ,  "status":"Other", "val":l}
+    return HttpResponse(json.dumps(data_dict),mimetype='application/json')
 
 ###
 #######
