@@ -17,7 +17,7 @@ var i, cat;
 console.log(data);
 for(i = 0; i < data.length; i++){
      cat =  data[i].scientist[0];
-	       console.log(data[i].scientist[0]);
+	 console.log(data[i].scientist[0]);
 	     console.log(xCategories);
      if(xCategories.indexOf(cat) === -1){
         xCategories[xCategories.length] = cat;
@@ -50,7 +50,7 @@ for(i = 0; i < data.length; i++){
                 text: 'Samples per scientist'
             },
             xAxis: {
-                categories: check
+                categories: xCategories
             },
             yAxis: {
                 min: 0,

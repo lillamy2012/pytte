@@ -3,7 +3,7 @@ import os
 
 def populate():
     
-    data=read_json('sample_berger.json')
+    data=read_json('group.json')
 
     for d in data:
         if d['group']=="Berger":
