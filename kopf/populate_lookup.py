@@ -23,7 +23,10 @@ def read_json(jsonf):
 
 
 def add_annotation(scientist, sample, genotype, descr, comments, tissue_type, preparation_type, organism, celltype,antibody,exptype):
-    obj, created = Annotation.objects.get_or_create(scientist = scientist, sample = sample, genotype = genotype, descr = descr, comments = comments, tissue_type = tissue_type, preparation_type = preparation_type, organism = organism, celltype=celltype,antibody=antibody,exptype=exptype)
+    cl_genotype = autouni(removehash(genotype))
+    cl_antibody = autouni(removehash(antibody))
+    cl_tissue_type = autouni(removehash(tissue_type))
+    obj, created = Annotation.objects.get_or_create(scientist = scientist, sample = sample, genotype = cl_genotype, descr = descr, comments = comments, tissue_type = cl_tissue_type, preparation_type = preparation_type, organism = organism, celltype=celltype,antibody=cl_antibody,exptype=exptype)
     return(obj)
 
 def add_scientist(name):
@@ -44,6 +47,33 @@ def populate_path():
         obj=Annotation.objects.filter(pk=str(line.split()[2])).update(align=str(line.split()[3]))
     return(obj)
 
+def autouni(string):
+    corr={}
+    corr['Col WT'] = ['Col','WT','Col WT','wildtype']
+    corr['atrx025'] = ['atrx025','atrx 025']
+    corr['10 day old seedling'] = ['10-d old seedling','10-d old seedlings','10-d old Seedling','10-d old Seedlings','10 day old seedling','10 day old seedlings','10 day old Seedling','10 day old Seedlings','10 day seedling','10 day seedlings', '10 day Seedlings']
+    corr['Somatic'] = ['Somatic','somatic','Somatics','somatics']
+    corr['Root'] = ['Root','Roots','root','roots']
+    corr['PolII'] =['Pol II','PolII']
+    corr['input'] = ['Input','INPUT']
+    for key,value in corr.items():
+        if string in value:
+            new=key
+    if not 'new' in locals():
+        new = string
+    return(new)
+
+def removehash(string):
+    head, sep, tail = string.partition('#')
+    return(head)
+
+
+
+
+
+
+
+
 if __name__ == '__main__':
     print "Starting Lookup population script..."
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'kopf.settings')
@@ -51,3 +81,4 @@ if __name__ == '__main__':
     import json
     populate()
     populate_path()
+#removehash('kyp h2a.w #1')

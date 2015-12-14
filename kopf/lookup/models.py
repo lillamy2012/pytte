@@ -251,8 +251,8 @@ class ContactForm(ModelForm):
     class Meta:
         model = SeedContact
         exclude = ['seed']
-        widgets = {'contact':TextInput(attrs={'placeholder' :'where is the open tube kept?'})
-            }
+            # widgets = {'contact':TextInput(attrs={'placeholder' :'where is the open tube kept?'})
+#
 
 class Seed1stForm(ModelForm):
     class Meta:

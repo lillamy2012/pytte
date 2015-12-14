@@ -87,7 +87,7 @@ def seqtype(request):
             nr[ty.genotype]=len(Annotation.objects.filter(genotype=ty.genotype))
     if type=='antibody':
         for ty in all:
-            nr[ty.antibody]=len(Annotation.objects.filter(antibody=ty.antibody))
+            nr[ty.antibody]=len(Annotation.objects.filter(antibody=ty.antibody,exptype="ChIP-Seq"))
     if type=='tissue':
         for ty in all:
             nr[ty.tissue_type]=len(Annotation.objects.filter(tissue_type=ty.tissue_type))
@@ -108,7 +108,7 @@ def listseqtype(request):
     if type == 'genotype':
         table = ListAnnoTable(Annotation.objects.filter(genotype=key))
     if type == 'antibody':
-        table = ListAnnoTable(Annotation.objects.filter(antibody=key))
+        table = ListAnnoTable(Annotation.objects.filter(antibody=key,exptype="ChIP-Seq"))
     if type == 'tissue':
         table = ListAnnoTable(Annotation.objects.filter(tissue_type=key))
     

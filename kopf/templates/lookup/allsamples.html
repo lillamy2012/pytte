@@ -5,6 +5,15 @@
 {% block body_block %}
 <div class="container"> 
   <h1>Samples</h1>
+  <a class="btn btn-primary" href="/lookup/allsamples/?type=RNA" role="button">RNA-seq</a>
+    <a class="btn btn-primary" href="/lookup/allsamples/?type=Chip" role="button">ChIP-seq</a>
+    <a class="btn btn-warning" href="/lookup/allsamples" role="button">All samples</a>
+    
+    {% if type == "None" or not type %}
+    <h4>Showing all samples</h4>
+    {% else %}
+    <h4>Showing {{ type }}-seq samples only</h4>
+    {% endif %}
 {% if type != "Chip" %}
   <h3>RNA-Seq</h3>
   <table class="table table-striped">
