@@ -1,8 +1,8 @@
 import os
 
 
-def add_seed(type,line,ecotype,source,selection,genotype,location):
-    obj,created = Seed.objects.get_or_create(type=type,linename=line,ecotype=ecotype,source=source,selectionmark=selection,genotypeprimer=genotype,location=location)
+def add_seed(type,line,ecotype,source,selection,genotype,location,label,comment,date):
+    obj,created = Seed.objects.get_or_create(type=type,linename=line,ecotype=ecotype,source=source,selectionmark=selection,genotypeprimer=genotype,location=location,label=label,comment=comment,date=date)
     obj.save()
     return(obj)
 
@@ -26,7 +26,9 @@ def populate():
     cp = "Zdravko"
     location ="Seed box #1 ZL"
     date = "2015-11-26"
-    add_seed(ty,li,ec,source,sel,ge,location)
+    label=""
+    comment=""
+    add_seed(ty,li,ec,source,sel,ge,location,label,comment,date)
     seed = Seed.objects.get(pk=1)
     add_contact(seed,cp)
     add_contact(seed,"extra")
@@ -39,7 +41,9 @@ def populate():
     cp = "Zdravko"
     location ="Seed box #1 ZL"
     date = "2015-11-26"
-    add_seed(ty,li,ec,source,sel,ge,location)
+    label=""
+    comment=""
+    add_seed(ty,li,ec,source,sel,ge,location,label,comment,date)
     seed = Seed.objects.get(pk=2)
     add_contact(seed,cp)
     li = "HHH"
@@ -51,7 +55,9 @@ def populate():
     cp = "Zdravko"
     location ="Seed box #1 ZL"
     date = "2015-11-26"
-    add_seed(ty,li,ec,source,sel,ge,location)
+    label=""
+    comment=""
+    add_seed(ty,li,ec,source,sel,ge,location,label,comment,date)
     seed = Seed.objects.get(pk=3)
     add_contact(seed,cp)
     #p1 = Seed.objects.get(linename="h2a.w.6")

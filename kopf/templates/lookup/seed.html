@@ -28,6 +28,9 @@
 		<th>Ecotype</th>
 		<th>Selection marker</th>
 		<th>Genotype primer</th>
+		<th>Label </th>
+		<th>Comments </th>
+		<th>Date </th>
 		<th>Contact</th>
 		<th>See all contacts</th>
 		<th>Add contact</th>
@@ -52,6 +55,9 @@
 		<td> {{ instance.fields.ecotype }}</td>
 		<td> {{ instance.fields.selectionmarker }}</td>
 		<td> {{ instance.fields.genotypeprimer }}</td>
+		<td> {{ instance.fields.label }}</td>
+		 <td> {{ instance.fields.comment }}</td>
+		  <td> {{ instance.fields.date }}</td>
 		{% for key, value in Contact.items %} 
 		{% if key == instance.pk %}
 		<td> 	{{ value }} </td>

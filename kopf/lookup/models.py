@@ -231,8 +231,9 @@ class Seed(models.Model):
     selectionmark=models.CharField(max_length=50,null=True, blank=True)
     genotypeprimer=models.CharField(max_length=50,null=True, blank=True)
     location=models.CharField(max_length=50)
-#contact=models.CharField(max_length=50)
-#date=models.DateField()
+    label=models.CharField(max_length=50)
+    comment=models.CharField(max_length=500)
+    date=models.DateField()
 
 class SeedContact(models.Model):
     seed = models.ForeignKey(Seed,null=True)
