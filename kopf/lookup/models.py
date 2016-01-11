@@ -17,6 +17,16 @@ class Scientist(models.Model):
     def __unicode__(self):
         return self.name
 
+####################
+## Multiplex
+####################
+class Multiplex(models.Model):
+    name = models.CharField(max_length=200)
+    storage = models.CharField(max_length=200)
+    mdsum = models.CharField(max_length=200)
+    barcode = models.CharField(max_length=1000)
+
+
 ################
 ## Annotation (Sample)
 ################
@@ -33,6 +43,7 @@ class Annotation(models.Model):
     antibody = models.CharField(max_length=20)
     exptype = models.CharField(max_length=20)
     raw = models.CharField(max_length=200,blank=True)
+    multi = models.ForeignKey(Multiplex,null=True)
     align = models.CharField(max_length=200,null=True)
 
     def __unicode__(self):

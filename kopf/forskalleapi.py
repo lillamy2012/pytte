@@ -17,3 +17,10 @@ allsamples = r.json()
 
 with open("group.json", "w") as outfile:
     json.dump(allsamples, outfile)
+
+s = s.get('http://ngs.csf.ac.at/forskalle/api/requests?group=Berger')
+
+allsamples = s.json()
+
+with open("groupReq.json", "w") as outfile:
+    json.dump(allsamples, outfile)
