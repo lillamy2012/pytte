@@ -6,7 +6,7 @@ def populate():
     data=read_json('group.json')
 
     for d in data:
-        if d['group']=="Berger":
+        if d['group']=="Berger" and d['status']=="Ready":
             s=add_scientist(name=d['scientist'])
             add_annotation(scientist=s,sample=d['id'],genotype=d['genotype'].rstrip(), descr=d['descr'],comments=d['comments'],tissue_type=d['tissue_type'],preparation_type=d['preparation_type'],organism=d['organism'],celltype=d['celltype'],antibody=d['antibody'],exptype=d['exptype'])
 

@@ -26,6 +26,9 @@ class Multiplex(models.Model):
     mdsum = models.CharField(max_length=200)
     barcode = models.CharField(max_length=1000)
 
+    def __unicode__(self):
+        return unicode(self.name)
+
 
 ################
 ## Annotation (Sample)
@@ -47,7 +50,7 @@ class Annotation(models.Model):
     align = models.CharField(max_length=200,null=True)
 
     def __unicode__(self):
-        return self.sample
+        return unicode(self.sample)
 
     def get_fields(self):
         return self._meta.get_all_field_names()
