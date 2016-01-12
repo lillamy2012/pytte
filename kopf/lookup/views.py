@@ -60,7 +60,9 @@ def detail(request):
     except Annotation.DoesNotExist:
         raise Http404
     type = getattr(ann, 'exptype')
+    item =Annotation.objects.get(sample=sample_id)
     data =model_to_dict(Annotation.objects.filter(sample=sample_id)[0])
+    data['multi'] =  model_to_dict(item.multi)['name']
     try:
         proj=Project.objects.get(samples=sample_id)
         res =  {'Annotation': ann, 'ListL': data, 'exp':type, 'project':proj}
@@ -73,6 +75,17 @@ def detail(request):
     except Stats.DoesNotExist:
         res = res
     return render(request, 'lookup/detail.html', res)
+
+########################
+### Multiplex
+########################
+
+def multiplex(request):
+    multi_id = request.GET.get('mid')
+    mult = Multiplex.objects.get(name=multi_id)
+    info = model_to_dict(mult)
+    res = {'info': info , 'Annotation': mult}
+    return render(request, 'lookup/multiplex.html',res)
 
 ########################
 ### Annotations

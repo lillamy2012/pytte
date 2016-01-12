@@ -13,12 +13,17 @@
     {% if key != "sample" %}
     <tr>
       <td> {{ key }} </td>
+      {% if key == "multi" %}
+      <td> <a href="/lookup/multiplex/?mid={{ val }}"> {{ val }}</a> </td>
+      {% else %}
       <td> {{ val }} </td>
-    </tr>
-    {% endif %}
+      {% endif %}
+      </tr>
+     {% endif %}
     {% endfor %}
 
   </table>
+
 
 <h1>Stats for sample {{ Annotation.sample }} </h1>
 {% if exp == "RNA-Seq" %}
@@ -26,7 +31,7 @@
     {% for key, val in Stats.iteritems %}
     {% if key != "sample" %}
     {% if key != "id" %}
-    <tr>
+    <tr>		 
       <td> {{ key }} </td>
       <td> {{ val }} </td>
     </tr>
