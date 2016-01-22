@@ -40,11 +40,11 @@ def add_project(scientist, project_name,sampleL):
     return(obj)
 
 def populate_path():
-    data= open('bam_anno.tab', 'r').readlines()
+    data= open('alignedFiles.tab', 'r').readlines()
     firstLine = data.pop(0)
     for line in data:
-        obj=Annotation.objects.filter(pk=str(line.split()[2])).update(raw=str(line.split()[0]))
-        obj=Annotation.objects.filter(pk=str(line.split()[2])).update(align=str(line.split()[3]))
+        #obj=Annotation.objects.filter(pk=str(line.split()[2])).update(raw=str(line.split()[0]))
+        obj=Annotation.objects.filter(pk=str(line.split()[0])).update(align=str(line.split()[2]))
     return(obj)
 
 def autouni(string):
@@ -61,11 +61,11 @@ def autouni(string):
             new=key
     if not 'new' in locals():
         new = string
-    return(new)
+    return(string) #change to new to make work
 
 def removehash(string):
     head, sep, tail = string.partition('#')
-    return(head)
+    return(string) #change to head to make work
 
 
 
